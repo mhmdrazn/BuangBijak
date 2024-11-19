@@ -10,6 +10,8 @@ class PickupPage extends StatefulWidget {
 
 class _PickupPageState extends State<PickupPage> {
   String? selectedTimeSlot;
+  String? selectedWasteType;
+  DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class _PickupPageState extends State<PickupPage> {
         backgroundColor: white,
         centerTitle: true,
         title: Padding(
-          padding: const EdgeInsets.only(top: 24.0, left: 12.0, right: 12.0, bottom: 24.0),
+          padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -41,19 +43,19 @@ class _PickupPageState extends State<PickupPage> {
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Image.asset(
                     'assets/images/banner.png',
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
+                  const SizedBox(height: 12.0),
                   Container(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 12, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Lokasi Pickup', style: bold20),
+                        Text('Lokasi Pickup', style: bold16),
                         SizedBox(height: 8),
                         TextField(
                           decoration: InputDecoration(
@@ -70,7 +72,7 @@ class _PickupPageState extends State<PickupPage> {
                               borderSide: BorderSide(color: grey3, width: 2),
                             ),
                             filled: true,
-                            fillColor: grey3,
+                            fillColor: white,
                             border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
                             hintText: 'Masukkan alamat disini..', hintStyle: regular14,
                             ),
@@ -79,22 +81,29 @@ class _PickupPageState extends State<PickupPage> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 12, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Tanggal Pickup', style: bold20),
+                        Text('Tanggal Pickup', style: bold16),
                         SizedBox(height: 8),
-                        DatePickerTheme(data: data, child: child)
+                        DatePickerWidget(
+                          onDateSelected: (DateTime selectedDate) {
+                            setState(() {
+                              _selectedDate = selectedDate;
+                            });
+                            print("Selected Date: ${_selectedDate.toLocal()}");
+                          },
+                        ),
                       ],
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 12, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Waktu Pickup', style: bold20),
+                        Text('Waktu Pickup', style: bold16),
                         DropdownButton<String>(
                           padding: EdgeInsets.only(left: 4, right: 4),
                           value: selectedTimeSlot, // The currently selected value
@@ -119,19 +128,19 @@ class _PickupPageState extends State<PickupPage> {
                   ),
 
                   Container(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 12, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Jenis Sampah', style: bold20),
+                        Text('Jenis Sampah', style: bold16),
                         DropdownButton<String>(
                           padding: EdgeInsets.only(left: 4, right: 4),
-                          value: selectedTimeSlot, // The currently selected value
+                          value: selectedWasteType, // The currently selected value
                           hint: Text('Pilih jenis sampah', style: regular14), // Placeholder text
                           isExpanded: true, // Makes the dropdown take up full width
                           onChanged: (String? newValue) {
                             setState(() {
-                              selectedTimeSlot = newValue; // Update selected time slot
+                              selectedWasteType = newValue; // Update selected time slot
                             });
                           },
                           style: TextStyle(color: grey1),
@@ -146,6 +155,7 @@ class _PickupPageState extends State<PickupPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 24.0)
                 ],
               ),
             ),

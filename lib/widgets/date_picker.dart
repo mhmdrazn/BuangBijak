@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fp_tekber/theme.dart';
 
 class DatePickerWidget extends StatefulWidget {
   final Function(DateTime) onDateSelected;
@@ -38,7 +39,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1),
+          border: Border.all(color: grey3, width: 2),
           borderRadius: BorderRadius.circular(12),
           color: Colors.white,
         ),
@@ -48,7 +49,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             SizedBox(width: 8),
             Text(
               '${_selectedDate.toLocal()}'.split(' ')[0], // Display date in YYYY-MM-DD format
-              style: TextStyle(fontSize: 16, color: Colors.black),
+              style: TextStyle(),
             ),
           ],
         ),

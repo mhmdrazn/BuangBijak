@@ -21,7 +21,7 @@ class BottomButton extends StatelessWidget{
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         foregroundColor: color == Colors.white ? green : Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 128), // padding vertikal dan horizontal 
+        padding: const EdgeInsets.symmetric(vertical: 20), // padding vertikal dan horizontal 
         minimumSize: const Size(0, 36), // set minimum size agar konsisten
         side: BorderSide(color: borderColor, width: 1), // ketebalan border outline
         shape: RoundedRectangleBorder(
