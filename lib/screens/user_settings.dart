@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class UserSettings extends StatelessWidget {
-  const UserSettings({Key? key}) : super(key: key);
+  const UserSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,8 @@ class UserSettings extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Center( // Centers the constrained content
+        child: Center(
+          // Centers the constrained content
           child: ConstrainedBox(
             constraints: const BoxConstraints(
               maxWidth: 600, // Limit the maximum width to 600px
@@ -35,7 +36,7 @@ class UserSettings extends StatelessWidget {
                     child: Row(
                       children: [
                         // Profile Picture
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 30,
                           backgroundImage: AssetImage(
                             '../assets/profile_picture.png',
@@ -43,10 +44,10 @@ class UserSettings extends StatelessWidget {
                         ),
                         const SizedBox(width: 16),
                         // User Info
-                        Expanded(
+                        const Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
+                            children: [
                               Text(
                                 'Muhammad Razan',
                                 style: TextStyle(
@@ -57,7 +58,8 @@ class UserSettings extends StatelessWidget {
                               SizedBox(height: 4),
                               Text(
                                 'Jl. Sutorejo Tengah No.10, Dukuh, Kec.\nMulyorejo, Surabaya, Jawa Timur 60113',
-                                style: TextStyle(fontSize: 12, color: Colors.grey),
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                             ],
                           ),
