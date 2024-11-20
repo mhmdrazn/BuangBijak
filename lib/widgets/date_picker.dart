@@ -4,7 +4,7 @@ import 'package:fp_tekber/theme.dart';
 class DatePickerWidget extends StatefulWidget {
   final Function(DateTime) onDateSelected;
 
-  const DatePickerWidget({Key? key, required this.onDateSelected}) : super(key: key);
+  const DatePickerWidget({Key? key, required this.onDateSelected, required InputDecoration decoration}) : super(key: key);
 
   @override
   _DatePickerWidgetState createState() => _DatePickerWidgetState();
