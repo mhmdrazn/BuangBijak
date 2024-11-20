@@ -4,9 +4,13 @@ import 'package:fp_tekber/theme.dart';
 class DatePickerWidget extends StatefulWidget {
   final Function(DateTime) onDateSelected;
 
-  const DatePickerWidget({Key? key, required this.onDateSelected, required InputDecoration decoration}) : super(key: key);
+  const DatePickerWidget(
+      {super.key,
+      required this.onDateSelected,
+      required InputDecoration decoration});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DatePickerWidgetState createState() => _DatePickerWidgetState();
 }
 
@@ -37,7 +41,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return InkWell(
       onTap: () => _selectDate(context),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
           border: Border.all(color: grey3, width: 2),
           borderRadius: BorderRadius.circular(12),
@@ -45,11 +49,12 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         ),
         child: Row(
           children: [
-            Icon(Icons.calendar_today, color: Colors.grey),
-            SizedBox(width: 8),
+            const Icon(Icons.calendar_today, color: Colors.grey),
+            const SizedBox(width: 8),
             Text(
-              '${_selectedDate.toLocal()}'.split(' ')[0], // Display date in YYYY-MM-DD format
-              style: TextStyle(),
+              '${_selectedDate.toLocal()}'
+                  .split(' ')[0], // Display date in YYYY-MM-DD format
+              style: const TextStyle(),
             ),
           ],
         ),
