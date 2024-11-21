@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BuangBijak App',
-      initialRoute: '/',
+      initialRoute: '/login',
       theme: ThemeData(
         // Basis hijau yang akan digunakan
         primarySwatch: Colors.green, // Warna utama (green)
