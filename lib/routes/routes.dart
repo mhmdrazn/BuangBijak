@@ -8,5 +8,5 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/': (context) => const HomeScreen(),
   '/ajukan-pickup': (context) => const PickupPage(),
   '/profil-saya': (context) => const UserSettings(),
-  '/login': (context) => LoginSignup(),
+  '/login': (context) => const LoginSignup(),
 };

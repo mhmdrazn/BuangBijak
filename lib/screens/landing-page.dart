@@ -49,8 +49,8 @@ class SplashScreen extends StatelessWidget {
                   'assets/images/logonama.png',
                   height: 100,
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Bijak Kelola Barang dan Sampah',
                   style: TextStyle(
                     fontSize: 16,
@@ -77,15 +77,15 @@ class LoginScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Image.asset('assets/images/logonama.png', height: 100),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Bijak Kelola Barang dan Sampah',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -94,15 +94,15 @@ class LoginScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 40),
-                TextField(
+                const SizedBox(height: 40),
+                const TextField(
                   decoration: InputDecoration(
                     labelText: 'Username',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
-                TextField(
+                const SizedBox(height: 16),
+                const TextField(
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',

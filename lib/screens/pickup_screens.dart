@@ -15,7 +15,6 @@ class PickupPage extends StatefulWidget {
 class _PickupPageState extends State<PickupPage> {
   String? selectedTimeSlot;
   String? selectedWasteType;
-  DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +105,6 @@ class _PickupPageState extends State<PickupPage> {
                               decoration: InputDecoration(hintStyle: regular14),
                               onDateSelected: (DateTime selectedDate) {
                                 setState(() {
-                                  _selectedDate = selectedDate;
                                 });
                                 // print("Selected Date: ${_selectedDate.toLocal()}");
                               },
