@@ -102,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.pushNamed(context, '/'); // Beranda menuju root
                       break;
                     case 1:
-                      Navigator.pushNamed(context, '/pickup'); // Pickup
+                      Navigator.pushNamed(context, '/ajukan-pickup'); // Pickup
                       break;
                     case 2:
                       Navigator.pushNamed(context, '/profil-saya'); // Profile

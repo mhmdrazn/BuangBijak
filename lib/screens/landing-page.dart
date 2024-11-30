@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/screens/home_screen.dart'; // Import HomeScreen
+import 'package:fp_tekber/screens/detail-pickup.dart';
+import 'package:fp_tekber/screens/home_screen.dart';
+import 'package:fp_tekber/screens/pickup_screens.dart'; // Import HomeScreen
 
 class LoginSignup extends StatelessWidget {
   const LoginSignup({super.key});
@@ -109,16 +111,16 @@ class LoginScreen extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
                     // Navigasi ke HomeScreen
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      // buat DEBUGGING
+                      MaterialPageRoute(builder: (context) => const HomeScreen()),
                     );
                   },
-                  child: Text('Masuk'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
@@ -126,8 +128,9 @@ class LoginScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
+                  child: const  Text('Masuk'),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -136,7 +139,7 @@ class LoginScreen extends StatelessWidget {
                           builder: (context) => RegistrationScreen()),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Belum mempunyai akun? Daftar',
                     style: TextStyle(color: Colors.green),
                   ),
@@ -152,6 +155,7 @@ class LoginScreen extends StatelessWidget {
 
 // Registration Screen
 class RegistrationScreen extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,35 +163,35 @@ class RegistrationScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Image.asset('assets/images/logonama.png', height: 100),
-                SizedBox(height: 20),
-                TextField(
+                const SizedBox(height: 20),
+                const TextField(
                   decoration: InputDecoration(
                     labelText: 'Username',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
-                TextField(
+                const SizedBox(height: 16),
+                const TextField(
                   decoration: InputDecoration(
                     labelText: 'Nama Lengkap',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
-                TextField(
+                const SizedBox(height: 16),
+                const TextField(
                   decoration: InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
-                TextField(
+                const SizedBox(height: 16),
+                const TextField(
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Kata Sandi',
@@ -195,19 +199,18 @@ class RegistrationScreen extends StatelessWidget {
                     suffixIcon: Icon(Icons.visibility),
                   ),
                 ),
-                SizedBox(height: 16),
-                TextField(
+                const SizedBox(height: 16),
+                const TextField(
                   decoration: InputDecoration(
                     labelText: 'Alamat',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
                     // Handle registration action
                   },
-                  child: Text('Daftar'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
@@ -215,13 +218,14 @@ class RegistrationScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
+                  child: const Text('Daftar'),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     'Sudah mempunyai akun? Masuk',
                     style: TextStyle(color: Colors.green),
                   ),

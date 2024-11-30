@@ -26,15 +26,11 @@ class _PickupPageState extends State<PickupPage> {
           title: Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.chevron_left_rounded,
-                        color: Colors.black, size: 24)),
                 Text(
                   'Ajukan Pickup',
-                  style: bold20,
+                  style: bold20.copyWith(color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(width: 24)
