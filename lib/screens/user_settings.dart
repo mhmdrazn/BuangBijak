@@ -1,7 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fp_tekber/screens/landing-page.dart';
 
-class UserSettings extends StatelessWidget {
+class UserSettings extends StatefulWidget {
   const UserSettings({super.key});
+
+  @override
+  _UserSettingsState createState() => _UserSettingsState();
+}
+
+class _UserSettingsState extends State<UserSettings> {
+  String username = ''; // Initialize username as an empty string
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  // Fetch user data from Firestore
+  Future<void> _loadUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        setState(() {
+          username =
+              userDoc['username'] ?? 'Pengguna'; // Get username from Firestore
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +77,19 @@ class UserSettings extends StatelessWidget {
                         ),
                         const SizedBox(width: 16),
                         // User Info
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Muhammad Razan',
-                                style: TextStyle(
+                                username,
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 4),
-                              Text(
+                              const SizedBox(height: 4),
+                              const Text(
                                 'Jl. Sutorejo Tengah No.10, Dukuh, Kec.\nMulyorejo, Surabaya, Jawa Timur 60113',
                                 style:
                                     TextStyle(fontSize: 12, color: Colors.grey),
@@ -144,8 +177,17 @@ class UserSettings extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Handle logout
+                    onPressed: () async {
+                      // Log out the user
+                      await FirebaseAuth.instance.signOut();
+
+                      // Navigate to login or splash screen after logging out
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
