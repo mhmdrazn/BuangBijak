@@ -23,6 +23,12 @@ class _PickupPageState extends State<PickupPage> {
         appBar: AppBar(
           backgroundColor: white,
           centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: black),
+            onPressed: () {
+              Navigator.pop(context); // Goes back to the previous screen
+            },
+          ),
           title: Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
             child: Row(

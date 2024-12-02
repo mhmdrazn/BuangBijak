@@ -12,6 +12,12 @@ class DetailPickup extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: white,
           centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: black),
+            onPressed: () {
+              Navigator.pop(context); // Goes back to the previous screen
+            },
+          ),
           title: Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
             child: Row(
@@ -131,11 +137,34 @@ class DetailPickup extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Expanded(child: 
-                            Button(text: 'Reschedule', color: white, borderColor: grey3, textColor: black),
+                            Button(
+                              text: 'Reschedule', 
+                              color: white, 
+                              borderColor: grey3, 
+                              textColor: black, 
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPickup(),
+                                  ),
+                                );
+                            },),
                           ),
                           const SizedBox(width: 16.0),
                           Expanded(child:
-                            Button(text: 'Batalkan Pickup', color: red, textColor: white),
+                            Button(
+                              text: 'Batalkan Pickup', 
+                              color: red, 
+                              textColor: white,
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailPickup(),
+                                  ),
+                                );
+                            },),
                           )
                           
                         ],

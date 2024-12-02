@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:fp_tekber/screens/detail-pickup.dart';
 import '../theme.dart';
 import '../widgets/button.dart';
 
@@ -12,6 +13,12 @@ class LandingPickup extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: white,
           centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: black),
+            onPressed: () {
+              Navigator.pop(context); // Goes back to the previous screen
+            },
+          ),
           title: Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
             child: Row(
@@ -127,7 +134,19 @@ class LandingPickup extends StatelessWidget {
                                     Text('Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113', style: regular16),
 
                                     const SizedBox(height: 20),
-                                    Button(text: 'Selengkapnya', color: green, textColor: black),                                  
+                                    Button(
+                                      text: 'Selengkapnya',
+                                      color: green,
+                                      textColor: black,
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const DetailPickup(),
+                                          ),
+                                        );
+                                      },
+                                    )
                                   ],
                                 ),
                               ),
@@ -153,7 +172,13 @@ class LandingPickup extends StatelessWidget {
                                 Text('Histori Pickup', style: bold20),
                               ],
                             ),
-                            Text('Lihat lainnya', style: regular14),
+                            GestureDetector(
+                              onTap: () {
+                                // Your onPressed functionality here
+                              },
+                              child: Text('Lihat lainnya', style: regular14),
+                            ),
+
                           ],
                         ),
                       ),
@@ -266,6 +291,8 @@ class LandingPickup extends StatelessWidget {
                                     Text('Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113', style: regular16),                                  ],
                                 ),
                               ),
+
+                              const SizedBox(height: 20)
                               
                             ],
                           )

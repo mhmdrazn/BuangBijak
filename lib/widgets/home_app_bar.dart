@@ -1,12 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends StatefulWidget {
   const HomeAppBar({super.key});
+
+  @override
+  _HomeAppBarState createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
+  String username = ''; // Initialize username as an empty string
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  // Fetch user data from Firestore
+  Future<void> _loadUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        setState(() {
+          username =
+              userDoc['username'] ?? 'Pengguna'; // Get username from Firestore
+        });
+      }
+    }
+  }
+
+  // Function to determine greeting based on the time of day
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Selamat Pagi';
+    } else if (hour < 18) {
+      return 'Selamat Siang';
+    } else {
+      return 'Selamat Malam';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250, // Tinggi cukup besar untuk konten
+      height: 250,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -23,7 +67,7 @@ class HomeAppBar extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // Gambar maskot
+          // Mascot image
           Positioned(
             right: 12,
             bottom: -20,
@@ -32,23 +76,23 @@ class HomeAppBar extends StatelessWidget {
               height: 200,
             ),
           ),
-          // Konten header (teks dan search bar)
+          // Header content
           Padding(
-            padding:
-                const EdgeInsets.fromLTRB(16, 48, 16, 16), // Sesuaikan padding
+            padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize:
-                  MainAxisSize.min, // Jangan paksa column ke tinggi penuh
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Selamat Pagi\nAdrian!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
+                username.isEmpty
+                    ? const CircularProgressIndicator() // Show loading if username is not yet loaded
+                    : Text(
+                        '${getGreeting()}\n$username!',
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
                 const SizedBox(height: 16),
                 TextField(
                   decoration: InputDecoration(
