@@ -117,7 +117,6 @@ class LoginScreen extends StatelessWidget {
                     // Navigasi ke HomeScreen
                     Navigator.pushReplacement(
                       context,
-                      // buat DEBUGGING
                       MaterialPageRoute(builder: (context) => const HomeScreen()),
                     );
                   },
