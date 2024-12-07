@@ -6,13 +6,15 @@ class Button extends StatelessWidget {
   final Color color;
   final Color? borderColor;
   final Color? textColor;
+  final VoidCallback onPressed; // Accepts a function for button presses
 
   const Button({
-    super.key, 
+    super.key,
     required this.text,
     required this.color,
     this.borderColor,
-    this.textColor
+    this.textColor,
+    required this.onPressed, // Makes the `onPressed` parameter required
   });
 
   @override
@@ -22,7 +24,7 @@ class Button extends StatelessWidget {
     final double horizontalPadding = screenWidth * 0.04;
 
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed, // Use the passed `onPressed` callback
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         foregroundColor: color == Colors.white ? white : Colors.white,
@@ -31,15 +33,15 @@ class Button extends StatelessWidget {
           horizontal: horizontalPadding,
         ),
         minimumSize: const Size(0, 36),
-        side: BorderSide(color: borderColor?? Colors.transparent, width: 1.5),
+        side: BorderSide(color: borderColor ?? Colors.transparent, width: 1.5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
       ),
       child: Text(
         text,
-        style: bold14.copyWith( 
-          color: textColor == Colors.black ? black : Colors.white,
+        style: bold14.copyWith(
+          color: textColor ?? (color == Colors.white ? black : Colors.white),
         ),
       ),
     );
