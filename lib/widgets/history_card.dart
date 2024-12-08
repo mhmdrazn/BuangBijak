@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
-import '../widgets/button.dart';
 
 class HistoryCard extends StatelessWidget {
   final String datetime;

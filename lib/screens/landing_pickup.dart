@@ -201,7 +201,7 @@ class LandingPickup extends StatelessWidget {
                       wasteType: data.wasteType,
                       address: data.address,
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
