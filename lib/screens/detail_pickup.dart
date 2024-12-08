@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import '../theme.dart';
 import '../widgets/button.dart';
+import '../widgets/pickup_status.dart';
 
 class DetailPickup extends StatelessWidget {
   const DetailPickup({super.key});
@@ -12,6 +13,7 @@ class DetailPickup extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: white,
           centerTitle: true,
+          surfaceTintColor: Colors.transparent,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: black),
             onPressed: () {
@@ -92,32 +94,7 @@ class DetailPickup extends StatelessWidget {
 
                       const SizedBox(height: 20.0),
 
-                      Text(
-                        'Status',
-                        style: bold16,
-                        textAlign: TextAlign.left,
-                      ),
-                      
-                      const SizedBox(height: 12.0),
-                      
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
-                        decoration: BoxDecoration(
-                          color: green,
-                          borderRadius: BorderRadius.circular(99.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Ditugaskan',
-                              style: bold14,
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ),
-                      
+                      const PickupStatus(status: 'Ditugaskan'),                      
                       const SizedBox(height: 20.0),
 
                       Column(
@@ -169,7 +146,6 @@ class DetailPickup extends StatelessWidget {
                           
                         ],
                       )
-
                     ],
                   ),
                 ),
