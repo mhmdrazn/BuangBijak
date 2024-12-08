@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/screens/detail-pickup.dart';
+import 'package:fp_tekber/screens/detail_pickup.dart';
 import 'package:fp_tekber/screens/home_screen.dart';
 import 'package:fp_tekber/screens/pickup_screens.dart'; // Import HomeScreen
 import 'package:firebase_auth/firebase_auth.dart';

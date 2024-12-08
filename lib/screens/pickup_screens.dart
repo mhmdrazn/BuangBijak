@@ -21,8 +21,10 @@ class _PickupPageState extends State<PickupPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          elevation: 0,
           backgroundColor: white,
           centerTitle: true,
+          surfaceTintColor: Colors.transparent,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: black),
             onPressed: () {
