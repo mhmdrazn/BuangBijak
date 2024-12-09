@@ -4,7 +4,7 @@ import 'package:fp_tekber/firebase_options.dart';
 import 'package:fp_tekber/routes/routes.dart';
 import 'package:fp_tekber/screens/not_found.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

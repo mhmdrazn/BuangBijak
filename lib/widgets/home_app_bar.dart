@@ -6,10 +6,10 @@ class HomeAppBar extends StatefulWidget {
   const HomeAppBar({super.key});
 
   @override
-  _HomeAppBarState createState() => _HomeAppBarState();
+  HomeAppBarState createState() => HomeAppBarState();
 }
 
-class _HomeAppBarState extends State<HomeAppBar> {
+class HomeAppBarState extends State<HomeAppBar> {
   String username = ''; // Initialize username as an empty string
 
   @override

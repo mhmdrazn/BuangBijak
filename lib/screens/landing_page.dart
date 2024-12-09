@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/screens/detail_pickup.dart';
 import 'package:fp_tekber/screens/home_screen.dart';
-import 'package:fp_tekber/screens/pickup_screens.dart'; // Import HomeScreen
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 
 class LoginSignup extends StatelessWidget {
   const LoginSignup({super.key});
@@ -29,6 +28,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 5), () {
+      if (!context.mounted) return; // Pastikan context masih valid
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -92,11 +92,10 @@ class LoginScreen extends StatelessWidget {
 
         if (snapshot.hasData) {
           // If user is logged in, retrieve user data from Firestore
-          final user = snapshot.data!;
           return FutureBuilder<DocumentSnapshot>(
             future: FirebaseFirestore.instance
                 .collection('users')
-                .doc(user.uid)
+                .doc(snapshot.data!.uid)
                 .get(),
             builder: (context, userSnapshot) {
               if (userSnapshot.connectionState == ConnectionState.waiting) {
@@ -107,7 +106,9 @@ class LoginScreen extends StatelessWidget {
                 // You can access user data here
                 final userData =
                     userSnapshot.data?.data() as Map<String, dynamic>;
-                print('User Data: $userData'); // Process user data as needed
+                final logger = Logger();
+
+                logger.d('User Data: $userData');
                 return const HomeScreen(); // Navigate to HomeScreen
               }
 
@@ -162,44 +163,56 @@ class LoginScreen extends StatelessWidget {
                         final password = passwordController.text.trim();
 
                         if (email.isEmpty || password.isEmpty) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Error'),
-                              content: const Text(
-                                  'Email dan Password tidak boleh kosong.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                          return; // Hentikan eksekusi jika input kosong
+                          if (context.mounted) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Error'),
+                                content: const Text(
+                                    'Email dan Password tidak boleh kosong.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          return;
                         }
 
                         try {
-                          final user = await FirebaseAuth.instance
+                          await FirebaseAuth.instance
                               .signInWithEmailAndPassword(
                             email: email,
                             password: password,
                           );
-                          // No need to navigate manually, StreamBuilder handles this
-                        } catch (e) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Login Failed'),
-                              content: Text(e.toString()),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
+
+                          if (!context.mounted) {
+                            return; // Cek mounted setelah async selesai
+                          }
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()),
                           );
+                        } catch (e) {
+                          if (context.mounted) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Login Failed'),
+                                content: Text(e.toString()),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -306,23 +319,17 @@ class RegistrationScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      // Registrasi dengan Firebase Auth
                       final userCredential = await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
                       );
 
-                      // Ambil UID dari user yang baru dibuat
-                      final user = userCredential.user;
-
-                      if (user != null) {
-                        // Simpan data pengguna ke Firestore
-                        final userRef = FirebaseFirestore.instance
+                      if (userCredential.user != null) {
+                        await FirebaseFirestore.instance
                             .collection('users')
-                            .doc(user.uid);
-
-                        await userRef.set({
+                            .doc(userCredential.user!.uid)
+                            .set({
                           'username': usernameController.text.trim(),
                           'fullName': fullNameController.text.trim(),
                           'email': emailController.text.trim(),
@@ -330,11 +337,12 @@ class RegistrationScreen extends StatelessWidget {
                           'createdAt': FieldValue.serverTimestamp(),
                         });
 
-                        // Setelah berhasil menyimpan ke Firestore, navigasi ke LoginScreen
-                        Navigator.pop(context); // Kembali ke halaman Login
+                        if (!context.mounted) return;
+                        Navigator.pop(context); // Safe navigation.
                       }
                     } catch (e) {
                       showDialog(
+                        // ignore: use_build_context_synchronously
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text('Registration Failed'),
