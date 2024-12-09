@@ -28,16 +28,36 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 const NavigationButtons(), // Menambahkan tombol navigasi di sini
                 const SizedBox(height: 28),
-                const Text(
-                  'Jadwal Angkut Sampah Anda',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Jadwal Angkut Sampah Anda',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text('Lihat lainnya'),
+                    ),
+                  ],
                 ),
+
                 const SizedBox(height: 16),
-                const HomeCard(
-                  title: 'Hari ini - Pukul 10.00 WIB',
-                  subtitle: '8 Juni 2024\nSampah Kertas, Botol, dan Plastik',
+                // const HomeCard(
+                //   title: 'Hari ini - Pukul 10.00 WIB',
+                //   subtitle: '8 Juni 2024\nSampah Kertas, Botol, dan Plastik',
+                //   address:
+                //       'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
+                //   buttonText: 'Selengkapnya',
+                // ),
+
+                const HistoryListItem(
+                  date: '10 Juni 2024 - Pukul 10.00 WIB',
+                  details: 'Sampah Kertas, Botol, dan Plastik',
                   address:
                       'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
+                  status: 'Selesai',
                   buttonText: 'Selengkapnya',
                 ),
                 const SizedBox(height: 16),
@@ -115,7 +135,8 @@ class HomeScreen extends StatelessWidget {
                     }
                     logger.d('Navigating to $routeName');
 
-                    Navigator.pushNamed(context, routeName);
+                    // Menggunakan pushReplacement agar tidak menumpuk stack duplicate
+                    Navigator.pushReplacementNamed(context, routeName);
                   }),
             ),
           ),

@@ -9,26 +9,19 @@ class LoginSignup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Buang Bijak',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: const SplashScreen(),
-    );
+    return SplashScreen(); // Langsung panggil SplashScreen tanpa MaterialApp
   }
 }
 
-// Splash Screen
+// Splash Screen tetap sama seperti yang sudah ada
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 5), () {
-      if (!context.mounted) return; // Pastikan context masih valid
+      if (!context.mounted) return;
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -51,18 +44,14 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset(
-                  'assets/images/logonama.png',
-                  height: 100,
-                ),
+                Image.asset('assets/images/logonama.png', height: 100),
                 const SizedBox(height: 20),
                 const Text(
                   'Bijak Kelola Barang dan Sampah',
                   style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 16,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
               ],
