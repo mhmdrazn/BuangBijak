@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fp_tekber/widgets/navigation_buttons.dart';
 import '../widgets/home_app_bar.dart';
-import '../widgets/home_card.dart';
+// import '../widgets/home_card.dart';
 import '../widgets/history_list_item.dart';
 import 'package:logger/logger.dart';
 
