@@ -3,12 +3,14 @@ import 'package:fp_tekber/widgets/navigation_buttons.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/home_card.dart';
 import '../widgets/history_list_item.dart';
+import 'package:logger/logger.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final logger = Logger();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const PreferredSize(
@@ -86,30 +88,35 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               child: BottomNavigationBar(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'Beranda'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.inbox), label: 'Pickup'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: 'Profile'),
-                ],
-                onTap: (index) {
-                  switch (index) {
-                    case 0:
-                      Navigator.pushNamed(context, '/'); // Beranda menuju root
-                      break;
-                    case 1:
-                      Navigator.pushNamed(context, '/ajukan-pickup'); // Pickup
-                      break;
-                    case 2:
-                      Navigator.pushNamed(context, '/profil-saya'); // Profile
-                      break;
-                  }
-                },
-              ),
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  items: const [
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.home), label: 'Beranda'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.inbox), label: 'Pickup'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.person), label: 'Profile'),
+                  ],
+                  onTap: (index) {
+                    String routeName;
+                    switch (index) {
+                      case 0:
+                        routeName = '/';
+                        break;
+                      case 1:
+                        routeName = '/ajukan-pickup';
+                        break;
+                      case 2:
+                        routeName = '/profil-saya';
+                        break;
+                      default:
+                        routeName = '/';
+                    }
+                    logger.d('Navigating to $routeName');
+
+                    Navigator.pushNamed(context, routeName);
+                  }),
             ),
           ),
         ],
