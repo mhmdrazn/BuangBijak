@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fp_tekber/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:fp_tekber/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
+import 'package:fp_tekber/widgets/button.dart';
 
 class LoginSignup extends StatelessWidget {
   const LoginSignup({super.key});
@@ -33,28 +35,31 @@ class SplashScreen extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.bottomLeft,
-            child: Image.asset(
-              'assets/images/gambarlanding.png',
-              width: 522,
-              height: 344,
-              fit: BoxFit.contain,
+            child: Padding(
+              padding: EdgeInsets.zero, // Remove any padding
+              child: Image.asset(
+                'assets/images/gambarlanding.png',
+                width: 344,
+                height: 522,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset('assets/images/logonama.png', height: 100),
-                const SizedBox(height: 20),
-                const Text(
-                  'Bijak Kelola Barang dan Sampah',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.only(top: 240),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                children: [
+                  Image.asset('assets/images/logonama.png', height: 60),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Bijak Kelola Barang dan Sampah',
+                    style: bold16.copyWith(color: grey2),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -112,123 +117,160 @@ class LoginScreen extends StatelessWidget {
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 50),
-                    Image.asset('assets/images/logonama.png', height: 100),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Bijak Kelola Barang dan Sampah',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 50),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 160, bottom: 24),
+                        child: Image.asset('assets/images/logonama.png', height: 60),
                       ),
-                    ),
-                    const SizedBox(height: 40),
-                    TextField(
-                      controller: usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(),
+                      Text(
+                        'Bijak Kelola Barang dan Sampah',
+                        style: bold14.copyWith(color: grey2),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: () async {
-                        final email = usernameController.text.trim();
-                        final password = passwordController.text.trim();
-
-                        if (email.isEmpty || password.isEmpty) {
-                          if (context.mounted) {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Error'),
-                                content: const Text(
-                                    'Email dan Password tidak boleh kosong.'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                          return;
-                        }
-
-                        try {
-                          await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
-
-                          if (!context.mounted) {
-                            return; // Cek mounted setelah async selesai
-                          }
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()),
-                          );
-                        } catch (e) {
-                          if (context.mounted) {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Login Failed'),
-                                content: Text(e.toString()),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                      const SizedBox(height: 64),
+                      TextField(
+                        controller: usernameController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide:
+                                BorderSide(color: grey3, width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide:
+                                BorderSide(color: grey3, width: 2),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide:
+                                BorderSide(color: grey3, width: 2),
+                          ),
+                          filled: true,
+                          fillColor: white,
+                          border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12))
+                          ),
+                          labelText: 'Email',
+                          labelStyle: regular14,
                         ),
                       ),
-                      child: const Text('Masuk'),
-                    ),
-                    const SizedBox(height: 16),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegistrationScreen(),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide:
+                                BorderSide(color: grey3, width: 2),
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Belum mempunyai akun? Daftar',
-                        style: TextStyle(color: Colors.green),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide:
+                                BorderSide(color: grey3, width: 2),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide:
+                                BorderSide(color: grey3, width: 2),
+                          ),
+                          filled: true,
+                          fillColor: white,
+                          border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12))
+                          ),
+                          labelText: 'Password',
+                          labelStyle: regular14,
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 32),
+                      Button(text: 'Masuk', color: green, textColor: black,
+                        onPressed: () async {
+                          final email = usernameController.text.trim();
+                          final password = passwordController.text.trim();
+                  
+                          if (email.isEmpty || password.isEmpty) {
+                            if (context.mounted) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Error'),
+                                  content: const Text(
+                                      'Email dan Password tidak boleh kosong.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            return;
+                          }
+                  
+                          try {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                              email: email,
+                              password: password,
+                            );
+                  
+                            if (!context.mounted) {
+                              return; // Cek mounted setelah async selesai
+                            }
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()),
+                            );
+                          } catch (e) {
+                            if (context.mounted) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Login Failed'),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          }
+                        }),
+                      
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegistrationScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Belum mempunyai akun? Daftar',
+                          style: bold14.copyWith(
+                            color: grey2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -257,115 +299,228 @@ class RegistrationScreen extends StatelessWidget {
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Image.asset('assets/images/logonama.png', height: 100),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: usernameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Username',
-                    border: OutlineInputBorder(),
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 160, bottom: 24),
+                    child: Image.asset('assets/images/logonama.png', height: 60),
                   ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: fullNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Nama Lengkap',
-                    border: OutlineInputBorder(),
+                  Text(
+                    'Bijak Kelola Barang dan Sampah',
+                    style: bold14.copyWith(color: grey2),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Kata Sandi',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.visibility),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: addressController,
-                  decoration: const InputDecoration(
-                    labelText: 'Alamat',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      final userCredential = await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim(),
-                      );
-
-                      if (userCredential.user != null) {
-                        await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(userCredential.user!.uid)
-                            .set({
-                          'username': usernameController.text.trim(),
-                          'fullName': fullNameController.text.trim(),
-                          'email': emailController.text.trim(),
-                          'address': addressController.text.trim(),
-                          'createdAt': FieldValue.serverTimestamp(),
-                        });
-
-                        if (!context.mounted) return;
-                        Navigator.pop(context); // Safe navigation.
-                      }
-                    } catch (e) {
-                      showDialog(
-                        // ignore: use_build_context_synchronously
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Registration Failed'),
-                          content: Text(e.toString()),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                  const SizedBox(height: 64),
+                  TextField(
+                    controller: usernameController,
+                    decoration: InputDecoration(
+                      labelText: 'Username',
+                      labelStyle: regular14,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: white,
+                      border: const OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(12))
+                      ),
                     ),
                   ),
-                  child: const Text('Daftar'),
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context); // Kembali ke halaman Login
-                  },
-                  child: const Text(
-                    'Sudah mempunyai akun? Masuk',
-                    style: TextStyle(color: Colors.green),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: fullNameController,
+                    decoration: InputDecoration(
+                      labelText: 'Nama Lengkap',
+                      labelStyle: regular14,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: white,
+                      border: const OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(12))
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: regular14,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: white,
+                      border: const OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(12))
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Kata Sandi',
+                      labelStyle: regular14,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: white,
+                      border: const OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(12))
+                      ),
+                      suffixIcon: Icon(Icons.visibility),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: addressController,
+                    decoration: InputDecoration(
+                      labelText: 'Alamat',
+                      labelStyle: regular14,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: grey3, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: white,
+                      border: const OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(12))
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Button(
+                    onPressed: () async {
+                      try {
+                        final userCredential = await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                        );
+              
+                        if (userCredential.user != null) {
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(userCredential.user!.uid)
+                              .set({
+                            'username': usernameController.text.trim(),
+                            'fullName': fullNameController.text.trim(),
+                            'email': emailController.text.trim(),
+                            'address': addressController.text.trim(),
+                            'createdAt': FieldValue.serverTimestamp(),
+                          });
+              
+                          if (!context.mounted) return;
+                          Navigator.pop(context); // Safe navigation.
+                        }
+                      } catch (e) {
+                        showDialog(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Registration Failed'),
+                            content: Text(e.toString()),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                    color: green,
+                    textColor: black,
+                    text: 'Daftar',
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Kembali ke halaman Login
+                    },
+                    child: Text(
+                      'Sudah mempunyai akun? Masuk',
+                      style: bold14.copyWith(
+                        color: grey2,
+                      )
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
