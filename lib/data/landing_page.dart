@@ -9,7 +9,7 @@ final List<Map<String, dynamic>> iconNavFeature = [
   {
     'title': 'Jadwal Pickup',
     'icon': Icons.calendar_month,
-    'route': '/jadwal-pickup',
+    'route': '/landing-pickup',
   },
   {
     'title': 'Histori Pickup',

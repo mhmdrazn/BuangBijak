@@ -49,149 +49,143 @@ class LandingPickup extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
+        padding: EdgeInsets.all(24.0),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: green,
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          spreadRadius: 0,
-                          blurRadius: 20,
-                          offset: const Offset(0, 0), 
-                        ),
-                      ],
-                    ),
-                    child: 
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  'assets/images/truck-banner.png',
-                                  fit: BoxFit.cover,
-                                  width: double.infinity, 
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    )
-                  ),
-                // Pickup Schedule Section
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/calendar.png',
-                        width: 20,
-                        height: 20,
+                Container(
+                  decoration: BoxDecoration(
+                    color: green,
+                    borderRadius: BorderRadius.circular(16.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        spreadRadius: 0,
+                        blurRadius: 20,
+                        offset: const Offset(0, 0), 
                       ),
-                      const SizedBox(width: 12),
-                      Text('Jadwal Pickup Anda', style: bold20),
                     ],
                   ),
-                ),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: white,
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 20,
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Hari ini - Pukul 10.00 WIB',
-                            style: bold16,
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
+                  child: 
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('8 Juni 2024', style: regular14),
-                              const SizedBox(width: 12),
-                              Text(
-                                'Sampah Kertas, Botol, dan Plastik',
-                                style: regular14,
+                              Image.asset(
+                                'assets/images/truck-banner.png',
+                                fit: BoxFit.cover,
+                                width: double.infinity, 
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
-                          Text(
-                            'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-                            style: regular16,
-                          ),
-                          const SizedBox(height: 20),
-                          Button(
-                            text: 'Selengkapnya',
-                            color: green,
-                            textColor: black,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const DetailPickup(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      ],
+                    )
                   ),
+
+                  const SizedBox(height: 24),
+                // Pickup Schedule Section
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/icons/calendar.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                    const SizedBox(width: 12),
+                    Text('Jadwal Pickup Anda', style: bold20),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                // History Section
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/clock.png',
-                            width: 20,
-                            height: 20,
-                          ),
-                          const SizedBox(width: 12),
-                          Text('Histori Pickup', style: bold20),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Your "See More" functionality here
-                        },
-                        child: Text('Lihat lainnya', style: regular14),
+                
+                const SizedBox(height: 16),
+                Container(
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(16.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 0,
+                        blurRadius: 20,
+                        offset: const Offset(0, 0),
                       ),
                     ],
                   ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hari ini - Pukul 10.00 WIB',
+                          style: bold16,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Text('8 Juni 2024', style: regular14),
+                            const SizedBox(width: 12),
+                            Text(
+                              'Sampah Kertas, Botol, dan Plastik',
+                              style: regular14,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
+                          style: regular16,
+                        ),
+                        const SizedBox(height: 20),
+                        Button(
+                          text: 'Selengkapnya',
+                          color: green,
+                          textColor: black,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DetailPickup(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
+                
+                const SizedBox(height: 20),
+                // History Section
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/clock.png',
+                          width: 20,
+                          height: 20,
+                        ),
+                        const SizedBox(width: 12),
+                        Text('Histori Pickup', style: bold20),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Your "See More" functionality here
+                      },
+                      child: Text('Lihat lainnya', style: regular14),
+                    ),
+                  ],
+                ),
+                
                 const SizedBox(height: 16),
                 // History Cards
                 ...historyData.map((data) {
