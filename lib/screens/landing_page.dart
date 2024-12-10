@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fp_tekber/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:fp_tekber/screens/home_screen.dart';
+import 'package:fp_tekber/screens/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 import 'package:fp_tekber/widgets/button.dart';
@@ -193,19 +194,21 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      Button(text: 'Masuk', color: green, textColor: black,
+                      Button(
+                        text: 'Masuk',
+                        color: green,
+                        textColor: black,
                         onPressed: () async {
                           final email = usernameController.text.trim();
                           final password = passwordController.text.trim();
-                  
+
                           if (email.isEmpty || password.isEmpty) {
                             if (context.mounted) {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
                                   title: const Text('Error'),
-                                  content: const Text(
-                                      'Email dan Password tidak boleh kosong.'),
+                                  content: const Text('Email dan Password tidak boleh kosong.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),
@@ -217,22 +220,41 @@ class LoginScreen extends StatelessWidget {
                             }
                             return;
                           }
-                  
+
                           try {
-                            await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
+                            // Authenticate the user
+                            UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                               email: email,
                               password: password,
                             );
-                  
-                            if (!context.mounted) {
-                              return; // Cek mounted setelah async selesai
+
+                            final user = userCredential.user;
+
+                            if (user != null) {
+                              // Check if the user is an admin
+                              final userDoc = await FirebaseFirestore.instance
+                                  .collection('users') // Ensure your collection is named "users"
+                                  .doc(user.uid)
+                                  .get();
+
+                              if (userDoc.exists && userDoc['isAdmin'] == true) {
+                                // Redirect to AdminDashboard if isAdmin is true
+                                if (context.mounted) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Dashboard()),
+                                  );
+                                }
+                              } else {
+                                // Redirect to HomeScreen for regular users
+                                if (context.mounted) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                                  );
+                                }
+                              }
                             }
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()),
-                            );
                           } catch (e) {
                             if (context.mounted) {
                               showDialog(
@@ -250,8 +272,9 @@ class LoginScreen extends StatelessWidget {
                               );
                             }
                           }
-                        }),
-                      
+                        },
+                      ),
+
                       const SizedBox(height: 16),
                       TextButton(
                         onPressed: () {
