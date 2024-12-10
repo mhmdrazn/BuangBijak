@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fp_tekber/widgets/navigation_buttons.dart';
 import '../widgets/home_app_bar.dart';
 // import '../widgets/home_card.dart';
-import '../widgets/history_list_item.dart';
+import '../widgets/jadwal_card.dart';
 import 'package:logger/logger.dart';
+import 'package:fp_tekber/theme.dart';
+import 'package:fp_tekber/widgets/history_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -21,7 +23,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Konten Utama
           SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(24.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -31,14 +33,13 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Jadwal Angkut Sampah Anda',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: bold20,
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text('Lihat lainnya'),
+                      child: Text('Lihat lainnya', style: regular12.copyWith(color: grey2)),
                     ),
                   ],
                 ),
@@ -52,13 +53,13 @@ class HomeScreen extends StatelessWidget {
                 //   buttonText: 'Selengkapnya',
                 // ),
 
-                const HistoryListItem(
-                  date: '10 Juni 2024 - Pukul 10.00 WIB',
-                  details: 'Sampah Kertas, Botol, dan Plastik',
+                const JadwalCard(
+                  date: '13 Juni 2024',
+                  time: 'Hari Ini - Pukul 10.00 WIB', 
+                  wasteType: 'Sampah Kertas, Botol, dan Plastik',
                   address:
                       'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-                  status: 'Selesai',
-                  buttonText: 'Selengkapnya',
+                  status: 'Ditugaskan',
                 ),
                 const SizedBox(height: 16),
                 const ImageBanner(),
@@ -66,26 +67,31 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Histori Pickup',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: bold20,
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text('Lihat lainnya'),
+                      child: Text('Lihat lainnya', style: regular12.copyWith(color: grey2)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 4),
-                const HistoryListItem(
-                  date: '10 Juni 2024 - Pukul 10.00 WIB',
-                  details: 'Sampah Kertas, Botol, dan Plastik',
-                  address:
-                      'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-                  status: 'Selesai',
-                  buttonText: 'Selengkapnya',
+                const HistoryCard(
+                  datetime: '10 Juni 2024 - Pukul 10.00 WIB', 
+                  status: 'Selesai', 
+                  wasteType: 'Sampah Kertas, Botol, dan Plastik', 
+                  address: 'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113'
                 ),
+                // const HistoryListItem(
+                //   date: '10 Juni 2024 - Pukul 10.00 WIB',
+                //   details: 'Sampah Kertas, Botol, dan Plastik',
+                //   address:
+                //       'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
+                //   status: 'Selesai',
+                //   buttonText: 'Selengkapnya',
+                // ),
                 const SizedBox(height: 80),
               ],
             ),
@@ -153,27 +159,27 @@ class ImageBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.green.shade100,
+        color: green,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
           // Teks dengan padding
-          const Expanded(
+          Expanded(
             flex: 2, // Proporsi lebih besar untuk teks
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Track dan Kelola Sampah Mu!',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    'Track dan Kelola\nSampah Mu!',
+                    style: bold20,
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Lacak Sampah dan Dukung Lingkungan Lebih Bersih.',
-                    style: TextStyle(fontSize: 14),
+                    'Lacak Sampah dan Dukung\nLingkungan Lebih Bersih.',
+                    style: regular14,
                   ),
                 ],
               ),

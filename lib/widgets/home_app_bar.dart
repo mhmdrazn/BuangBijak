@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fp_tekber/theme.dart';
 
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({super.key});
@@ -54,8 +55,8 @@ class HomeAppBarState extends State<HomeAppBar> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color(0xFF68ACB4),
             Color(0xFFCCE400),
+            Color(0xFF68ACB4),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -78,7 +79,7 @@ class HomeAppBarState extends State<HomeAppBar> {
           ),
           // Header content
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
+            padding: const EdgeInsets.fromLTRB(24, 48, 24, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -87,11 +88,7 @@ class HomeAppBarState extends State<HomeAppBar> {
                     ? const CircularProgressIndicator() // Show loading if username is not yet loaded
                     : Text(
                         '${getGreeting()}\n$username!',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                        style: bold20.copyWith(fontSize: 24)
                       ),
                 const SizedBox(height: 16),
                 TextField(
@@ -99,10 +96,18 @@ class HomeAppBarState extends State<HomeAppBar> {
                     filled: true,
                     fillColor: Colors.white,
                     hintText: 'Telusuri disini',
-                    prefixIcon: const Icon(Icons.search),
+                    hintStyle: regular14,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0), // Adjust padding for the icon
+                      child: Icon(Icons.search), // Icon to be displayed
+                    ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 8, // Adjust vertical padding for text
+                      horizontal: 16, // Adjust horizontal padding for text
                     ),
                   ),
                 ),

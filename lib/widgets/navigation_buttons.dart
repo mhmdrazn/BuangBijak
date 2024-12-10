@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fp_tekber/data/landing_page.dart';
+import 'package:fp_tekber/theme.dart';
 
 class NavigationButtons extends StatelessWidget {
   const NavigationButtons({super.key});
@@ -19,30 +20,30 @@ class NavigationButtons extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(8),
+                  color: white,
+                  borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Colors.grey.shade400, // Warna border hitam
+                    color: grey3, // Warna border hitam
                     width: 1.5, // Ketebalan border 1px
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(2, 2),
+                      color: grey2.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: const Offset(0, 0),
                     ),
                   ],
                 ),
                 child: Icon(
                   route['icon'],
                   size: 30,
-                  color: Colors.black,
+                  color: black,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 route['title'],
-                style: const TextStyle(fontSize: 12),
+                style: bold12.copyWith(color: grey2),
               ),
             ],
           ),
