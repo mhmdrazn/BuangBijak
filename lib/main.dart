@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
       ),
-      initialRoute: '/login',
+      initialRoute: '/history-pickup',
       routes: appRoutes,
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
