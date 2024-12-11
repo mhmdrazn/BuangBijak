@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/screens/home_screen.dart'; // Import HomeScreen
-import 'package:fp_tekber/screens/detail_pickup.dart'; // Import DetailPickup
+// Import HomeScreen
+// Import DetailPickup
 
 class HistoryPickup extends StatelessWidget {
-  const HistoryPickup({Key? key}) : super(key: key);
+  const HistoryPickup({super.key});
 
   @override
   Widget build(BuildContext context) {
