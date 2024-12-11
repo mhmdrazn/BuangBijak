@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/theme.dart';
+import 'package:buang_bijak/theme.dart';
 
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({super.key});
@@ -86,10 +86,8 @@ class HomeAppBarState extends State<HomeAppBar> {
               children: [
                 username.isEmpty
                     ? const CircularProgressIndicator() // Show loading if username is not yet loaded
-                    : Text(
-                        '${getGreeting()}\n$username!',
-                        style: bold20.copyWith(fontSize: 24)
-                      ),
+                    : Text('${getGreeting()}\n$username!',
+                        style: bold20.copyWith(fontSize: 24)),
                 const SizedBox(height: 16),
                 TextField(
                   decoration: InputDecoration(
@@ -98,7 +96,8 @@ class HomeAppBarState extends State<HomeAppBar> {
                     hintText: 'Telusuri disini',
                     hintStyle: regular14,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0), // Adjust padding for the icon
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0), // Adjust padding for the icon
                       child: Icon(Icons.search), // Icon to be displayed
                     ),
                     border: OutlineInputBorder(

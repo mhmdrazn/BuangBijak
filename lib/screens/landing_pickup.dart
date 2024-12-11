@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/screens/detail_pickup.dart';
+import 'package:buang_bijak/screens/detail_pickup.dart';
 import '../theme.dart';
 import '../widgets/button.dart';
 import '../widgets/history_card.dart';
@@ -57,20 +57,19 @@ class LandingPickup extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                    color: green,
-                    borderRadius: BorderRadius.circular(16.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        spreadRadius: 0,
-                        blurRadius: 20,
-                        offset: const Offset(0, 0), 
-                      ),
-                    ],
-                  ),
-                  child: 
-                    Column(
+                    decoration: BoxDecoration(
+                      color: green,
+                      borderRadius: BorderRadius.circular(16.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          spreadRadius: 0,
+                          blurRadius: 20,
+                          offset: const Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                    child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(20.0),
@@ -80,16 +79,15 @@ class LandingPickup extends StatelessWidget {
                               Image.asset(
                                 'assets/images/truck-banner.png',
                                 fit: BoxFit.cover,
-                                width: double.infinity, 
+                                width: double.infinity,
                               ),
                             ],
                           ),
                         ),
                       ],
-                    )
-                  ),
+                    )),
 
-                  const SizedBox(height: 24),
+                const SizedBox(height: 24),
                 // Pickup Schedule Section
                 Row(
                   children: [
@@ -102,7 +100,7 @@ class LandingPickup extends StatelessWidget {
                     Text('Jadwal Pickup Anda', style: bold20),
                   ],
                 ),
-                
+
                 const SizedBox(height: 16),
                 Container(
                   decoration: BoxDecoration(
@@ -160,7 +158,7 @@ class LandingPickup extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 20),
                 // History Section
                 Row(
@@ -185,15 +183,15 @@ class LandingPickup extends StatelessWidget {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 16),
                 // History Cards
                 ...historyData.map((data) {
                   return HistoryCard(
-                      datetime: data.datetime,
-                      status: data.status,
-                      wasteType: data.wasteType,
-                      address: data.address,
+                    datetime: data.datetime,
+                    status: data.status,
+                    wasteType: data.wasteType,
+                    address: data.address,
                   );
                 }),
               ],

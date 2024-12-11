@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/firebase_options.dart';
-import 'package:fp_tekber/routes/routes.dart';
-import 'package:fp_tekber/screens/not_found.dart';
+import 'package:buang_bijak/firebase_options.dart';
+import 'package:buang_bijak/routes/routes.dart';
+import 'package:buang_bijak/screens/not_found.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

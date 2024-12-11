@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fp_tekber/theme.dart';
+import 'package:buang_bijak/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/screens/home_screen.dart';
-import 'package:fp_tekber/screens/dashboard.dart';
+import 'package:buang_bijak/screens/home_screen.dart';
+import 'package:buang_bijak/screens/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
-import 'package:fp_tekber/widgets/button.dart';
+import 'package:buang_bijak/widgets/button.dart';
 
 class LoginSignup extends StatelessWidget {
   const LoginSignup({super.key});
@@ -127,7 +127,8 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(height: 50),
                       Padding(
                         padding: const EdgeInsets.only(top: 160, bottom: 24),
-                        child: Image.asset('assets/images/logonama.png', height: 60),
+                        child: Image.asset('assets/images/logonama.png',
+                            height: 60),
                       ),
                       Text(
                         'Bijak Kelola Barang dan Sampah',
@@ -140,25 +141,21 @@ class LoginScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                BorderSide(color: grey3, width: 2),
+                            borderSide: BorderSide(color: grey3, width: 2),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                BorderSide(color: grey3, width: 2),
+                            borderSide: BorderSide(color: grey3, width: 2),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                BorderSide(color: grey3, width: 2),
+                            borderSide: BorderSide(color: grey3, width: 2),
                           ),
                           filled: true,
                           fillColor: white,
                           border: const OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(12))
-                          ),
+                                  BorderRadius.all(Radius.circular(12))),
                           labelText: 'Email',
                           labelStyle: regular14,
                         ),
@@ -170,25 +167,21 @@ class LoginScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                BorderSide(color: grey3, width: 2),
+                            borderSide: BorderSide(color: grey3, width: 2),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                BorderSide(color: grey3, width: 2),
+                            borderSide: BorderSide(color: grey3, width: 2),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                BorderSide(color: grey3, width: 2),
+                            borderSide: BorderSide(color: grey3, width: 2),
                           ),
                           filled: true,
                           fillColor: white,
                           border: const OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(12))
-                          ),
+                                  BorderRadius.all(Radius.circular(12))),
                           labelText: 'Password',
                           labelStyle: regular14,
                         ),
@@ -208,7 +201,8 @@ class LoginScreen extends StatelessWidget {
                                 context: context,
                                 builder: (context) => AlertDialog(
                                   title: const Text('Error'),
-                                  content: const Text('Email dan Password tidak boleh kosong.'),
+                                  content: const Text(
+                                      'Email dan Password tidak boleh kosong.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),
@@ -223,7 +217,9 @@ class LoginScreen extends StatelessWidget {
 
                           try {
                             // Authenticate the user
-                            UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .signInWithEmailAndPassword(
                               email: email,
                               password: password,
                             );
@@ -233,16 +229,19 @@ class LoginScreen extends StatelessWidget {
                             if (user != null) {
                               // Check if the user is an admin
                               final userDoc = await FirebaseFirestore.instance
-                                  .collection('users') // Ensure your collection is named "users"
+                                  .collection(
+                                      'users') // Ensure your collection is named "users"
                                   .doc(user.uid)
                                   .get();
 
-                              if (userDoc.exists && userDoc['isAdmin'] == true) {
+                              if (userDoc.exists &&
+                                  userDoc['isAdmin'] == true) {
                                 // Redirect to AdminDashboard if isAdmin is true
                                 if (context.mounted) {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => Dashboard()),
+                                    MaterialPageRoute(
+                                        builder: (context) => Dashboard()),
                                   );
                                 }
                               } else {
@@ -250,7 +249,9 @@ class LoginScreen extends StatelessWidget {
                                 if (context.mounted) {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomeScreen()),
                                   );
                                 }
                               }
@@ -274,7 +275,6 @@ class LoginScreen extends StatelessWidget {
                           }
                         },
                       ),
-
                       const SizedBox(height: 16),
                       TextButton(
                         onPressed: () {
@@ -330,7 +330,8 @@ class RegistrationScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 160, bottom: 24),
-                    child: Image.asset('assets/images/logonama.png', height: 60),
+                    child:
+                        Image.asset('assets/images/logonama.png', height: 60),
                   ),
                   Text(
                     'Bijak Kelola Barang dan Sampah',
@@ -345,25 +346,20 @@ class RegistrationScreen extends StatelessWidget {
                       labelStyle: regular14,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       filled: true,
                       fillColor: white,
                       border: const OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -374,25 +370,20 @@ class RegistrationScreen extends StatelessWidget {
                       labelStyle: regular14,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       filled: true,
                       fillColor: white,
                       border: const OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -403,25 +394,20 @@ class RegistrationScreen extends StatelessWidget {
                       labelStyle: regular14,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       filled: true,
                       fillColor: white,
                       border: const OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -433,25 +419,20 @@ class RegistrationScreen extends StatelessWidget {
                       labelStyle: regular14,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       filled: true,
                       fillColor: white,
                       border: const OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
                       suffixIcon: Icon(Icons.visibility),
                     ),
                   ),
@@ -463,25 +444,20 @@ class RegistrationScreen extends StatelessWidget {
                       labelStyle: regular14,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: grey3, width: 2),
+                        borderSide: BorderSide(color: grey3, width: 2),
                       ),
                       filled: true,
                       fillColor: white,
                       border: const OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -493,7 +469,7 @@ class RegistrationScreen extends StatelessWidget {
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                         );
-              
+
                         if (userCredential.user != null) {
                           await FirebaseFirestore.instance
                               .collection('users')
@@ -505,7 +481,7 @@ class RegistrationScreen extends StatelessWidget {
                             'address': addressController.text.trim(),
                             'createdAt': FieldValue.serverTimestamp(),
                           });
-              
+
                           if (!context.mounted) return;
                           Navigator.pop(context); // Safe navigation.
                         }
@@ -535,12 +511,10 @@ class RegistrationScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context); // Kembali ke halaman Login
                     },
-                    child: Text(
-                      'Sudah mempunyai akun? Masuk',
-                      style: bold14.copyWith(
-                        color: grey2,
-                      )
-                    ),
+                    child: Text('Sudah mempunyai akun? Masuk',
+                        style: bold14.copyWith(
+                          color: grey2,
+                        )),
                   ),
                 ],
               ),

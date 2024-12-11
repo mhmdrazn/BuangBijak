@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fp_tekber/screens/landing_page.dart';
-import 'package:fp_tekber/theme.dart';
-import 'package:fp_tekber/widgets/button.dart';
+import 'package:buang_bijak/screens/landing_page.dart';
+import 'package:buang_bijak/theme.dart';
+import 'package:buang_bijak/widgets/button.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({super.key});
@@ -42,32 +42,32 @@ class UserSettingsState extends State<UserSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: white,
-          centerTitle: true,
-          surfaceTintColor: Colors.transparent,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: black),
-            onPressed: () {
-              Navigator.pop(context); // Goes back to the previous screen
-            },
-          ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Akun Saya',
-                  style: bold20.copyWith(color: Colors.black),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(width: 32)
-              ],
-            ),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: white,
+        centerTitle: true,
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: black),
+          onPressed: () {
+            Navigator.pop(context); // Goes back to the previous screen
+          },
+        ),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Akun Saya',
+                style: bold20.copyWith(color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(width: 32)
+            ],
           ),
         ),
+      ),
       body: SingleChildScrollView(
         child: Center(
           // Centers the constrained content
@@ -83,15 +83,14 @@ class UserSettingsState extends State<UserSettings> {
                   Container(
                     margin: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          blurRadius: 10,
-                        ),
-                      ]
-                    ),
+                        color: white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 10,
+                          ),
+                        ]),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -116,8 +115,7 @@ class UserSettingsState extends State<UserSettings> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Jl. Sutorejo Tengah No.10, Dukuh, Kec.\nMulyorejo, Surabaya, Jawa Timur 60113',
-                                  style:
-                                      regular12,
+                                  style: regular12,
                                 ),
                               ],
                             ),
@@ -146,7 +144,7 @@ class UserSettingsState extends State<UserSettings> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.history),
-                    title:  Text('Riwayat Redeem', style: bold14),
+                    title: Text('Riwayat Redeem', style: bold14),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {},
                   ),
@@ -208,29 +206,27 @@ class UserSettingsState extends State<UserSettings> {
                   Row(
                     children: [
                       Expanded(
-                        child:
-                          Padding(
+                        child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Button(
-                            onPressed: () async {
-                              // Log out the user
-                              await FirebaseAuth.instance.signOut();
-                    
-                              if (mounted) {
-                                // Navigate to login or splash screen after logging out
-                                Navigator.pushReplacement(
-                                  // ignore: use_build_context_synchronously
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LoginScreen(),
-                                  ),
-                                );
-                              }
-                            },
-                            color: red,
-                            text:'Keluar'
-                          ),
-                        ), 
+                              onPressed: () async {
+                                // Log out the user
+                                await FirebaseAuth.instance.signOut();
+
+                                if (mounted) {
+                                  // Navigate to login or splash screen after logging out
+                                  Navigator.pushReplacement(
+                                    // ignore: use_build_context_synchronously
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginScreen(),
+                                    ),
+                                  );
+                                }
+                              },
+                              color: red,
+                              text: 'Keluar'),
+                        ),
                       ),
                     ],
                   ),

@@ -1,4 +1,4 @@
-name: fp_tekber
+name: buang_bijak
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -56,7 +56,7 @@ flutter_icons:
   android: true
   ios: true
   web: true
-  image_path: "assets/icon.png"
+  image_path: "assets/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

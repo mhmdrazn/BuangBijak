@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/widgets/navigation_buttons.dart';
+import 'package:buang_bijak/widgets/navigation_buttons.dart';
 import '../widgets/home_app_bar.dart';
 // import '../widgets/home_card.dart';
 import '../widgets/jadwal_card.dart';
 import 'package:logger/logger.dart';
-import 'package:fp_tekber/theme.dart';
-import 'package:fp_tekber/widgets/history_card.dart';
+import 'package:buang_bijak/theme.dart';
+import 'package:buang_bijak/widgets/history_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -39,7 +39,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: Text('Lihat lainnya', style: regular12.copyWith(color: grey2)),
+                      child: Text('Lihat lainnya',
+                          style: regular12.copyWith(color: grey2)),
                     ),
                   ],
                 ),
@@ -55,7 +56,7 @@ class HomeScreen extends StatelessWidget {
 
                 const JadwalCard(
                   date: '13 Juni 2024',
-                  time: 'Hari Ini - Pukul 10.00 WIB', 
+                  time: 'Hari Ini - Pukul 10.00 WIB',
                   wasteType: 'Sampah Kertas, Botol, dan Plastik',
                   address:
                       'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
@@ -73,17 +74,18 @@ class HomeScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: Text('Lihat lainnya', style: regular12.copyWith(color: grey2)),
+                      child: Text('Lihat lainnya',
+                          style: regular12.copyWith(color: grey2)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 4),
                 const HistoryCard(
-                  datetime: '10 Juni 2024 - Pukul 10.00 WIB', 
-                  status: 'Selesai', 
-                  wasteType: 'Sampah Kertas, Botol, dan Plastik', 
-                  address: 'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113'
-                ),
+                    datetime: '10 Juni 2024 - Pukul 10.00 WIB',
+                    status: 'Selesai',
+                    wasteType: 'Sampah Kertas, Botol, dan Plastik',
+                    address:
+                        'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113'),
                 // const HistoryListItem(
                 //   date: '10 Juni 2024 - Pukul 10.00 WIB',
                 //   details: 'Sampah Kertas, Botol, dan Plastik',

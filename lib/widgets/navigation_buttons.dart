@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fp_tekber/data/landing_page.dart';
-import 'package:fp_tekber/theme.dart';
+import 'package:buang_bijak/data/landing_page.dart';
+import 'package:buang_bijak/theme.dart';
 
 class NavigationButtons extends StatelessWidget {
   const NavigationButtons({super.key});
