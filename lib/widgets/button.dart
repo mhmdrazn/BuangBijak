@@ -22,6 +22,7 @@ class Button extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     final double horizontalPadding = screenWidth * 0.04;
+    final double verticalPadding = screenWidth * 0.02;
 
     return ElevatedButton(
       onPressed: onPressed, // Use the passed `onPressed` callback
@@ -29,7 +30,7 @@ class Button extends StatelessWidget {
         backgroundColor: color,
         foregroundColor: color == Colors.white ? white : Colors.white,
         padding: EdgeInsets.symmetric(
-          vertical: 20,
+          vertical: verticalPadding,
           horizontal: horizontalPadding,
         ),
         minimumSize: const Size(0, 36),

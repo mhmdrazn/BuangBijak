@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 
 class HistoryCard extends StatelessWidget {
-  final String datetime;
+  final String time;
   final String status;
   final String wasteType;
   final String address;
+  final String date;
 
 
   const HistoryCard({
     super.key,
-    required this.datetime,
+    required this.time,
     required this.status,
     required this.wasteType,
     required this.address,
+    required this.date,
   });
 
   @override
@@ -42,29 +44,29 @@ class HistoryCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      datetime, style: bold16,
+                    Row(
+                      children: [
+                        Text(time, style: bold14,),
+                        const SizedBox(width: 8),
+                        Text('-', style: bold14),
+                        const SizedBox(width: 8),
+                        Text(date, style: bold14),
+                      ],
                     ),
-          
                     Container(
                       decoration: BoxDecoration(
                           color: status == 'Selesai' ? green : status == 'Ditugaskan' ? grey3 : red,
                           borderRadius: BorderRadius.circular(99),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 24), 
+                        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12), 
                         child: Text(status, style: bold12.copyWith(color: black)),
                     )
           
                   ],
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(wasteType, style: regular14)
-                  ],
-                ), 
+                Text(wasteType, style: regular14), 
                 const SizedBox(height: 20),
-                Text(address, style: regular16),
+                Text(address, style: regular14),
               ],
             ),
         ),
