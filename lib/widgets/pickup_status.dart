@@ -11,30 +11,53 @@ class PickupStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color getStatusColor() {
+      switch (status) {
+        case 'Dibatalkan':
+          return red;
+        case 'Ditugaskan':
+          return white;
+        case 'Selesai':
+          return green;
+        default:
+          return grey3;
+      }
+    }
+
+    Color getTextColor() {
+      return status == 'Dibatalkan' ? Colors.white : black;
+    }
+
+    Border? getStatusBorder() {
+      return status == 'Ditugaskan'
+          ? Border.all(color: grey3, width: 2)
+          : null;
+    }
+
     return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        'Status',
-        style: bold16,
-      ),
-      const SizedBox(height: 8.0),
-      Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8.0,
-          horizontal: 32.0,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Status',
+          style: bold16,
         ),
-        decoration: BoxDecoration(
-          color: status == 'Dibatalkan' ? red : status == 'Ditugaskan' ? white : green,
-          border: status == 'Ditugaskan' ? Border.all(color: grey3, width: 2) : null,
-          borderRadius: BorderRadius.circular(99.0),
+        const SizedBox(height: 8.0),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 32.0,
+          ),
+          decoration: BoxDecoration(
+            color: getStatusColor(),
+            border: getStatusBorder(),
+            borderRadius: BorderRadius.circular(99.0),
+          ),
+          child: Text(
+            status,
+            style: bold14.copyWith(color: getTextColor()),
+          ),
         ),
-        child: Text(
-          'Ditugaskan',
-          style: bold14.copyWith(color: status == 'Dibatalkan' ? Colors.white : black),
-        ),
-      ),
-    ],
-  );
+      ],
+    );
   }
 }

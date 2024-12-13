@@ -82,7 +82,13 @@ class JadwalCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DetailPickup(),
+                    builder: (context) => DetailPickup(
+                      status: status,
+                      time: time,
+                      date: date,
+                      wasteType: wasteType,
+                      address: address,
+                    ),
                   ),
                 );
               },
