@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use
+
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../widgets/bottom_button.dart';
@@ -8,7 +10,6 @@ class PickupPage extends StatefulWidget {
   const PickupPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _PickupPageState createState() => _PickupPageState();
 }
 
@@ -18,7 +19,12 @@ class _PickupPageState extends State<PickupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+        return false;
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
@@ -28,7 +34,7 @@ class _PickupPageState extends State<PickupPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: black),
             onPressed: () {
-              Navigator.pop(context); // Goes back to the previous screen
+              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             },
           ),
           title: Padding(
@@ -41,7 +47,7 @@ class _PickupPageState extends State<PickupPage> {
                   style: bold20.copyWith(color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(width: 24)
+                const SizedBox(width: 24),
               ],
             ),
           ),
@@ -60,9 +66,11 @@ class _PickupPageState extends State<PickupPage> {
                         width: double.infinity,
                       ),
                       const SizedBox(height: 12.0),
+
+                      // Lokasi Pickup
                       Container(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 12, bottom: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -87,9 +95,6 @@ class _PickupPageState extends State<PickupPage> {
                                 ),
                                 filled: true,
                                 fillColor: white,
-                                border: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12))),
                                 hintText: 'Masukkan alamat disini..',
                                 hintStyle: regular14,
                               ),
@@ -97,9 +102,11 @@ class _PickupPageState extends State<PickupPage> {
                           ],
                         ),
                       ),
+
+                      // Tanggal Pickup
                       Container(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 12, bottom: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -108,17 +115,17 @@ class _PickupPageState extends State<PickupPage> {
                             DatePickerWidget(
                               decoration: InputDecoration(hintStyle: regular14),
                               onDateSelected: (DateTime selectedDate) {
-                                setState(() {
-                                });
-                                // print("Selected Date: ${_selectedDate.toLocal()}");
+                                setState(() {});
                               },
                             ),
                           ],
                         ),
                       ),
+
+                      // Waktu Pickup Dropdown
                       Container(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 12, bottom: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -132,16 +139,18 @@ class _PickupPageState extends State<PickupPage> {
                               ],
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  selectedWasteType = newValue;
+                                  selectedTimeSlot = newValue;
                                 });
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
+
+                      // Jenis Sampah Dropdown
                       Container(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 12, bottom: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -158,15 +167,16 @@ class _PickupPageState extends State<PickupPage> {
                                   selectedWasteType = newValue;
                                 });
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 24.0)
                     ],
                   ),
                 ),
               ),
+
+              // Button Ajukan Pickup
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16.0),
@@ -178,6 +188,8 @@ class _PickupPageState extends State<PickupPage> {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

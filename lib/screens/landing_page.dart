@@ -104,7 +104,9 @@ class LoginScreen extends StatelessWidget {
                 final logger = Logger();
 
                 logger.d('User Data: $userData');
-                return const HomeScreen(); // Navigate to HomeScreen
+                return const HomeScreen(
+                  isAdmin: false,
+                ); // Navigate to HomeScreen
               }
 
               return const Center(child: Text('No user data found.'));
@@ -250,8 +252,9 @@ class LoginScreen extends StatelessWidget {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const HomeScreen()),
+                                        builder: (context) => const HomeScreen(
+                                              isAdmin: false,
+                                            )),
                                   );
                                 }
                               }

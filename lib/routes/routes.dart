@@ -11,7 +11,9 @@ import 'package:buang_bijak/screens/dashboard_detail.dart';
 import 'package:buang_bijak/screens/not_found.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
-  '/': (context) => const HomeScreen(),
+  '/': (context) => const HomeScreen(
+        isAdmin: false,
+      ),
   '/ajukan-pickup': (context) => const PickupPage(),
   '/profil-saya': (context) => const UserSettings(),
   '/login': (context) => const LoginSignup(),
