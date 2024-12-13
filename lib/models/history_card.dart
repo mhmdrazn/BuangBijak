@@ -1,13 +1,15 @@
 class HistoryData {
-  final String datetime;
+  final String date;
   final String status;
   final String wasteType;
   final String address;
+  final String time;
 
   HistoryData({
-    required this.datetime,
+    required this.date,
     required this.status,
     required this.wasteType,
     required this.address,
+    required this.time,
   });
 }

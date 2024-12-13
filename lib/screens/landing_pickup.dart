@@ -4,19 +4,22 @@ import '../theme.dart';
 import '../widgets/button.dart';
 import '../widgets/history_card.dart';
 import '../models/history_card.dart';
+import '../screens/history_pickup.dart';
 
 class LandingPickup extends StatelessWidget {
   final List<HistoryData> historyData = [
     HistoryData(
-      datetime: '10 Juni 2024 - Pukul 12.00 WIB',
-      wasteType: 'Sampah Kertas, Botol, dan Plastik',
+      time: '12.00 WIB',
+      date: '10 Juni 2024',
+      wasteType: 'Sampah Botol dan Kaca',
       address:
           'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
       status: 'Selesai',
     ),
     HistoryData(
-      datetime: '8 Juni 2024 - Pukul 16.00 WIB',
-      wasteType: 'Sampah Kertas, Botol, dan Plastik',
+      time: '16.00 WIB',
+      date: '8 Juni 2024',
+      wasteType: 'Sampah Botol dan Kaca',
       address:
           'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
       status: 'Dibatalkan',
@@ -49,7 +52,7 @@ class LandingPickup extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(20.0),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
@@ -97,7 +100,7 @@ class LandingPickup extends StatelessWidget {
                       height: 20,
                     ),
                     const SizedBox(width: 12),
-                    Text('Jadwal Pickup Anda', style: bold20),
+                    Text('Jadwal Pickup Anda', style: bold16),
                   ],
                 ),
 
@@ -130,7 +133,7 @@ class LandingPickup extends StatelessWidget {
                             Text('8 Juni 2024', style: regular14),
                             const SizedBox(width: 12),
                             Text(
-                              'Sampah Kertas, Botol, dan Plastik',
+                              'Sampah Botol dan Kaca',
                               style: regular14,
                             ),
                           ],
@@ -138,7 +141,7 @@ class LandingPickup extends StatelessWidget {
                         const SizedBox(height: 20),
                         Text(
                           'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-                          style: regular16,
+                          style: regular14,
                         ),
                         const SizedBox(height: 20),
                         Button(
@@ -172,23 +175,29 @@ class LandingPickup extends StatelessWidget {
                           height: 20,
                         ),
                         const SizedBox(width: 12),
-                        Text('Histori Pickup', style: bold20),
+                        Text('Histori Pickup', style: bold16),
                       ],
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Your "See More" functionality here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HistoryPickup(),
+                          ),
+                        );
                       },
                       child: Text('Lihat lainnya', style: regular14),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 6),
                 // History Cards
                 ...historyData.map((data) {
                   return HistoryCard(
-                    datetime: data.datetime,
+                    time: data.time,
+                    date: data.date,
                     status: data.status,
                     wasteType: data.wasteType,
                     address: data.address,

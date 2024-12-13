@@ -55,7 +55,7 @@ class DetailPickup extends StatelessWidget {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(28.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -77,8 +77,8 @@ class DetailPickup extends StatelessWidget {
                           ),
                           const SizedBox(height: 4.0),
                           Text(
-                            'Sampah Kertas, Botol, dan Plastik ',
-                            style: regular12,
+                            'Sampah Kertas, Botol, dan Plastik',
+                            style: regular14,
                             textAlign: TextAlign.left,
                           ),
                         ],
@@ -88,7 +88,7 @@ class DetailPickup extends StatelessWidget {
 
                       Text(
                         'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-                        style: regular16,
+                        style: regular14,
                         textAlign: TextAlign.left,
                       ),
 
@@ -103,8 +103,14 @@ class DetailPickup extends StatelessWidget {
                           Text(
                             'Kolektor sedang dalam perjalanan!',
                             style: bold16
-                          ), 
-                          Image.asset('assets/images/maps.png', height: 200),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset('assets/images/maps.png', height: 200, fit: BoxFit.cover),
+                            )
+                          ),
                         ],
                       ),
 

@@ -83,6 +83,7 @@ class HomeAppBarState extends State<HomeAppBar> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 username.isEmpty
                     ? const CircularProgressIndicator() // Show loading if username is not yet loaded

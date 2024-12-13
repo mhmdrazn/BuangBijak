@@ -51,7 +51,7 @@ class JadwalCard extends StatelessWidget {
                       color: status == 'Selesai' ? green : status == 'Ditugaskan' ? grey3 : red,
                       borderRadius: BorderRadius.circular(99),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 24), 
+                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12), 
                     child: Text(status, style: bold12.copyWith(color: black)),
                 )
       
@@ -71,7 +71,7 @@ class JadwalCard extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               address,
-              style: regular16,
+              style: regular14,
             ),
             const SizedBox(height: 20),
             Button(

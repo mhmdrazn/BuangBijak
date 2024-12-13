@@ -14,6 +14,6 @@ final List<Map<String, dynamic>> iconNavFeature = [
   {
     'title': 'Histori Pickup',
     'icon': Icons.event_repeat,
-    'route': '/histori-pickup',
+    'route': '/history-pickup',
   },
 ];
