@@ -152,7 +152,13 @@ class LandingPickup extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const DetailPickup(),
+                                builder: (context) => DetailPickup(
+                                  status: 'Ditugaskan', // Replace with actual status if dynamic
+                                  time: '10.00 WIB',
+                                  date: '8 Juni 2024',
+                                  wasteType: 'Sampah Botol dan Kaca',
+                                  address: 'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
+                                ),
                               ),
                             );
                           },

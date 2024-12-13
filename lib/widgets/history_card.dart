@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
+import '../widgets/button.dart';
+import '../screens/detail_pickup.dart';
 
 class HistoryCard extends StatelessWidget {
   final String time;
@@ -67,6 +69,26 @@ class HistoryCard extends StatelessWidget {
                 Text(wasteType, style: regular14), 
                 const SizedBox(height: 20),
                 Text(address, style: regular14),
+                const SizedBox(height: 20),
+                Button(
+                  text: 'Selengkapnya',
+                  color: green,
+                  textColor: black,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailPickup(
+                          status: status,
+                          time: time,
+                          date: date,
+                          wasteType: wasteType,
+                          address: address,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
         ),
