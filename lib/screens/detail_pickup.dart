@@ -21,6 +21,16 @@ class DetailPickup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String message;
+
+    if (status == 'Selesai') {
+      message = 'Sampahmu telah dipickup!';
+    } else if (status == 'Dibatalkan') {
+      message = 'Pickup telah dibatalkan';
+    } else {
+      message = 'Kolektor sedang dalam perjalanan!';
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -34,11 +44,17 @@ class DetailPickup extends StatelessWidget {
           },
         ),
         title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24.0),
-          child: Text(
-            'Detail Pickup',
-            style: bold20.copyWith(color: black),
-            textAlign: TextAlign.center,
+          padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Detail Pickup',
+                style: bold20.copyWith(color: black),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(width: 24)
+            ],
           ),
         ),
       ),
@@ -107,7 +123,7 @@ class DetailPickup extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Kolektor sedang dalam perjalanan!',
+                          message,
                           style: bold16,
                         ),
                         Padding(
