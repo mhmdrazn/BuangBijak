@@ -7,7 +7,8 @@ class DatePickerWidget extends StatefulWidget {
   const DatePickerWidget(
       {super.key,
       required this.onDateSelected,
-      required InputDecoration decoration});
+      required InputDecoration decoration,
+      DateTime? initialDate});
 
   @override
   // ignore: library_private_types_in_public_api

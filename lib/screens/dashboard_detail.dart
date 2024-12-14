@@ -82,7 +82,10 @@ class DashboardDetail extends StatelessWidget {
                     const SizedBox(height: 20.0),
 
                     // Status Pickup
-                    const PickupStatus(status: 'Ditugaskan'),
+                    const PickupStatus(
+                      status: 'Ditugaskan',
+                      isRevised: false,
+                    ),
                     const SizedBox(height: 20.0),
 
                     // Kolektor dan Peta
@@ -117,8 +120,7 @@ class DashboardDetail extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DashboardDetail(),
+                                  builder: (context) => const DashboardDetail(),
                                 ),
                               );
                             },
@@ -134,8 +136,7 @@ class DashboardDetail extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DashboardDetail(),
+                                  builder: (context) => const DashboardDetail(),
                                 ),
                               );
                             },

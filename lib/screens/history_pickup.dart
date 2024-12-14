@@ -130,6 +130,7 @@ class HistoryPickup extends StatelessWidget {
                         address: pickup['lokasi_pickup'],
                         status: pickup['status'],
                         orderId: pickup['order_id'],
+                        isRevised: pickup['isRevised'],
                       ),
                       const SizedBox(height: 8),
                     ],
