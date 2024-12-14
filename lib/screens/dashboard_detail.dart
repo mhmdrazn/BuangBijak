@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../theme.dart';
 import '../widgets/button.dart';
 import '../widgets/pickup_status.dart';
@@ -11,6 +12,7 @@ class DashboardDetail extends StatelessWidget {
     required this.date,
     required this.wasteType,
     required this.address,
+    required this.orderId, // Use orderId instead of pickupId
   });
 
   final String status;
@@ -18,7 +20,7 @@ class DashboardDetail extends StatelessWidget {
   final String date;
   final String wasteType;
   final String address;
-
+  final String orderId; // Firestore document ID for the order
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +102,11 @@ class DashboardDetail extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                        'Alamat',
-                        style: bold16,
-                      ),
-                      const SizedBox(height: 4.0),
-                      Text(
+                          'Alamat',
+                          style: bold16,
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
                           address,
                           style: regular14,
                           textAlign: TextAlign.left,
@@ -133,31 +135,32 @@ class DashboardDetail extends StatelessWidget {
                     ),
                     const SizedBox(height: 8.0),
                     if (status != 'success' && status != 'cancel')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Button(
-                            text: 'Tolak Pickup',
-                            color: red,
-                            textColor: white,
-                            onPressed: () {
-                            },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Button(
+                              text: 'Tolak Pickup',
+                              color: red,
+                              textColor: white,
+                              onPressed: () {
+                                _showRejectReasonDialog(context);
+                              },
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        Expanded(
-                          child: Button(
-                            text: 'Tandai Selesai',
-                            color: green,
-                            textColor: black,
-                            onPressed: () {
-                              
-                            },
+                          const SizedBox(width: 16.0),
+                          Expanded(
+                            child: Button(
+                              text: 'Tandai Selesai',
+                              color: green,
+                              textColor: black,
+                              onPressed: () {
+                                _updatePickupStatus(context, 'success');
+                              },
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -166,5 +169,114 @@ class DashboardDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showRejectReasonDialog(BuildContext context) {
+    final TextEditingController reasonController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Alasan Penolakan"),
+          content: TextField(
+            controller: reasonController,
+            decoration: const InputDecoration(
+              hintText: "Masukkan alasan penolakan",
+            ),
+            maxLines: 3,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close dialog
+              },
+              child: const Text("Batal"),
+            ),
+            TextButton(
+              onPressed: () {
+                final String rejectReason = reasonController.text.trim();
+                if (rejectReason.isNotEmpty) {
+                  _updatePickupStatus(context, 'cancel', rejectReason);
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Alasan penolakan tidak boleh kosong."),
+                    ),
+                  );
+                }
+              },
+              child: const Text("Konfirmasi"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _updatePickupStatus(
+      BuildContext context, String status, [String? rejectReason]) async {
+    try {
+      // Cetak ID dokumen untuk verifikasi
+      print('Attempting to update document ID: $orderId');
+
+      // Periksa apakah dokumen ada sebelum update
+      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+          .collection('ajukan_pickup')
+          .doc(orderId)
+          .get();
+
+      if (!docSnapshot.exists) {
+        // Tampilkan pesan jika dokumen tidak ditemukan
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Dokumen dengan ID $orderId tidak ditemukan."),
+          ),
+        );
+        return;
+      }
+
+      // Siapkan data update
+      Map<String, dynamic> updateData = {
+        'status': status,
+      };
+
+      // Tambahkan alasan penolakan jika ada
+      if (rejectReason != null && rejectReason.isNotEmpty) {
+        updateData['rejectedReason'] = rejectReason;
+      }
+
+      // Lakukan update
+      await FirebaseFirestore.instance
+          .collection('ajukan_pickup')
+          .doc(orderId)
+          .update(updateData);
+
+      // Pastikan konteks masih valid sebelum menampilkan SnackBar
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(status == 'success'
+                ? "Pickup ditandai sebagai selesai."
+                : "Pickup ditolak."),
+          ),
+        );
+
+        // Kembali ke layar sebelumnya
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      print('Error updating Firestore: $e');
+      
+      // Pastikan konteks masih valid
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Gagal memperbarui status pickup: $e"),
+          ),
+        );
+      }
+    }
   }
 }

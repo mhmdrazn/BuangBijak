@@ -105,6 +105,7 @@ class Dashboard extends StatelessWidget {
                                   date: formatPickupDate(
                                     data['tanggal_pickup'].toDate()),
                                   time: data['waktu_pickup'],
+                                  orderId: data['order_id'],
                                 ),
                               ),
                             );

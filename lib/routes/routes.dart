@@ -51,6 +51,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
             address: args['address'] ?? '',
             date: args['date'] ?? '',
             time: args['time'] ?? '',
+            orderId: args['order_id'] ?? '',
           ),
         );
       }
