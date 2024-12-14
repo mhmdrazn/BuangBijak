@@ -1,11 +1,36 @@
+import 'package:buang_bijak/utils/date_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:buang_bijak/widgets/history_card.dart';
 import '../theme.dart';
-// Import HomeScreen
-// Import DetailPickup
+import 'package:logger/logger.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final Logger logger = Logger();
 
 class HistoryPickup extends StatelessWidget {
   const HistoryPickup({super.key});
+
+  Future<List<Map<String, dynamic>>> _getUserPickups(String status) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return [];
+
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('ajukan_pickup')
+          .where('user_id', isEqualTo: user.uid)
+          .where('status', isEqualTo: status)
+          .orderBy('tanggal_pickup')
+          .get();
+
+      return querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      logger.e('Error fetching pickups', error: e);
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,29 +58,84 @@ class HistoryPickup extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20.0, 6, 20.0, 6),
         children: [
-          HistoryCard(
-            date: '10 Juni 2024',
-            time: '10.00 WIB',
-            status: 'Selesai',
-            wasteType: 'Sampah Botol dan Kaca', // Warna hijau untuk Selesai
-            address:
-                'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
+          Container(
+              decoration: BoxDecoration(
+                color: green,
+                borderRadius: BorderRadius.circular(16.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    spreadRadius: 0,
+                    blurRadius: 20,
+                    offset: const Offset(0, 0),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/images/truck-banner.png',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Image.asset('assets/icons/clock.png', width: 20, height: 20),
+              const SizedBox(width: 12),
+              Text('Histori Pickup', style: bold16),
+            ],
           ),
-          HistoryCard(
-            date: '1 Juni 2024',
-            time: '13.00 WIB',
-            status: 'Selesai',
-            wasteType: 'Sampah Botol dan Kaca', // Warna hijau untuk Selesai
-            address:
-                'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-          ),
-          HistoryCard(
-            date: '10 Mei 2024',
-            time: '10.00 WIB',
-            status: 'Dibatalkan',
-            wasteType: 'Sampah Botol dan Kaca', // Warna merah untuk Dibatalkan
-            address:
-                'Jl. Kertajaya Indah II No.F 501, Manyar Sabrangan, Kec. Mulyorejo, Surabaya, Jawa Timur 60116',
+          const SizedBox(height: 16),
+          FutureBuilder<List<Map<String, dynamic>>>(
+            future: _getUserPickups('success'),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Text('Error fetching History');
+              }
+
+              List pickups = snapshot.data ?? [];
+
+              if (pickups.isEmpty) {
+                return Container(
+                  width: double.infinity,
+                  height: 80,
+                  alignment: Alignment.center,
+                  child: Text('Data kosong', textAlign: TextAlign.center),
+                );
+              }
+
+              return Column(
+                children: pickups.map((pickup) {
+                  return Column(
+                    children: [
+                      HistoryCard(
+                        time: pickup['waktu_pickup'],
+                        date:
+                            formatPickupDate(pickup['tanggal_pickup'].toDate()),
+                        wasteType: pickup['jenis_sampah'],
+                        address: pickup['lokasi_pickup'],
+                        status: pickup['status'],
+                      ),
+                      const SizedBox(height: 8),
+                    ],
+                  );
+                }).toList(),
+              );
+            },
           ),
         ],
       ),

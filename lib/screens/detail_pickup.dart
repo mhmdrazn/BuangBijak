@@ -23,9 +23,9 @@ class DetailPickup extends StatelessWidget {
   Widget build(BuildContext context) {
     String message;
 
-    if (status == 'Selesai') {
+    if (status == 'success') {
       message = 'Sampahmu telah dipickup!';
-    } else if (status == 'Dibatalkan') {
+    } else if (status == 'cancel') {
       message = 'Pickup telah dibatalkan';
     } else {
       message = 'Kolektor sedang dalam perjalanan!';
@@ -44,157 +44,144 @@ class DetailPickup extends StatelessWidget {
           },
         ),
         title: Padding(
-          padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Detail Pickup',
-                style: bold20.copyWith(color: black),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(width: 24)
-            ],
+          padding: const EdgeInsets.symmetric(vertical: 24.0),
+          child: Text(
+            'Detail Pickup',
+            style: bold20.copyWith(color: black),
+            textAlign: TextAlign.center,
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
-                    spreadRadius: 0,
-                    blurRadius: 20,
-                    offset: const Offset(0, 0),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/images/truck-banner.png',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
+      body: ListView(
+        children: [
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      spreadRadius: 0,
+                      blurRadius: 20,
+                      offset: const Offset(0, 0),
                     ),
-
-                    const SizedBox(height: 20.0),
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '$date - Pukul $time',
-                          style: bold16,
-                          textAlign: TextAlign.left,
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          wasteType,
-                          style: regular14,
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20.0),
-
-                    Text(
-                      address,
-                      style: regular14,
-                      textAlign: TextAlign.left,
-                    ),
-
-                    const SizedBox(height: 20.0),
-
-                    PickupStatus(status: status),
-                    const SizedBox(height: 20.0),
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          message,
-                          style: bold16,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset('assets/images/maps.png',
-                                height: 200, fit: BoxFit.cover),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 8.0),
-
-                    if (status != 'Selesai' && status != 'Dibatalkan')
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/truck-banner.png',
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                      const SizedBox(height: 20.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Button(
-                              text: 'Reschedule',
-                              color: white,
-                              borderColor: grey3,
-                              textColor: black,
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailPickup(
-                                      status: 'Ditugaskan',
-                                      time: time,
-                                      date: date,
-                                      wasteType: wasteType,
-                                      address: address,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                          Text(
+                            '$date, $time',
+                            style: bold16,
+                            textAlign: TextAlign.left,
                           ),
-                          const SizedBox(width: 16.0),
-                          Expanded(
-                            child: Button(
-                              text: 'Batalkan Pickup',
-                              color: red,
-                              textColor: white,
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailPickup(
-                                      status: 'Dibatalkan',
-                                      time: time,
-                                      date: date,
-                                      wasteType: wasteType,
-                                      address: address,
-                                    ),
-                                  ),
-                                );
-                              },
+                          const SizedBox(height: 4.0),
+                          Text(
+                            wasteType,
+                            style: regular14,
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20.0),
+                      Text(
+                        address,
+                        style: regular14,
+                        textAlign: TextAlign.left,
+                      ),
+                      const SizedBox(height: 20.0),
+                      PickupStatus(status: status),
+                      const SizedBox(height: 20.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            message,
+                            style: bold16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset('assets/images/maps.png',
+                                  height: 200, fit: BoxFit.cover),
                             ),
                           ),
                         ],
-                      )
-                  ],
+                      ),
+                      const SizedBox(height: 8.0),
+                      if (status != 'success' && status != 'cancel')
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: Button(
+                                text: 'Reschedule',
+                                color: white,
+                                borderColor: grey3,
+                                textColor: black,
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailPickup(
+                                        status: 'pending',
+                                        time: time,
+                                        date: date,
+                                        wasteType: wasteType,
+                                        address: address,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 16.0),
+                            Expanded(
+                              child: Button(
+                                text: 'Batalkan Pickup',
+                                color: red,
+                                textColor: white,
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailPickup(
+                                        status: 'cancel',
+                                        time: time,
+                                        date: date,
+                                        wasteType: wasteType,
+                                        address: address,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

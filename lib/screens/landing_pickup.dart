@@ -1,32 +1,36 @@
+import 'package:buang_bijak/utils/date_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:buang_bijak/screens/detail_pickup.dart';
 import '../theme.dart';
-import '../widgets/button.dart';
-import '../widgets/history_card.dart';
-import '../models/history_card.dart';
-import '../screens/history_pickup.dart';
+import '../widgets/jadwal_card.dart';
+import 'package:logger/logger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final Logger logger = Logger();
 
 class LandingPickup extends StatelessWidget {
-  final List<HistoryData> historyData = [
-    HistoryData(
-      time: '12.00 WIB',
-      date: '10 Juni 2024',
-      wasteType: 'Sampah Botol dan Kaca',
-      address:
-          'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-      status: 'Selesai',
-    ),
-    HistoryData(
-      time: '16.00 WIB',
-      date: '8 Juni 2024',
-      wasteType: 'Sampah Botol dan Kaca',
-      address:
-          'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-      status: 'Dibatalkan',
-    ),
-  ];
+  const LandingPickup({super.key});
 
-  LandingPickup({super.key});
+  Future<List<Map<String, dynamic>>> _getUserPickups(String status) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return [];
+
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('ajukan_pickup')
+          .where('user_id', isEqualTo: user.uid)
+          .where('status', isEqualTo: status)
+          .orderBy('tanggal_pickup')
+          .get();
+
+      return querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      logger.e('Error fetching pickups', error: e);
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,180 +43,111 @@ class LandingPickup extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: black),
           onPressed: () {
-            Navigator.pop(context); // Goes back to the previous screen
+            Navigator.pop(context); // Kembali ke layar sebelumnya
           },
         ),
         title: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24.0),
           child: Text(
-            'BijakAngkut',
+            'Jadwal Pickup',
             style: bold20.copyWith(color: black),
             textAlign: TextAlign.center,
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                      color: green,
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          spreadRadius: 0,
-                          blurRadius: 20,
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                'assets/images/truck-banner.png',
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    )),
-
-                const SizedBox(height: 24),
-                // Pickup Schedule Section
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/calendar.png',
-                      width: 20,
-                      height: 20,
-                    ),
-                    const SizedBox(width: 12),
-                    Text('Jadwal Pickup Anda', style: bold16),
-                  ],
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(20.0, 6, 20.0, 6),
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: green,
+              borderRadius: BorderRadius.circular(16.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  spreadRadius: 0,
+                  blurRadius: 20,
+                  offset: const Offset(0, 0),
                 ),
-
-                const SizedBox(height: 16),
-                Container(
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(16.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 0,
-                        blurRadius: 20,
-                        offset: const Offset(0, 0),
+              ],
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/truck-banner.png',
+                        fit: BoxFit.cover,
+                        width: double.infinity,
                       ),
                     ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hari ini - Pukul 10.00 WIB',
-                          style: bold16,
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Text('8 Juni 2024', style: regular14),
-                            const SizedBox(width: 12),
-                            Text(
-                              'Sampah Botol dan Kaca',
-                              style: regular14,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-                          style: regular14,
-                        ),
-                        const SizedBox(height: 20),
-                        Button(
-                          text: 'Selengkapnya',
-                          color: green,
-                          textColor: black,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailPickup(
-                                  status: 'Ditugaskan', // Replace with actual status if dynamic
-                                  time: '10.00 WIB',
-                                  date: '8 Juni 2024',
-                                  wasteType: 'Sampah Botol dan Kaca',
-                                  address: 'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
-
-                const SizedBox(height: 20),
-                // History Section
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/icons/clock.png',
-                          width: 20,
-                          height: 20,
-                        ),
-                        const SizedBox(width: 12),
-                        Text('Histori Pickup', style: bold16),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HistoryPickup(),
-                          ),
-                        );
-                      },
-                      child: Text('Lihat lainnya', style: regular14),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 6),
-                // History Cards
-                ...historyData.map((data) {
-                  return HistoryCard(
-                    time: data.time,
-                    date: data.date,
-                    status: data.status,
-                    wasteType: data.wasteType,
-                    address: data.address,
-                  );
-                }),
               ],
             ),
           ),
-        ),
+
+          const SizedBox(height: 24),
+
+          // Bagian Jadwal Pickup
+          Row(
+            children: [
+              Image.asset(
+                'assets/icons/calendar.png',
+                width: 20,
+                height: 20,
+              ),
+              const SizedBox(width: 12),
+              Text('Jadwal Pickup Anda', style: bold16),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+
+          FutureBuilder<List<Map<String, dynamic>>>(
+            future: _getUserPickups('pending'),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return const Center(child: Text('Error fetching Jadwal'));
+              }
+
+              List<Map<String, dynamic>> pickups = snapshot.data ?? [];
+
+              if (pickups.isEmpty) {
+                return Container(
+                  width: double.infinity,
+                  height: 80,
+                  alignment: Alignment.center,
+                  child: const Text('Data kosong', textAlign: TextAlign.center),
+                );
+              }
+
+              return Column(
+                children: pickups.map((pickup) {
+                  return Column(
+                    children: [
+                      JadwalCard(
+                        time: pickup['waktu_pickup'],
+                        date: formatPickupDate(
+                            (pickup['tanggal_pickup'] as Timestamp).toDate()),
+                        wasteType: pickup['jenis_sampah'],
+                        address: pickup['lokasi_pickup'],
+                        status: pickup['status'],
+                      ),
+                      const SizedBox(height: 8),
+                    ],
+                  );
+                }).toList(),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

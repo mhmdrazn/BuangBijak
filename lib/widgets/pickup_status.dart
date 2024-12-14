@@ -13,11 +13,11 @@ class PickupStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     Color getStatusColor() {
       switch (status) {
-        case 'Dibatalkan':
+        case 'cancel':
           return red;
-        case 'Ditugaskan':
-          return white;
-        case 'Selesai':
+        case 'pending':
+          return grey3;
+        case 'success':
           return green;
         default:
           return grey3;
@@ -29,9 +29,7 @@ class PickupStatus extends StatelessWidget {
     }
 
     Border? getStatusBorder() {
-      return status == 'Ditugaskan'
-          ? Border.all(color: grey3, width: 2)
-          : null;
+      return status == 'Ditugaskan' ? Border.all(color: grey3, width: 2) : null;
     }
 
     return Column(

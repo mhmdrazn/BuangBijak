@@ -129,28 +129,21 @@ class _PickupPageState extends State<PickupPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          elevation: 0,
           backgroundColor: white,
           centerTitle: true,
           surfaceTintColor: Colors.transparent,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: black),
             onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+              Navigator.pop(context); // Goes back to the previous screen
             },
           ),
           title: Padding(
-            padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Ajukan Pickup',
-                  style: bold20.copyWith(color: Colors.black),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(width: 24),
-              ],
+            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            child: Text(
+              'Ajukan Pickup',
+              style: bold20.copyWith(color: black),
+              textAlign: TextAlign.center,
             ),
           ),
         ),
