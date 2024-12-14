@@ -1,9 +1,18 @@
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
+
+import 'package:buang_bijak/screens/user_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import '../theme.dart';
 import '../widgets/button.dart';
 import '../widgets/pickup_status.dart';
+import 'package:logger/logger.dart';
 
-class DetailPickup extends StatelessWidget {
+final log = Logger();
+bool isLoading = false;
+
+class DetailPickup extends StatefulWidget {
   const DetailPickup({
     super.key,
     required this.status,
@@ -11,6 +20,7 @@ class DetailPickup extends StatelessWidget {
     required this.date,
     required this.wasteType,
     required this.address,
+    required this.orderId,
   });
 
   final String status;
@@ -18,14 +28,22 @@ class DetailPickup extends StatelessWidget {
   final String date;
   final String wasteType;
   final String address;
+  final String orderId;
+
+  @override
+  _DetailPickupState createState() => _DetailPickupState();
+}
+
+class _DetailPickupState extends State<DetailPickup> {
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     String message;
 
-    if (status == 'success') {
+    if (widget.status == 'success') {
       message = 'Sampahmu telah dipickup!';
-    } else if (status == 'cancel') {
+    } else if (widget.status == 'cancel') {
       message = 'Pickup telah dibatalkan';
     } else {
       message = 'Kolektor sedang dalam perjalanan!';
@@ -81,30 +99,22 @@ class DetailPickup extends StatelessWidget {
                         width: double.infinity,
                       ),
                       const SizedBox(height: 20.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '$date, $time',
-                            style: bold16,
-                            textAlign: TextAlign.left,
-                          ),
-                          const SizedBox(height: 4.0),
-                          Text(
-                            wasteType,
-                            style: regular14,
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
+                      Text(
+                        '${widget.date}, ${widget.time}',
+                        style: bold16,
                       ),
                       const SizedBox(height: 20.0),
                       Text(
-                        address,
+                        widget.wasteType,
                         style: regular14,
-                        textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: 20.0),
-                      PickupStatus(status: status),
+                      Text(
+                        widget.address,
+                        style: regular14,
+                      ),
+                      const SizedBox(height: 20.0),
+                      PickupStatus(status: widget.status),
                       const SizedBox(height: 20.0),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,8 +133,9 @@ class DetailPickup extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8.0),
-                      if (status != 'success' && status != 'cancel')
+                      const SizedBox(height: 20.0),
+                      if (widget.status != 'success' &&
+                          widget.status != 'cancel')
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -140,10 +151,11 @@ class DetailPickup extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (context) => DetailPickup(
                                         status: 'pending',
-                                        time: time,
-                                        date: date,
-                                        wasteType: wasteType,
-                                        address: address,
+                                        time: widget.time,
+                                        date: widget.date,
+                                        wasteType: widget.wasteType,
+                                        address: widget.address,
+                                        orderId: widget.orderId,
                                       ),
                                     ),
                                   );
@@ -156,24 +168,142 @@ class DetailPickup extends StatelessWidget {
                                 text: 'Batalkan Pickup',
                                 color: red,
                                 textColor: white,
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailPickup(
-                                        status: 'cancel',
-                                        time: time,
-                                        date: date,
-                                        wasteType: wasteType,
-                                        address: address,
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: Text('Konfirmasi Penghapusan',
+                                          style: bold16.copyWith(
+                                              fontWeight: FontWeight.bold)),
+                                      content: RichText(
+                                        text: TextSpan(
+                                          style: regular14.copyWith(
+                                              color: Colors.black),
+                                          children: [
+                                            TextSpan(
+                                                text: 'Membatalkan berarti '),
+                                            TextSpan(
+                                              text: 'menghapus/membatalkan',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            TextSpan(text: ' order dan'),
+                                            TextSpan(
+                                              text: ' tidak akan ada',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            TextSpan(
+                                                text:
+                                                    ' dalam history. Aksi ini '),
+                                            TextSpan(
+                                              text: 'tidak dapat dipulihkan',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            TextSpan(text: '.'),
+                                          ],
+                                        ),
                                       ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(false),
+                                          child: Text('Batal',
+                                              style: regular14.copyWith(
+                                                  color: Colors.black45)),
+                                        ),
+                                        TextButton(
+                                          onPressed: isLoading
+                                              ? null
+                                              : () async {
+                                                  setState(() {
+                                                    isLoading = true;
+                                                  });
+
+                                                  try {
+                                                    final user = FirebaseAuth
+                                                        .instance.currentUser;
+
+                                                    if (user != null) {
+                                                      QuerySnapshot snapshot =
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'ajukan_pickup')
+                                                              .where('user_id',
+                                                                  isEqualTo:
+                                                                      user.uid)
+                                                              .where('status',
+                                                                  isEqualTo:
+                                                                      'pending')
+                                                              .limit(1)
+                                                              .get();
+
+                                                      if (snapshot
+                                                          .docs.isNotEmpty) {
+                                                        DocumentSnapshot doc =
+                                                            snapshot.docs.first;
+                                                        String orderId = doc.id;
+
+                                                        await doc.reference
+                                                            .delete();
+
+                                                        Navigator.of(context)
+                                                            .pop(true);
+
+                                                        Navigator.of(context)
+                                                            .pushAndRemoveUntil(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  UserScreen()),
+                                                          (route) => false,
+                                                        );
+
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                                'Order ID $orderId telah berhasil dihapus'),
+                                                            duration:
+                                                                const Duration(
+                                                                    seconds: 3),
+                                                          ),
+                                                        );
+                                                      }
+                                                    }
+                                                  } catch (e) {
+                                                    log.e(
+                                                        'Failed to delete pickup order.',
+                                                        error: e);
+                                                  } finally {
+                                                    setState(() {
+                                                      isLoading = false;
+                                                    });
+                                                  }
+                                                },
+                                          child: isLoading
+                                              ? Row(
+                                                  children: [
+                                                    CircularProgressIndicator(
+                                                      color: Colors.red,
+                                                      strokeWidth: 2,
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    Text('Yakin'),
+                                                  ],
+                                                )
+                                              : Text('Yakin'),
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
                               ),
                             ),
                           ],
-                        )
+                        ),
                     ],
                   ),
                 ),

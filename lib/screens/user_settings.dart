@@ -264,7 +264,9 @@ class UserSettingsState extends State<UserSettings> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: const Text('Konfirmasi'),
+                                        title: Text('Konfirmasi Keluar',
+                                            style: bold16.copyWith(
+                                                fontWeight: FontWeight.bold)),
                                         content: const Text(
                                             'Apakah kamu yakin ingin keluar?'),
                                         actions: [
@@ -273,7 +275,9 @@ class UserSettingsState extends State<UserSettings> {
                                               Navigator.of(context)
                                                   .pop(); // Tutup dialog
                                             },
-                                            child: const Text('Batal'),
+                                            child: Text('Batal',
+                                                style: regular14.copyWith(
+                                                    color: Colors.black45)),
                                           ),
                                           TextButton(
                                             onPressed: () async {
@@ -291,7 +295,9 @@ class UserSettingsState extends State<UserSettings> {
                                                 );
                                               }
                                             },
-                                            child: const Text('Yakin'),
+                                            child: Text('Yakin',
+                                                style: regular14.copyWith(
+                                                    color: Colors.red)),
                                           ),
                                         ],
                                       );

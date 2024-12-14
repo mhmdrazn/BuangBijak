@@ -13,6 +13,7 @@ class BottomButton extends StatelessWidget {
     required this.color,
     this.borderColor = Colors.transparent,
     required this.onPressed,
+    CircularProgressIndicator? child,
   });
 
   @override

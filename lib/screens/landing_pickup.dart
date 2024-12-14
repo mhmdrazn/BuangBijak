@@ -107,6 +107,7 @@ class LandingPickup extends StatelessWidget {
 
           const SizedBox(height: 16),
 
+          // Jadwal Pickup
           FutureBuilder<List<Map<String, dynamic>>>(
             future: _getUserPickups('pending'),
             builder: (context, snapshot) {
@@ -139,6 +140,7 @@ class LandingPickup extends StatelessWidget {
                         wasteType: pickup['jenis_sampah'],
                         address: pickup['lokasi_pickup'],
                         status: pickup['status'],
+                        orderId: pickup['order_id'],
                       ),
                       const SizedBox(height: 8),
                     ],

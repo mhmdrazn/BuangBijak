@@ -1,4 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api, deprecated_member_use, use_build_context_synchronously
+import 'package:buang_bijak/screens/user_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,6 +21,7 @@ class _PickupPageState extends State<PickupPage> {
   String? selectedWasteType;
   TextEditingController locationController = TextEditingController();
   DateTime? selectedDate;
+  bool _isLoading = false;
 
   // Mengajukan Pickup ke Firestore
   Future<void> submitPickupRequest() async {
@@ -34,7 +36,10 @@ class _PickupPageState extends State<PickupPage> {
     }
 
     try {
-      // Ambil UID dari pengguna yang sedang login
+      setState(() {
+        _isLoading = true; // Aktifkan state loading dan disable button
+      });
+
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -106,16 +111,28 @@ class _PickupPageState extends State<PickupPage> {
             content: Text('Pickup berhasil diajukan dengan Order ID $orderId')),
       );
 
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => UserScreen()),
+        (route) => false,
+      );
+
       locationController.clear();
       setState(() {
         selectedDate = null;
         selectedTimeSlot = null;
         selectedWasteType = null;
+        _isLoading = false; // Nonaktifkan loading setelah submit selesai
       });
     } catch (e) {
+      setState(() {
+        _isLoading = false; // Pastikan loading dinonaktifkan saat error
+      });
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Terjadi kesalahan saat submit pickup')),
       );
+
+      Navigator.pop(context);
     }
   }
 
@@ -275,9 +292,14 @@ class _PickupPageState extends State<PickupPage> {
                 padding: const EdgeInsets.all(16.0),
                 color: Colors.white,
                 child: BottomButton(
-                  text: 'Ajukan Pickup',
+                  text: _isLoading ? '' : 'Ajukan Pickup',
                   color: Color(0xFFCCE400),
-                  onPressed: submitPickupRequest,
+                  onPressed: _isLoading ? null : submitPickupRequest,
+                  child: _isLoading
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : null,
                 ),
               ),
             ],
