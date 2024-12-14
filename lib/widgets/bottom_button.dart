@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
 
-class BottomButton extends StatelessWidget{
+class BottomButton extends StatelessWidget {
   final String text;
   final Color color;
   final Color borderColor;
+  final Future<void> Function()? onPressed;
 
   const BottomButton({
-    super.key, 
+    super.key,
     required this.text,
     required this.color,
     this.borderColor = Colors.transparent,
-
+    required this.onPressed,
   });
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         foregroundColor: color == Colors.white ? green : Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 20), // padding vertikal dan horizontal 
-        minimumSize: const Size(0, 36), // set minimum size agar konsisten
-        side: BorderSide(color: borderColor, width: 1), // ketebalan border outline
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        side: BorderSide(color: borderColor, width: 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), // Rounded corners
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
       child: Text(
         text,
-        style: bold16.copyWith(color: color == Colors.black ? green : Colors.black),
+        style: bold16.copyWith(
+            color: color == Colors.black ? green : Colors.black),
       ),
-    ); 
+    );
   }
 }
