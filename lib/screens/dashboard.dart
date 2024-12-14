@@ -1,12 +1,19 @@
-import 'package:buang_bijak/screens/user_screen.dart';
+// ignore_for_file: deprecated_member_use
+
 import 'package:buang_bijak/screens/user_settings.dart';
 import "package:flutter/material.dart";
 import '../screens/dashboard_detail.dart';
 import '../models/dashboard.dart';
 import '../widgets/dashboard_card.dart';
+import 'package:flutter/services.dart'; // Untuk SystemNavigator.pop()
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
+
+  Future<bool> _onWillPop() async {
+    SystemNavigator.pop(); // Keluar dari aplikasi
+    return Future.value(true); // Mengizinkan aksi back
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,63 +41,63 @@ class Dashboard extends StatelessWidget {
       ),
     ];
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // AppBar tanpa tombol back di kiri
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        automaticallyImplyLeading: false, // Menghilangkan tombol back
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Column(
-              children: dashboardData
-                  .map((data) => Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: DashboardCard(
-                          iconPath: 'assets/icons/calendar.png',
-                          date: data.date,
-                          details: data.wasteType,
-                          address: data.address,
-                          status: data.status,
-                          buttonText: 'Lihat Detail',
-                          buttonAction: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const DashboardDetail(),
-                              ),
-                            );
-                          },
-                        ),
-                      ))
-                  .toList(),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('Dashboard'),
+          automaticallyImplyLeading: false, // Menghilangkan tombol back
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Column(
+                children: dashboardData
+                    .map((data) => Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: DashboardCard(
+                            iconPath: 'assets/icons/calendar.png',
+                            date: data.date,
+                            details: data.wasteType,
+                            address: data.address,
+                            status: data.status,
+                            buttonText: 'Lihat Detail',
+                            buttonAction: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const DashboardDetail(),
+                                ),
+                              );
+                            },
+                          ),
+                        ))
+                    .toList(),
+              ),
             ),
           ),
         ),
-      ),
-
-      // Floating Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Dashboard'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Dashboard()),
-            );
-          } else if (index == 1) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const UserSettings()),
-            );
-          }
-        },
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Dashboard'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ],
+          onTap: (index) {
+            if (index == 0) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const Dashboard()),
+              );
+            } else if (index == 1) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const UserSettings()),
+              );
+            }
+          },
+        ),
       ),
     );
   }

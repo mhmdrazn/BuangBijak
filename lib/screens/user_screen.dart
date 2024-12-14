@@ -1,18 +1,47 @@
-// ignore_for_file: deprecated_member_use
-
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+import 'package:buang_bijak/screens/dashboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:buang_bijak/widgets/home_app_bar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/navigation_buttons.dart';
 import '../screens/history_pickup.dart';
 import '../widgets/jadwal_card.dart';
 import '../theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:buang_bijak/widgets/history_card.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
 
   Future<bool> _onWillPop(BuildContext context) async {
-    // Mengarahkan kembali ke route utama '/'
-    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        final isAdmin = userDoc['isAdmin'] ?? false;
+
+        if (isAdmin) {
+          // Jika isAdmin true, tampilkan Dashboard
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Dashboard()),
+          );
+        } else {
+          // Jika isAdmin false, kembali ke route utama '/'
+          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+        }
+      } catch (e) {
+        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+      }
+    } else {
+      // Jika user null atau tidak ada kondisi yang terpenuhi, keluar aplikasi
+      SystemNavigator.pop();
+    }
     return false;
   }
 
@@ -33,7 +62,7 @@ class UserScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 8),
                   const NavigationButtons(),
                   const SizedBox(height: 28),
                   Row(
@@ -62,6 +91,38 @@ class UserScreen extends StatelessWidget {
                     address: 'Jl. Sutorejo Tengah No.10, Surabaya',
                     status: 'Ditugaskan',
                   ),
+                  const SizedBox(height: 16),
+                  const ImageBanner(),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Histori Pickup',
+                        style: bold16,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HistoryPickup(),
+                            ),
+                          );
+                        },
+                        child: Text('Lihat lainnya',
+                            style: regular12.copyWith(color: grey2)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  const HistoryCard(
+                      time: 'Pukul 10.00 WIB',
+                      status: 'Selesai',
+                      date: '10 Juni 2024',
+                      wasteType: 'Sampah Botol dan Kaca',
+                      address:
+                          'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113'),
                   const SizedBox(height: 80),
                 ],
               ),

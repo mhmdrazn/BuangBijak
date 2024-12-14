@@ -25,10 +25,22 @@ class SplashScreen extends StatelessWidget {
     Future.delayed(const Duration(seconds: 5), () {
       if (!context.mounted) return;
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
+      // Periksa apakah user masih login
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        // User masih login, arahkan ke halaman utama
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const HomeScreen(isAdmin: false)),
+        );
+      } else {
+        // User belum login, arahkan ke halaman login
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      }
     });
 
     return Scaffold(
@@ -37,7 +49,7 @@ class SplashScreen extends StatelessWidget {
           Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
-              padding: EdgeInsets.zero, // Remove any padding
+              padding: EdgeInsets.zero,
               child: Image.asset(
                 'assets/images/gambarlanding.png',
                 width: 344,

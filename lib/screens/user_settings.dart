@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, duplicate_ignore
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +44,26 @@ class UserSettingsState extends State<UserSettings> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Arahkan ke home ketika back button ditekan
-        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-        return false; // Menghindari keluar aplikasi
+        // Periksa apakah user adalah admin
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          final userDoc = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+
+          // Periksa nilai isAdmin
+          final bool isAdmin = userDoc.data()?['isAdmin'] ?? false;
+
+          // Arahkan berdasarkan status isAdmin
+          if (isAdmin) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/dashboard', (route) => false);
+          } else {
+            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          }
+        }
+        return false; // Mencegah keluar dari aplikasi
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -57,8 +74,24 @@ class UserSettingsState extends State<UserSettings> {
           surfaceTintColor: Colors.transparent,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: black),
-            onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+            onPressed: () async {
+              final user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                final userDoc = await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .get();
+
+                final bool isAdmin = userDoc.data()?['isAdmin'] ?? false;
+
+                if (isAdmin) {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/dashboard', (route) => false);
+                } else {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/', (route) => false);
+                }
+              }
             },
           ),
           title: Padding(
