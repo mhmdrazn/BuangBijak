@@ -19,6 +19,7 @@ class DashboardDetail extends StatelessWidget {
   final String wasteType;
   final String address;
 
+
   @override
   Widget build(BuildContext context) {
     String message;
@@ -137,12 +138,10 @@ class DashboardDetail extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Button(
-                            text: 'Reschedule',
-                            color: white,
-                            borderColor: grey3,
-                            textColor: black,
+                            text: 'Tolak Pickup',
+                            color: red,
+                            textColor: white,
                             onPressed: () {
-                              
                             },
                           ),
                         ),
@@ -158,17 +157,6 @@ class DashboardDetail extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Button(
-                        text: 'Batalkan Pickup',
-                        color: red,
-                        textColor: white,
-                        onPressed: () {
-                        },
-                      ),
                     ),
                   ],
                 ),

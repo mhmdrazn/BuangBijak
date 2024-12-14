@@ -104,6 +104,7 @@ class _PickupPageState extends State<PickupPage> {
         'user_id': userId,
         'isRevised': false,
         'status': 'pending',
+        'rejectedReason': '',
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
