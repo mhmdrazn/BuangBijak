@@ -85,9 +85,11 @@ class UserScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 8),
+
                   const NavigationButtons(),
 
                   const SizedBox(height: 28),
+
                   Row(
                     children: [
                       Image.asset('assets/icons/calendar.png',

@@ -1,5 +1,4 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously, duplicate_ignore
-
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +15,7 @@ class UserSettings extends StatefulWidget {
 
 class UserSettingsState extends State<UserSettings> {
   String username = ''; // Initialize username as an empty string
+  String email = ''; // Initialize email as an empty string
 
   @override
   void initState() {
@@ -35,6 +35,8 @@ class UserSettingsState extends State<UserSettings> {
         setState(() {
           username =
               userDoc['username'] ?? 'Pengguna'; // Get username from Firestore
+          email = userDoc['email'] ??
+              'user@gmail.com'; // Get email from Firebase Auth
         });
       }
     }
@@ -137,11 +139,18 @@ class UserSettingsState extends State<UserSettings> {
                         child: Row(
                           children: [
                             // Profile Picture
-                            const CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(
-                                '../assets/profile_picture.png',
-                              ), // Replace with your asset
+                            ClipOval(
+                              child: Image.asset(
+                                'assets/images/profile_picture.png',
+                                width: 30, // Sesuaikan ukuran
+                                height: 30,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(
+                                  Icons.person,
+                                  size: 30,
+                                ),
+                              ),
                             ),
                             const SizedBox(width: 16),
                             // User Info
@@ -155,7 +164,7 @@ class UserSettingsState extends State<UserSettings> {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    'Jl. Sutorejo Tengah No.10, Dukuh, Kec.\nMulyorejo, Surabaya, Jawa Timur 60113',
+                                    email,
                                     style: regular12,
                                   ),
                                 ],
@@ -251,19 +260,43 @@ class UserSettingsState extends State<UserSettings> {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Button(
                                 onPressed: () async {
-                                  // Log out the user
-                                  await FirebaseAuth.instance.signOut();
-
-                                  if (mounted) {
-                                    // Navigate to login or splash screen after logging out
-                                    Navigator.pushReplacement(
-                                      // ignore: use_build_context_synchronously
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => LoginScreen(),
-                                      ),
-                                    );
-                                  }
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Konfirmasi'),
+                                        content: const Text(
+                                            'Apakah kamu yakin ingin keluar?'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Tutup dialog
+                                            },
+                                            child: const Text('Batal'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              Navigator.of(context)
+                                                  .pop(); // Tutup dialog
+                                              await FirebaseAuth.instance
+                                                  .signOut(); // Logout pengguna
+                                              if (mounted) {
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LoginScreen(),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: const Text('Yakin'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                                 color: red,
                                 text: 'Keluar'),
