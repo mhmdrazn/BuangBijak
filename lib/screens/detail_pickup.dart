@@ -134,6 +134,15 @@ class _DetailPickupState extends State<DetailPickup> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        'Order ID:',
+                        style: regular10,
+                      ),
+                      Text(
+                        widget.orderId,
+                        style: regular10,
+                      ),
                       const SizedBox(height: 20.0),
                       if (widget.status != 'success' &&
                           widget.status != 'cancel')
@@ -227,52 +236,70 @@ class _DetailPickupState extends State<DetailPickup> {
                                                         .instance.currentUser;
 
                                                     if (user != null) {
-                                                      QuerySnapshot snapshot =
-                                                          await FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'ajukan_pickup')
-                                                              .where('user_id',
-                                                                  isEqualTo:
-                                                                      user.uid)
-                                                              .where('status',
-                                                                  isEqualTo:
-                                                                      'pending')
-                                                              .limit(1)
-                                                              .get();
+                                                      log.d(
+                                                          'Trying to delete order ID: ${widget.orderId}');
 
-                                                      if (snapshot
-                                                          .docs.isNotEmpty) {
-                                                        DocumentSnapshot doc =
-                                                            snapshot.docs.first;
-                                                        String orderId = doc.id;
+                                                      // Pastikan path benar
+                                                      try {
+                                                        // Cari dokumen berdasarkan field order_id
+                                                        QuerySnapshot
+                                                            querySnapshot =
+                                                            await FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'ajukan_pickup')
+                                                                .where(
+                                                                    'order_id',
+                                                                    isEqualTo:
+                                                                        widget
+                                                                            .orderId)
+                                                                .get();
 
-                                                        await doc.reference
-                                                            .delete();
-
-                                                        Navigator.of(context)
-                                                            .pop(true);
-
-                                                        Navigator.of(context)
-                                                            .pushAndRemoveUntil(
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  UserScreen()),
-                                                          (route) => false,
-                                                        );
-
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                            content: Text(
-                                                                'Order ID $orderId telah berhasil dihapus'),
-                                                            duration:
-                                                                const Duration(
-                                                                    seconds: 3),
-                                                          ),
-                                                        );
+                                                        if (querySnapshot
+                                                            .docs.isNotEmpty) {
+                                                          for (var doc
+                                                              in querySnapshot
+                                                                  .docs) {
+                                                            await doc.reference
+                                                                .delete();
+                                                            log.d(
+                                                                'Order ID ${widget.orderId} deleted successfully');
+                                                          }
+                                                        } else {
+                                                          log.d(
+                                                              'No document found with order_id ${widget.orderId}');
+                                                        }
+                                                      } catch (e) {
+                                                        log.e(
+                                                            'Failed to delete order ID ${widget.orderId}',
+                                                            error: e);
                                                       }
+
+                                                      log.d(
+                                                          'Order ID ${widget.orderId} deleted successfully');
+
+                                                      Navigator.of(context)
+                                                          .pop(true);
+
+                                                      Navigator.of(context)
+                                                          .pushAndRemoveUntil(
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                UserScreen()),
+                                                        (route) => false,
+                                                      );
+
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                              'Order ID ${widget.orderId} telah berhasil dihapus'),
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 3),
+                                                        ),
+                                                      );
                                                     }
                                                   } catch (e) {
                                                     log.e(
