@@ -18,21 +18,42 @@ final Logger logger = Logger();
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
 
-  Future<List<Map<String, dynamic>>> _getUserPickups(String status) async {
+  Future<List<Map<String, dynamic>>> _getUserPickups(
+      {String? status1, String? status2}) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return [];
 
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('ajukan_pickup')
-          .where('user_id', isEqualTo: user.uid)
-          .where('status', isEqualTo: status)
-          .orderBy('tanggal_pickup')
-          .get();
+      List<QuerySnapshot> querySnapshots = [];
 
-      return querySnapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
+      if (status1 != null) {
+        querySnapshots.add(
+          await FirebaseFirestore.instance
+              .collection('ajukan_pickup')
+              .where('user_id', isEqualTo: user.uid)
+              .where('status', isEqualTo: status1)
+              .orderBy('tanggal_pickup')
+              .get(),
+        );
+      }
+
+      if (status2 != null) {
+        querySnapshots.add(
+          await FirebaseFirestore.instance
+              .collection('ajukan_pickup')
+              .where('user_id', isEqualTo: user.uid)
+              .where('status', isEqualTo: status2)
+              .orderBy('tanggal_pickup')
+              .get(),
+        );
+      }
+
+      List<Map<String, dynamic>> pickups = querySnapshots
+          .expand((snapshot) =>
+              snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>))
           .toList();
+
+      return pickups;
     } catch (e) {
       logger.e('Error fetching pickups', error: e);
       return [];
@@ -103,24 +124,25 @@ class UserScreen extends StatelessWidget {
 
                   // Jadwal Pickup Dinamis
                   FutureBuilder<List<Map<String, dynamic>>>(
-                    future: _getUserPickups('pending'),
+                    future: _getUserPickups(status1: 'pending'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
                       if (snapshot.hasError) {
-                        return Text('Error fetching Jadwal');
+                        return const Center(
+                            child: Text('Error fetching Jadwal'));
                       }
 
-                      List pickups = snapshot.data ?? [];
+                      List<Map<String, dynamic>> pickups = snapshot.data ?? [];
 
                       if (pickups.isEmpty) {
                         return Container(
                           width: double.infinity,
                           height: 80,
                           alignment: Alignment.center,
-                          child:
-                              Text('Data kosong', textAlign: TextAlign.center),
+                          child: const Text('Data kosong',
+                              textAlign: TextAlign.center),
                         );
                       }
 
@@ -131,10 +153,12 @@ class UserScreen extends StatelessWidget {
                               JadwalCard(
                                 time: pickup['waktu_pickup'],
                                 date: formatPickupDate(
-                                    pickup['tanggal_pickup'].toDate()),
+                                    (pickup['tanggal_pickup'] as Timestamp)
+                                        .toDate()),
                                 wasteType: pickup['jenis_sampah'],
                                 address: pickup['lokasi_pickup'],
                                 status: pickup['status'],
+                                orderId: pickup['order_id'],
                               ),
                               const SizedBox(height: 8),
                             ],
@@ -163,7 +187,8 @@ class UserScreen extends StatelessWidget {
 
                   // History Pickup Dinamis
                   FutureBuilder<List<Map<String, dynamic>>>(
-                    future: _getUserPickups('success'),
+                    future:
+                        _getUserPickups(status1: 'success', status2: 'cancel'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
@@ -195,6 +220,7 @@ class UserScreen extends StatelessWidget {
                                 wasteType: pickup['jenis_sampah'],
                                 address: pickup['lokasi_pickup'],
                                 status: pickup['status'],
+                                orderId: pickup['order_id'],
                               ),
                               const SizedBox(height: 8),
                             ],

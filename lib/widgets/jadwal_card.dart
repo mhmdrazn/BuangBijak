@@ -9,6 +9,7 @@ class JadwalCard extends StatelessWidget {
   final String wasteType;
   final String address;
   final String status;
+  final String orderId;
 
   const JadwalCard({
     super.key,
@@ -17,6 +18,7 @@ class JadwalCard extends StatelessWidget {
     required this.wasteType,
     required this.address,
     required this.status,
+    required this.orderId,
   });
 
   @override
@@ -91,6 +93,7 @@ class JadwalCard extends StatelessWidget {
                       date: date,
                       wasteType: wasteType,
                       address: address,
+                      orderId: orderId,
                     ),
                   ),
                 );

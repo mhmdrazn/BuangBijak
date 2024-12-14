@@ -36,6 +36,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
             time: args['time'] ?? '',
             wasteType: args['wasteType'] ?? '',
             address: args['address'] ?? '',
+            orderId: args['order_id'] ?? '',
           ),
         );
       }

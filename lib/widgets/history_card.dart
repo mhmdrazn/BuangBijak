@@ -9,6 +9,7 @@ class HistoryCard extends StatelessWidget {
   final String wasteType;
   final String address;
   final String date;
+  final String orderId;
 
   const HistoryCard({
     super.key,
@@ -17,6 +18,7 @@ class HistoryCard extends StatelessWidget {
     required this.wasteType,
     required this.address,
     required this.date,
+    required this.orderId,
   });
 
   @override
@@ -84,6 +86,7 @@ class HistoryCard extends StatelessWidget {
                       date: date,
                       wasteType: wasteType,
                       address: address,
+                      orderId: orderId,
                     ),
                   ),
                 );

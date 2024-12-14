@@ -129,6 +129,7 @@ class HistoryPickup extends StatelessWidget {
                         wasteType: pickup['jenis_sampah'],
                         address: pickup['lokasi_pickup'],
                         status: pickup['status'],
+                        orderId: pickup['order_id'],
                       ),
                       const SizedBox(height: 8),
                     ],
