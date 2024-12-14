@@ -22,7 +22,7 @@ class JadwalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+        decoration: BoxDecoration(
         color: white,
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [

@@ -70,16 +70,16 @@ class DashboardCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Container(
                       decoration: BoxDecoration(
-                        border: status == 'Ditugaskan' ? Border.all(
+                        border: status == 'pending' ? Border.all(
                           color: grey3,
                           width: 2,
                         ) : null,
-                        color: status == 'Dibatalkan' ? red : status == 'Ditugaskan' ? white : green,
+                        color: status == 'cancel' ? red : status == 'pending' ? white : green,
                         borderRadius: BorderRadius.circular(99),
                       ),
                       padding: const EdgeInsets.symmetric(
                           vertical: 6, horizontal: 24),
-                      child: Text(status, style: bold12.copyWith(color: status == 'Dibatalkan' ? Colors.white : black)),
+                      child: Text(status, style: bold12.copyWith(color: status == 'cancel' ? Colors.white : black)),
                     ),
                   ],
                 ),

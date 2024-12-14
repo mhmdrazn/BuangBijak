@@ -4,10 +4,33 @@ import '../widgets/button.dart';
 import '../widgets/pickup_status.dart';
 
 class DashboardDetail extends StatelessWidget {
-  const DashboardDetail({super.key});
+  const DashboardDetail({
+    super.key,
+    required this.status,
+    required this.time,
+    required this.date,
+    required this.wasteType,
+    required this.address,
+  });
+
+  final String status;
+  final String time;
+  final String date;
+  final String wasteType;
+  final String address;
 
   @override
   Widget build(BuildContext context) {
+    String message;
+
+    if (status == 'success') {
+      message = 'Sampahmu telah dipickup!';
+    } else if (status == 'cancel') {
+      message = 'Pickup telah dibatalkan';
+    } else {
+      message = 'Kolektor sedang dalam perjalanan!';
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -49,61 +72,66 @@ class DashboardDetail extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Gambar Banner
                     Image.asset(
                       'assets/images/truck-banner.png',
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
                     const SizedBox(height: 20.0),
-
-                    // Informasi Pickup
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '10 Juni 2024 - Pukul 10.00 WIB',
+                          '$date, $time',
                           style: bold16,
+                          textAlign: TextAlign.left,
                         ),
-                        const SizedBox(height: 4.0),
+                        const SizedBox(height: 8.0),
                         Text(
-                          'Sampah Kertas, Botol, dan Plastik',
-                          style: regular12,
+                          wasteType,
+                          style: regular14,
+                          textAlign: TextAlign.left,
                         ),
                       ],
                     ),
                     const SizedBox(height: 20.0),
-
-                    // Alamat Pickup
-                    Text(
-                      'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-                      style: regular16,
-                    ),
-                    const SizedBox(height: 20.0),
-
-                    // Status Pickup
-                    const PickupStatus(status: 'Ditugaskan'),
-                    const SizedBox(height: 20.0),
-
-                    // Kolektor dan Peta
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Kolektor sedang dalam perjalanan!',
-                          style: bold16,
-                        ),
-                        const SizedBox(height: 12.0),
-                        Image.asset(
-                          'assets/images/maps.png',
-                          height: 200,
-                          fit: BoxFit.cover,
+                        'Alamat',
+                        style: bold16,
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                          address,
+                          style: regular14,
+                          textAlign: TextAlign.left,
                         ),
                       ],
                     ),
                     const SizedBox(height: 20.0),
-
-                    // Tombol Aksi
+                    PickupStatus(status: status),
+                    const SizedBox(height: 20.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          message,
+                          style: bold16,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset('assets/images/maps.png',
+                                height: 200, fit: BoxFit.cover),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8.0),
+                    if (status != 'success' && status != 'cancel')
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -114,13 +142,7 @@ class DashboardDetail extends StatelessWidget {
                             borderColor: grey3,
                             textColor: black,
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DashboardDetail(),
-                                ),
-                              );
+                              
                             },
                           ),
                         ),
@@ -131,21 +153,13 @@ class DashboardDetail extends StatelessWidget {
                             color: green,
                             textColor: black,
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DashboardDetail(),
-                                ),
-                              );
+                              
                             },
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20.0),
-
-                    // Tombol Batalkan Pickup
                     SizedBox(
                       width: double.infinity,
                       child: Button(
@@ -153,12 +167,6 @@ class DashboardDetail extends StatelessWidget {
                         color: red,
                         textColor: white,
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DashboardDetail(),
-                            ),
-                          );
                         },
                       ),
                     ),

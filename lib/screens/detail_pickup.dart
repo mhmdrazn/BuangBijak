@@ -67,7 +67,6 @@ class DetailPickup extends StatelessWidget {
                       color: Colors.black.withOpacity(0.15),
                       spreadRadius: 0,
                       blurRadius: 20,
-                      offset: const Offset(0, 0),
                     ),
                   ],
                 ),

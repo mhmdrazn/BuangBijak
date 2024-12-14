@@ -3,81 +3,120 @@
 import 'package:buang_bijak/screens/user_settings.dart';
 import "package:flutter/material.dart";
 import '../screens/dashboard_detail.dart';
-import '../models/dashboard.dart';
 import '../widgets/dashboard_card.dart';
+import '../theme.dart';
 import 'package:flutter/services.dart'; // Untuk SystemNavigator.pop()
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:logger/logger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:buang_bijak/utils/date_helper.dart';
+
+final Logger logger = Logger();
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
-  Future<bool> _onWillPop() async {
-    SystemNavigator.pop(); // Keluar dari aplikasi
-    return Future.value(true); // Mengizinkan aksi back
+  Future<List<Map<String, dynamic>>> fetchPickupData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return [];
+
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('ajukan_pickup')
+          .orderBy('tanggal_pickup')
+          .get();
+
+      return querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      logger.e('Error fetching pickups', error: e);
+      return [];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<DashboardData> dashboardData = [
-      DashboardData(
-        date: 'Hari ini - Pukul 10.00 WIB',
-        wasteType: '12 Juni 2024 - Sampah Kertas, Botol, dan Plastik',
-        address:
-            'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-        status: 'Ditugaskan',
-      ),
-      DashboardData(
-        date: 'Hari ini - Pukul 10.00 WIB',
-        wasteType: '16 Juni 2024 - Sampah Kertas, Botol, dan Plastik',
-        address:
-            'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-        status: 'Selesai',
-      ),
-      DashboardData(
-        date: 'Hari ini - Pukul 10.00 WIB',
-        wasteType: '8 Juni 2024 - Sampah Kertas, Botol, dan Plastik',
-        address:
-            'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113',
-        status: 'Dibatalkan',
-      ),
-    ];
-
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: () async {
+        SystemNavigator.pop(); // Keluar dari aplikasi
+        return Future.value(true); // Mengizinkan aksi back
+      },
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Dashboard'),
-          automaticallyImplyLeading: false, // Menghilangkan tombol back
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 600),
-              child: Column(
-                children: dashboardData
-                    .map((data) => Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: DashboardCard(
-                            iconPath: 'assets/icons/calendar.png',
-                            date: data.date,
-                            details: data.wasteType,
-                            address: data.address,
-                            status: data.status,
-                            buttonText: 'Lihat Detail',
-                            buttonAction: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const DashboardDetail(),
-                                ),
-                              );
-                            },
-                          ),
-                        ))
-                    .toList(),
-              ),
+          backgroundColor: white,
+          centerTitle: true,
+          surfaceTintColor: Colors.transparent,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: black),
+            onPressed: () {
+              Navigator.pop(context); // Kembali ke layar sebelumnya
+            },
+          ),
+          title: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            child: Text(
+              'Jadwal Pickup',
+              style: bold20.copyWith(color: black),
+              textAlign: TextAlign.center,
             ),
           ),
+        ),
+        body: FutureBuilder<List<Map<String, dynamic>>>(
+          future: fetchPickupData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Terjadi kesalahan: ${snapshot.error}'),
+              );
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('Tidak ada data pickup.'));
+            }
+
+            List<Map<String, dynamic>> dashboardData = snapshot.data ?? [];
+            return SingleChildScrollView(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: Column(
+                    children: dashboardData.map((data) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+                        child: 
+                        DashboardCard(
+                          iconPath: 'assets/icons/calendar.png',
+                          date: formatPickupDate(
+                                  data['tanggal_pickup'].toDate()),
+                          details: data['jenis_sampah'],
+                          address: data['lokasi_pickup'],
+                          status: data['status'],
+                          buttonText: 'Lihat Detail',
+                          buttonAction: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DashboardDetail(
+                                  status: data['status'],
+                                  wasteType: data['jenis_sampah'],
+                                  address: data['lokasi_pickup'],
+                                  date: formatPickupDate(
+                                    data['tanggal_pickup'].toDate()),
+                                  time: data['waktu_pickup'],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: const [

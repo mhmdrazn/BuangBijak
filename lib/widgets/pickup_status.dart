@@ -25,11 +25,11 @@ class PickupStatus extends StatelessWidget {
     }
 
     Color getTextColor() {
-      return status == 'Dibatalkan' ? Colors.white : black;
+      return status == 'cancel' ? Colors.white : black;
     }
 
     Border? getStatusBorder() {
-      return status == 'Ditugaskan' ? Border.all(color: grey3, width: 2) : null;
+      return status == 'pending' ? Border.all(color: grey3, width: 2) : null;
     }
 
     return Column(
