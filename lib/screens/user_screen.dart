@@ -257,8 +257,8 @@ class UserScreen extends StatelessWidget {
                   items: const [
                     BottomNavigationBarItem(
                         icon: Icon(Icons.home), label: 'Beranda'),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.inbox), label: 'Pickup'),
+                    // BottomNavigationBarItem(
+                    //     icon: Icon(Icons.inbox), label: 'Pickup'),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.person), label: 'Profile'),
                   ],
@@ -268,10 +268,10 @@ class UserScreen extends StatelessWidget {
                       case 0:
                         routeName = '/';
                         break;
+                      // case 1:
+                      //   routeName = '/ajukan-pickup';
+                      //   break;
                       case 1:
-                        routeName = '/ajukan-pickup';
-                        break;
-                      case 2:
                         routeName = '/profil-saya';
                         break;
                       default:
