@@ -51,7 +51,7 @@ class HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: 224,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -85,10 +85,22 @@ class HomeAppBarState extends State<HomeAppBar> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const SizedBox(height: 16),
                 username.isEmpty
                     ? const CircularProgressIndicator() // Show loading if username is not yet loaded
-                    : Text('${getGreeting()}\n$username!',
-                        style: bold20.copyWith(fontSize: 24)),
+                    : Text(
+                        '${getGreeting()}\n$username!',
+                        style: bold20.copyWith(
+                          fontSize: 24,
+                          shadows: [
+                            Shadow(
+                              offset: const Offset(1, 1),
+                              color: Colors.white.withOpacity(1),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                      ),
                 const SizedBox(height: 16),
                 TextField(
                   decoration: InputDecoration(

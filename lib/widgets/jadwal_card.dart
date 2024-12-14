@@ -43,25 +43,28 @@ class JadwalCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  time, style: bold16,
+                  time,
+                  style: bold16,
                 ),
-      
                 Container(
                   decoration: BoxDecoration(
-                      color: status == 'Selesai' ? green : status == 'Ditugaskan' ? grey3 : red,
-                      borderRadius: BorderRadius.circular(99),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12), 
-                    child: Text(status, style: bold12.copyWith(color: black)),
+                    color: status == 'success'
+                        ? green
+                        : status == 'pending'
+                            ? grey3
+                            : red,
+                    borderRadius: BorderRadius.circular(99),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                  child: Text(status, style: bold12.copyWith(color: black)),
                 )
-      
               ],
             ),
             const SizedBox(height: 8),
             Row(
               children: [
-                Text(date, style: regular14),
-                const SizedBox(width: 12),
+                Text('$date - ', style: regular14),
                 Text(
                   wasteType,
                   style: regular14,

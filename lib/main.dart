@@ -3,13 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:buang_bijak/firebase_options.dart';
 import 'package:buang_bijak/routes/routes.dart';
 import 'package:buang_bijak/screens/not_found.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:logger/logger.dart';
+
+final Logger logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
+
+  try {
+    // Inisialisasi Locale Indonesia
+    await initializeDateFormatting('id_ID', null);
+
+    // Inisialisasi Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    runApp(const MyApp());
+  } catch (e) {
+    logger.e('Failed to initialize app', error: e);
+  }
 }
 
 class MyApp extends StatelessWidget {

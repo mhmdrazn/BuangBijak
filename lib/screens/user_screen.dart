@@ -1,18 +1,43 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
+
 import 'package:buang_bijak/screens/dashboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:buang_bijak/widgets/home_app_bar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/navigation_buttons.dart';
-import '../screens/history_pickup.dart';
 import '../widgets/jadwal_card.dart';
 import '../theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:buang_bijak/widgets/history_card.dart';
+import 'package:buang_bijak/utils/date_helper.dart';
+import 'package:logger/logger.dart';
+
+final Logger logger = Logger();
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
+
+  Future<List<Map<String, dynamic>>> _getUserPickups(String status) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return [];
+
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('ajukan_pickup')
+          .where('user_id', isEqualTo: user.uid)
+          .where('status', isEqualTo: status)
+          .orderBy('tanggal_pickup')
+          .get();
+
+      return querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      logger.e('Error fetching pickups', error: e);
+      return [];
+    }
+  }
 
   Future<bool> _onWillPop(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;
@@ -26,20 +51,17 @@ class UserScreen extends StatelessWidget {
         final isAdmin = userDoc['isAdmin'] ?? false;
 
         if (isAdmin) {
-          // Jika isAdmin true, tampilkan Dashboard
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Dashboard()),
           );
         } else {
-          // Jika isAdmin false, kembali ke route utama '/'
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         }
       } catch (e) {
         Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
       }
     } else {
-      // Jika user null atau tidak ada kondisi yang terpenuhi, keluar aplikasi
       SystemNavigator.pop();
     }
     return false;
@@ -64,65 +86,121 @@ class UserScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 8),
                   const NavigationButtons(),
+
                   const SizedBox(height: 28),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Image.asset('assets/icons/calendar.png',
+                          width: 20, height: 20),
+                      const SizedBox(width: 12),
                       Text('Jadwal Angkut Sampah Anda', style: bold16),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HistoryPickup(),
-                            ),
-                          );
-                        },
-                        child: Text('Lihat lainnya',
-                            style: regular12.copyWith(color: grey2)),
-                      ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  const JadwalCard(
-                    date: '13 Juni 2024',
-                    time: 'Hari Ini - Pukul 10.00 WIB',
-                    wasteType: 'Sampah Botol dan Kaca',
-                    address: 'Jl. Sutorejo Tengah No.10, Surabaya',
-                    status: 'Ditugaskan',
+
+                  const SizedBox(height: 8),
+
+                  // Jadwal Pickup Dinamis
+                  FutureBuilder<List<Map<String, dynamic>>>(
+                    future: _getUserPickups('pending'),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error fetching Jadwal');
+                      }
+
+                      List pickups = snapshot.data ?? [];
+
+                      if (pickups.isEmpty) {
+                        return Container(
+                          width: double.infinity,
+                          height: 80,
+                          alignment: Alignment.center,
+                          child:
+                              Text('Data kosong', textAlign: TextAlign.center),
+                        );
+                      }
+
+                      return Column(
+                        children: pickups.map((pickup) {
+                          return Column(
+                            children: [
+                              JadwalCard(
+                                time: pickup['waktu_pickup'],
+                                date: formatPickupDate(
+                                    pickup['tanggal_pickup'].toDate()),
+                                wasteType: pickup['jenis_sampah'],
+                                address: pickup['lokasi_pickup'],
+                                status: pickup['status'],
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          );
+                        }).toList(),
+                      );
+                    },
                   ),
-                  const SizedBox(height: 16),
+
+                  const SizedBox(height: 20),
+
                   const ImageBanner(),
-                  const SizedBox(height: 16),
+
+                  const SizedBox(height: 20),
+
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Histori Pickup',
-                        style: bold16,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HistoryPickup(),
-                            ),
-                          );
-                        },
-                        child: Text('Lihat lainnya',
-                            style: regular12.copyWith(color: grey2)),
-                      ),
+                      Image.asset('assets/icons/clock.png',
+                          width: 20, height: 20),
+                      const SizedBox(width: 12),
+                      Text('Histori Pickup', style: bold16),
                     ],
                   ),
-                  const SizedBox(height: 6),
-                  const HistoryCard(
-                      time: 'Pukul 10.00 WIB',
-                      status: 'Selesai',
-                      date: '10 Juni 2024',
-                      wasteType: 'Sampah Botol dan Kaca',
-                      address:
-                          'Jl. Sutorejo Tengah No.10, Dukuh Sutorejo, Kec. Mulyorejo, Surabaya, Jawa Timur 60113'),
+
+                  const SizedBox(height: 8),
+
+                  // History Pickup Dinamis
+                  FutureBuilder<List<Map<String, dynamic>>>(
+                    future: _getUserPickups('success'),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error fetching History');
+                      }
+
+                      List pickups = snapshot.data ?? [];
+
+                      if (pickups.isEmpty) {
+                        return Container(
+                          width: double.infinity,
+                          height: 80,
+                          alignment: Alignment.center,
+                          child:
+                              Text('Data kosong', textAlign: TextAlign.center),
+                        );
+                      }
+
+                      return Column(
+                        children: pickups.map((pickup) {
+                          return Column(
+                            children: [
+                              HistoryCard(
+                                time: pickup['waktu_pickup'],
+                                date: formatPickupDate(
+                                    pickup['tanggal_pickup'].toDate()),
+                                wasteType: pickup['jenis_sampah'],
+                                address: pickup['lokasi_pickup'],
+                                status: pickup['status'],
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 80),
                 ],
               ),
@@ -195,30 +273,23 @@ class ImageBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Teks dengan padding
           Expanded(
-            flex: 2, // Proporsi lebih besar untuk teks
+            flex: 2,
             child: Padding(
               padding: EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Track dan Kelola\nSampah Mu!',
-                    style: bold16,
-                  ),
+                  Text('Track dan Kelola\nSampah Mu!', style: bold16),
                   SizedBox(height: 8),
-                  Text(
-                    'Lacak Sampah dan Dukung\nLingkungan Lebih Bersih.',
-                    style: regular14,
-                  ),
+                  Text('Lacak Sampah dan Dukung\nLingkungan Lebih Bersih.',
+                      style: regular14),
                 ],
               ),
             ),
           ),
-          // Gambar tanpa padding
           Expanded(
-            flex: 1, // Proporsi lebih kecil untuk gambar
+            flex: 1,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(12),
@@ -227,7 +298,7 @@ class ImageBanner extends StatelessWidget {
               child: Image.asset(
                 'assets/images/girl_with_green_shirt.png',
                 height: 180,
-                fit: BoxFit.cover, // Gambar akan mengisi ruang dengan baik
+                fit: BoxFit.cover,
               ),
             ),
           ),

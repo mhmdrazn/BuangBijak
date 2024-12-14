@@ -1,10 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:buang_bijak/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:buang_bijak/screens/home_screen.dart';
 // import 'package:buang_bijak/screens/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:logger/logger.dart';
 import 'package:buang_bijak/widgets/button.dart';
 
 class LoginSignup extends StatelessWidget {
@@ -100,7 +101,6 @@ class LoginScreen extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          // If user is logged in, retrieve user data from Firestore
           return FutureBuilder<DocumentSnapshot>(
             future: FirebaseFirestore.instance
                 .collection('users')
@@ -112,15 +112,7 @@ class LoginScreen extends StatelessWidget {
               }
 
               if (userSnapshot.hasData) {
-                // You can access user data here
-                final userData =
-                    userSnapshot.data?.data() as Map<String, dynamic>;
-                final logger = Logger();
-
-                logger.d('User Data: $userData');
-                return const HomeScreen(
-                  isAdmin: false,
-                ); // Navigate to HomeScreen
+                return const HomeScreen(isAdmin: false);
               }
 
               return const Center(child: Text('No user data found.'));
@@ -232,7 +224,12 @@ class LoginScreen extends StatelessWidget {
                           }
 
                           try {
-                            // Authenticate the user
+                            showDialog(
+                              context: context,
+                              builder: (context) => const Center(
+                                  child: CircularProgressIndicator()),
+                            );
+
                             UserCredential userCredential = await FirebaseAuth
                                 .instance
                                 .signInWithEmailAndPassword(
@@ -243,51 +240,62 @@ class LoginScreen extends StatelessWidget {
                             final user = userCredential.user;
 
                             if (user != null) {
-                              // Check if the user is an admin
                               final userDoc = await FirebaseFirestore.instance
-                                  .collection(
-                                      'users') // Ensure your collection is named "users"
+                                  .collection('users')
                                   .doc(user.uid)
                                   .get();
 
-                              if (userDoc.exists &&
-                                  userDoc['isAdmin'] == true) {
-                                // Tambahkan kode untuk menyimpan status admin
-                                await userDoc.reference
-                                    .update({'isAdmin': true});
-
-                                if (context.mounted) {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const HomeScreen(
-                                              isAdmin: false,
-                                            )),
-                                  );
-                                }
-                              } else {
-                                // Tambahkan kode untuk menyimpan status non-admin
-                                await userDoc.reference
-                                    .update({'isAdmin': false});
-
-                                if (context.mounted) {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const HomeScreen(
-                                              isAdmin: false,
-                                            )),
-                                  );
+                              if (userDoc.exists) {
+                                if (userDoc['isAdmin'] == true) {
+                                  await userDoc.reference
+                                      .update({'isAdmin': true});
+                                  if (context.mounted) {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomeScreen(isAdmin: true)),
+                                    );
+                                  }
+                                } else {
+                                  await userDoc.reference
+                                      .update({'isAdmin': false});
+                                  if (context.mounted) {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomeScreen(isAdmin: false)),
+                                    );
+                                  }
                                 }
                               }
                             }
                           } catch (e) {
+                            String errorMessage =
+                                'Terjadi kesalahan. Silakan coba lagi.';
+                            if (e is FirebaseAuthException) {
+                              switch (e.code) {
+                                case 'user-not-found':
+                                  errorMessage = 'Pengguna tidak ditemukan.';
+                                  break;
+                                case 'wrong-password':
+                                  errorMessage = 'Kata sandi atau email salah.';
+                                  break;
+                                case 'invalid-email':
+                                  errorMessage = 'Kata sandi atau email salah.';
+                                  break;
+                              }
+                            }
+
+                            Navigator.pop(context);
+
                             if (context.mounted) {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: const Text('Login Failed'),
-                                  content: Text(e.toString()),
+                                  title: const Text('Login Gagal'),
+                                  content: Text(errorMessage),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),
@@ -312,9 +320,7 @@ class LoginScreen extends StatelessWidget {
                         },
                         child: Text(
                           'Belum mempunyai akun? Daftar',
-                          style: bold14.copyWith(
-                            color: grey2,
-                          ),
+                          style: bold14.copyWith(color: grey2),
                         ),
                       ),
                     ],
@@ -512,7 +518,6 @@ class RegistrationScreen extends StatelessWidget {
                         }
                       } catch (e) {
                         showDialog(
-                          // ignore: use_build_context_synchronously
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Registration Failed'),
