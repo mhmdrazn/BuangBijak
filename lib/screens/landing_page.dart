@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:buang_bijak/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:buang_bijak/screens/home_screen.dart';
-import 'package:buang_bijak/screens/dashboard.dart';
+// import 'package:buang_bijak/screens/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 import 'package:buang_bijak/widgets/button.dart';
@@ -32,7 +32,9 @@ class SplashScreen extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => const HomeScreen(isAdmin: false)),
+              builder: (context) => const HomeScreen(
+                    isAdmin: false,
+                  )),
         );
       } else {
         // User belum login, arahkan ke halaman login
@@ -250,16 +252,24 @@ class LoginScreen extends StatelessWidget {
 
                               if (userDoc.exists &&
                                   userDoc['isAdmin'] == true) {
-                                // Redirect to AdminDashboard if isAdmin is true
+                                // Tambahkan kode untuk menyimpan status admin
+                                await userDoc.reference
+                                    .update({'isAdmin': true});
+
                                 if (context.mounted) {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Dashboard()),
+                                        builder: (context) => const HomeScreen(
+                                              isAdmin: false,
+                                            )),
                                   );
                                 }
                               } else {
-                                // Redirect to HomeScreen for regular users
+                                // Tambahkan kode untuk menyimpan status non-admin
+                                await userDoc.reference
+                                    .update({'isAdmin': false});
+
                                 if (context.mounted) {
                                   Navigator.pushReplacement(
                                     context,
