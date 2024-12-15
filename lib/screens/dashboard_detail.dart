@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../theme.dart';
 import '../widgets/button.dart';
 import '../widgets/pickup_status.dart';
-import '../theme.dart';
 
 class DashboardDetail extends StatelessWidget {
   const DashboardDetail({
@@ -236,6 +235,7 @@ class DashboardDetail extends StatelessWidget {
           .get();
 
       if (querySnapshot.docs.isEmpty) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Data tidak ditemukan')),
         );
@@ -273,7 +273,6 @@ class DashboardDetail extends StatelessWidget {
   }
 
   void _showAcceptDialog(BuildContext context) {
-    final TextEditingController reasonController = TextEditingController();
 
     showDialog(
       context: context,
