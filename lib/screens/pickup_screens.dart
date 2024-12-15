@@ -295,7 +295,7 @@ class _PickupPageState extends State<PickupPage> {
                 child: BottomButton(
                   text: _isLoading ? '' : 'Ajukan Pickup',
                   color: Color(0xFFCCE400),
-                  onPressed: _isLoading ? null : submitPickupRequest,
+                  onPressed: _isLoading ? null : () => _showConfirmDialog(context),
                   child: _isLoading
                       ? CircularProgressIndicator(
                           color: Colors.white,
@@ -307,6 +307,43 @@ class _PickupPageState extends State<PickupPage> {
           ),
         ),
       ),
+    );
+  }
+  Future<void> _showConfirmDialog(BuildContext context) async{
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Ajukan Pickup", style: bold20),
+          backgroundColor: white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Text(
+              "Apakah data yang Anda masukkan sudah benar? Pastikan semua data sudah benar dan sesuai dengan kebutuhan Anda.",
+              style: regular14,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Batal", style: bold14.copyWith(color: black)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                submitPickupRequest();
+              },
+              child: Text("Konfirmasi", style: bold14.copyWith(color: black)),
+            ),  
+          ],
+        );
+      },
     );
   }
 }

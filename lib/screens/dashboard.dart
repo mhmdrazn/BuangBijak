@@ -76,39 +76,47 @@ class Dashboard extends StatelessWidget {
                   child: Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 600),
-                      child: Column(
-                        children: dashboardData.map((data) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
-                            child: 
-                            DashboardCard(
-                              iconPath: 'assets/icons/calendar.png',
-                              date: formatPickupDate(
-                                      data['tanggal_pickup'].toDate()),
-                              details: data['jenis_sampah'],
-                              address: data['lokasi_pickup'],
-                              status: data['status'],
-                              buttonText: 'Lihat Detail',
-                              buttonAction: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DashboardDetail(
-                                      status: data['status'],
-                                      wasteType: data['jenis_sampah'],
-                                      address: data['lokasi_pickup'],
-                                      date: formatPickupDate(
-                                        data['tanggal_pickup'].toDate()),
-                                      time: data['waktu_pickup'],
-                                      orderId: data['order_id'],
-                                    ),
+                      child:
+                        Column(
+                          children: [
+                            Column(
+                              children: dashboardData.map((data) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+                                  child: 
+                                  DashboardCard(
+                                    iconPath: 'assets/icons/calendar.png',
+                                    date: formatPickupDate(
+                                            data['tanggal_pickup'].toDate()),
+                                    details: data['jenis_sampah'],
+                                    address: data['lokasi_pickup'],
+                                    status: data['status'],
+                                    buttonText: 'Lihat Detail',
+                                    buttonAction: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DashboardDetail(
+                                            status: data['status'],
+                                            wasteType: data['jenis_sampah'],
+                                            address: data['lokasi_pickup'],
+                                            date: formatPickupDate(
+                                              data['tanggal_pickup'].toDate()),
+                                            time: data['waktu_pickup'],
+                                            orderId: data['order_id'],
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 );
-                              },
+                              }).toList(),
                             ),
-                          );
-                        }).toList(),
-                      ),
+                          const SizedBox(height: 100),
+                        ],
+                      ) 
+                      
+                      
                     ),
                   ),
                 );
