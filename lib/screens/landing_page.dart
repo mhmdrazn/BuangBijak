@@ -532,7 +532,18 @@ class RegistrationScreen extends StatelessWidget {
                   Button(
                     onPressed: () async {
                       try {
-                        final userCredential = await FirebaseAuth.instance
+                        showDialog(
+                          context: context,
+                          barrierDismissible:
+                              false, // Agar tidak dapat dismiss secara manual.
+                          builder: (context) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+
+                        // Proses registrasi Firebase
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
                             .createUserWithEmailAndPassword(
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
@@ -551,23 +562,45 @@ class RegistrationScreen extends StatelessWidget {
                             'isAdmin': false,
                           });
 
+                          Navigator.pop(context); // Menghapus dialog loading.
+
                           if (!context.mounted) return;
-                          Navigator.pop(context); // Safe navigation.
+                          Navigator.pop(
+                              context); // Kembali ke halaman sebelumnya.
                         }
                       } catch (e) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Registration Failed'),
-                            content: Text(e.toString()),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
-                        );
+                        String errorMessage =
+                            'Terjadi kesalahan. Silakan coba lagi.';
+                        if (e is FirebaseAuthException) {
+                          switch (e.code) {
+                            case 'email-already-in-use':
+                              errorMessage = 'Email sudah ada yang pakai.';
+                              break;
+                            case 'invalid-email':
+                              errorMessage = 'Email tidak valid.';
+                              break;
+                            case 'weak-password':
+                              errorMessage = 'Kata sandi terlalu lemah.';
+                              break;
+                          }
+                        }
+
+                        Navigator.pop(context); // Menghapus dialog loading.
+                        // print('Registration Error: $e');
+                        if (context.mounted) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Registration Failed'),
+                              content: Text(errorMessage),
+                              actions: [
+                                TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('OK'))
+                              ],
+                            ),
+                          );
+                        }
                       }
                     },
                     color: green,
@@ -592,6 +625,4 @@ class RegistrationScreen extends StatelessWidget {
       ),
     );
   }
-
-  void setState(Null Function() param0) {}
 }
