@@ -1,5 +1,5 @@
 name: buang_bijak
-description: "A new Flutter project."
+description: "BuangBijak adalah aplikasi pengelolaan sampah on-demand yang menghubungkan pengguna dengan layanan penjemputan sampah, membantu mengatasi masalah sampah di Indonesia, serta mendukung kebersihan lingkungan."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
