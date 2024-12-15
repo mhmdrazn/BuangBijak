@@ -57,9 +57,9 @@ class HistoryCard extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: status == 'success'
+                    color: status == 'Success'
                         ? green
-                        : status == 'pending'
+                        : status == 'Pending'
                             ? grey3
                             : red,
                     borderRadius: BorderRadius.circular(99),

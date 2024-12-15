@@ -109,7 +109,7 @@ class LandingPickup extends StatelessWidget {
 
           // Jadwal Pickup
           FutureBuilder<List<Map<String, dynamic>>>(
-            future: _getUserPickups('pending'),
+            future: _getUserPickups('Pending'),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());

@@ -44,9 +44,9 @@ class _DetailPickupState extends State<DetailPickup> {
   Widget build(BuildContext context) {
     String message;
 
-    if (widget.status == 'success') {
+    if (widget.status == 'Success') {
       message = 'Sampahmu telah dipickup!';
-    } else if (widget.status == 'cancel') {
+    } else if (widget.status == 'Cancel') {
       message = 'Pickup telah dibatalkan';
     } else {
       message = 'Kolektor sedang dalam perjalanan!';
@@ -88,7 +88,6 @@ class _DetailPickupState extends State<DetailPickup> {
                       color: Colors.black.withOpacity(0.15),
                       spreadRadius: 0,
                       blurRadius: 20,
-                      offset: const Offset(0, 0),
                     ),
                   ],
                 ),
@@ -150,8 +149,8 @@ class _DetailPickupState extends State<DetailPickup> {
                         style: regular10,
                       ),
                       const SizedBox(height: 20.0),
-                      if (widget.status != 'success' &&
-                          widget.status != 'cancel')
+                      if (widget.status != 'Success' &&
+                          widget.status != 'Cancel')
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [

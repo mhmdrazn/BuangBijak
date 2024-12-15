@@ -26,7 +26,7 @@ class JadwalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+        decoration: BoxDecoration(
         color: white,
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
@@ -52,9 +52,9 @@ class JadwalCard extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: status == 'success'
+                    color: status == 'Success'
                         ? green
-                        : status == 'pending'
+                        : status == 'Pending'
                             ? grey3
                             : red,
                     borderRadius: BorderRadius.circular(99),

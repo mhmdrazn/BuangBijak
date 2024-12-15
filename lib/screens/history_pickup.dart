@@ -98,7 +98,7 @@ class HistoryPickup extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           FutureBuilder<List<Map<String, dynamic>>>(
-            future: _getUserPickups('success'),
+            future: _getUserPickups('Success'),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());

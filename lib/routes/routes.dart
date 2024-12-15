@@ -20,14 +20,13 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/landing-pickup': (context) => LandingPickup(),
   '/history-pickup': (context) => HistoryPickup(),
   '/dashboard': (context) => const Dashboard(),
-  '/dashboard-detail': (context) => const DashboardDetail(),
   '/not-found': (context) => const NotFoundPage(),
 };
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/detail-pickup':
-      final args = settings.arguments as Map<String, String>?;
+      final args = settings.arguments as Map<String, String>?; 
       if (args != null) {
         return MaterialPageRoute(
           builder: (context) => DetailPickup(
@@ -42,6 +41,23 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
         );
       }
       return MaterialPageRoute(builder: (context) => const NotFoundPage());
+      
+    case '/dashboard-detail':
+      final args = settings.arguments as Map<String, String>?; 
+      if (args != null) {
+        return MaterialPageRoute(
+          builder: (context) => DashboardDetail(
+            status: args['status'] ?? '',
+            wasteType: args['wasteType'] ?? '',
+            address: args['address'] ?? '',
+            date: args['date'] ?? '',
+            time: args['time'] ?? '',
+            orderId: args['order_id'] ?? '',
+          ),
+        );
+      }
+      return MaterialPageRoute(builder: (context) => const NotFoundPage());
+
     default:
       return MaterialPageRoute(builder: (context) => const NotFoundPage());
   }
