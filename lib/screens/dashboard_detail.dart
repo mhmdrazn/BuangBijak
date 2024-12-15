@@ -15,6 +15,7 @@ class DashboardDetail extends StatelessWidget {
     required this.wasteType,
     required this.address,
     required this.orderId,
+    required this.rejectedReason,
   });
 
   final String status;
@@ -23,6 +24,7 @@ class DashboardDetail extends StatelessWidget {
   final String wasteType;
   final String address;
   final String orderId;
+  final String? rejectedReason;
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +129,12 @@ class DashboardDetail extends StatelessWidget {
                           message,
                           style: bold16,
                         ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          'Alasan: $rejectedReason',
+                          style: regular14,
+                          textAlign: TextAlign.left,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: ClipRRect(
@@ -135,6 +143,15 @@ class DashboardDetail extends StatelessWidget {
                                   height: 200, fit: BoxFit.cover)),
                         ),
                       ],
+                    ),
+
+                    Text(
+                      'Order ID:',
+                      style: regular10,
+                    ),
+                    Text(
+                      orderId,
+                      style: regular10,
                     ),
 
                     if (status == 'Pending' || status == 'pending')

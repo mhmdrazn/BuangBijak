@@ -57,7 +57,6 @@ class DashboardCard extends StatelessWidget {
             const SizedBox(height: 20),
             Text(address, style: regular16),
             const SizedBox(height: 20),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -70,20 +69,28 @@ class DashboardCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Container(
                       decoration: BoxDecoration(
-                        border: status == 'Pending' || status == 'pending' ? Border.all(
-                          color: grey3,
-                          width: 2,
-                        ) : null,
-                        color: status == 'Cancel' || status == 'cancel' ? red : status == 'Pending' || status == 'pending' ? white : green,
+                        border: status == 'Pending'
+                            ? Border.all(
+                                color: grey3,
+                                width: 2,
+                              )
+                            : null,
+                        color: status == 'Cancel'
+                            ? red
+                            : status == 'Pending'
+                                ? white
+                                : green,
                         borderRadius: BorderRadius.circular(99),
                       ),
                       padding: const EdgeInsets.symmetric(
                           vertical: 6, horizontal: 24),
-                      child: Text(status, style: bold12.copyWith(color: status == 'Cancel' || status == 'cancel' ? Colors.white : black)),
+                      child: Text(status,
+                          style: bold12.copyWith(
+                              color:
+                                  status == 'Cancel' ? Colors.white : black)),
                     ),
                   ],
                 ),
-                
                 Button(
                   borderColor: grey3,
                   text: buttonText,

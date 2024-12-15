@@ -23,7 +23,7 @@ class DetailPickup extends StatefulWidget {
     required this.address,
     required this.orderId,
     required this.isRevised,
-    this.rejectedReason,
+    required this.rejectedReason,
   });
 
   final String status;
@@ -115,20 +115,20 @@ class _DetailPickupState extends State<DetailPickup> {
                       ),
                       const SizedBox(height: 20.0),
                       Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Lokasi Pickup',
-                          style: bold16,
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          widget.address,
-                          style: regular14,
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Lokasi Pickup',
+                            style: bold16,
+                          ),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            widget.address,
+                            style: regular14,
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 20.0),
                       PickupStatus(
                         status: widget.status,
@@ -142,6 +142,12 @@ class _DetailPickupState extends State<DetailPickup> {
                             message,
                             style: bold16,
                           ),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            'Alasan: $widget.rejectedReason',
+                            style: regular14,
+                            textAlign: TextAlign.left,
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
                             child: ClipRRect(
@@ -152,8 +158,8 @@ class _DetailPickupState extends State<DetailPickup> {
                           ),
                         ],
                       ),
-
-                      if (widget.rejectedReason != null && widget.rejectedReason!.isNotEmpty)
+                      if (widget.rejectedReason != null &&
+                          widget.rejectedReason!.isNotEmpty)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -170,7 +176,6 @@ class _DetailPickupState extends State<DetailPickup> {
                             const SizedBox(height: 16.0),
                           ],
                         ),
-
                       Text(
                         'Order ID:',
                         style: regular10,

@@ -72,7 +72,9 @@ class HistoryCard extends StatelessWidget {
                     ),
                     padding:
                         const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                    child: Text(status, style: bold12.copyWith(color: status == 'Cancel' || status == 'cancel' ? white : black)),
+                    child: Text(status,
+                        style: bold12.copyWith(
+                            color: status == 'Cancel' ? white : black)),
                   )
                 ],
               ),

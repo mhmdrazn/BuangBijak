@@ -59,7 +59,7 @@ class Dashboard extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  
+
                   // Banner Image
                   SliverToBoxAdapter(
                     child: Container(
@@ -83,26 +83,33 @@ class Dashboard extends StatelessWidget {
                     child: FutureBuilder<List<Map<String, dynamic>>>(
                       future: fetchPickupData(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
                           return Center(
                             child: Text('Terjadi kesalahan: ${snapshot.error}'),
                           );
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Center(child: Text('Tidak ada data pickup.'));
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return const Center(
+                              child: Text('Tidak ada data pickup.'));
                         }
-                
-                        List<Map<String, dynamic>> dashboardData = snapshot.data ?? [];
+
+                        List<Map<String, dynamic>> dashboardData =
+                            snapshot.data ?? [];
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Column(
                             children: dashboardData.map((data) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
                                 child: DashboardCard(
                                   iconPath: 'assets/icons/calendar.png',
-                                  date: formatPickupDate(data['tanggal_pickup'].toDate()),
+                                  date: formatPickupDate(
+                                      data['tanggal_pickup'].toDate()),
                                   details: data['jenis_sampah'],
                                   address: data['lokasi_pickup'],
                                   status: data['status'],
@@ -115,9 +122,12 @@ class Dashboard extends StatelessWidget {
                                           status: data['status'],
                                           wasteType: data['jenis_sampah'],
                                           address: data['lokasi_pickup'],
-                                          date: formatPickupDate(data['tanggal_pickup'].toDate()),
+                                          date: formatPickupDate(
+                                              data['tanggal_pickup'].toDate()),
                                           time: data['waktu_pickup'],
                                           orderId: data['order_id'],
+                                          rejectedReason:
+                                              data['rejectedReason'],
                                         ),
                                       ),
                                     );
@@ -130,7 +140,7 @@ class Dashboard extends StatelessWidget {
                       },
                     ),
                   ),
-                  
+
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 100),
                   ),

@@ -15,11 +15,11 @@ class PickupStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     Color getStatusColor() {
       switch (status) {
-        case 'Cancel' || 'cancel':
+        case 'Cancel':
           return red;
-        case 'Pending' || 'pending':
+        case 'Pending':
           return grey3;
-        case 'Success' || 'success':
+        case 'Success':
           return green;
         default:
           return grey3;
@@ -27,11 +27,13 @@ class PickupStatus extends StatelessWidget {
     }
 
     Color getTextColor() {
-      return status == 'Cancel' || status == 'cancel' ? Colors.white : black;
+      return status == 'Cancel' ? Colors.white : black;
     }
 
     Border? getStatusBorder() {
-      return status == 'Pending' || status == 'pending'? Border.all(color: grey3, width: 2) : null;
+      return status == 'Pending' || status == 'pending'
+          ? Border.all(color: grey3, width: 2)
+          : null;
     }
 
     return Column(

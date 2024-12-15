@@ -160,6 +160,7 @@ class UserScreen extends StatelessWidget {
                                 status: pickup['status'],
                                 orderId: pickup['order_id'],
                                 isRevised: pickup['isRevised'],
+                                rejectedReason: pickup['rejectedReason'],
                               ),
                               const SizedBox(height: 8),
                             ],

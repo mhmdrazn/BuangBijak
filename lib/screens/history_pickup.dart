@@ -11,7 +11,8 @@ final Logger logger = Logger();
 class HistoryPickup extends StatelessWidget {
   const HistoryPickup({super.key});
 
-  Future<Map<String, List<Map<String, dynamic>>>> _getUserPickupsMultipleStatuses(List<String> statuses) async {
+  Future<Map<String, List<Map<String, dynamic>>>>
+      _getUserPickupsMultipleStatuses(List<String> statuses) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return {};
 
@@ -39,7 +40,7 @@ class HistoryPickup extends StatelessWidget {
   }
 
   Widget _buildPickupHistorySection() {
-    final List<String> statuses = ['Success', 'success', 'Cancel', 'cancel'];
+    final List<String> statuses = ['Success', 'Cancel'];
 
     return FutureBuilder<Map<String, List<Map<String, dynamic>>>>(
       future: _getUserPickupsMultipleStatuses(statuses),
@@ -51,7 +52,8 @@ class HistoryPickup extends StatelessWidget {
           return const Text('Error fetching History');
         }
 
-        Map<String, List<Map<String, dynamic>>> pickupsByStatus = snapshot.data ?? {};
+        Map<String, List<Map<String, dynamic>>> pickupsByStatus =
+            snapshot.data ?? {};
 
         return Column(
           children: statuses.expand((status) {
@@ -116,17 +118,16 @@ class HistoryPickup extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
             ),
-            child: 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    'assets/images/truck-banner.png',
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset(
+                  'assets/images/truck-banner.png',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 24),
           Row(
