@@ -193,8 +193,8 @@ class Dashboard extends StatelessWidget {
                   child: BottomNavigationBar(
                     elevation: 0,
                     backgroundColor: Colors.transparent,
-                    selectedItemColor: grey1,
-                    unselectedItemColor: grey2,
+                    selectedItemColor: Colors.black,
+                    unselectedItemColor: Colors.black38,
                     selectedLabelStyle: regular12,
                     unselectedLabelStyle: regular12,
                     items: [
