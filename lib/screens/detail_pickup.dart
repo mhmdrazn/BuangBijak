@@ -23,6 +23,7 @@ class DetailPickup extends StatefulWidget {
     required this.address,
     required this.orderId,
     required this.isRevised,
+    this.rejectedReason,
   });
 
   final String status;
@@ -32,6 +33,7 @@ class DetailPickup extends StatefulWidget {
   final String address;
   final String orderId;
   final bool isRevised;
+  final String? rejectedReason;
 
   @override
   _DetailPickupState createState() => _DetailPickupState();
@@ -150,7 +152,24 @@ class _DetailPickupState extends State<DetailPickup> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4.0),
+
+                      if (widget.rejectedReason != null && widget.rejectedReason!.isNotEmpty)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10.0),
+                            Text(
+                              'Alasan Penolakan',
+                              style: bold16,
+                            ),
+                            Text(
+                              widget.rejectedReason!,
+                              style: regular14,
+                            ),
+                            const SizedBox(height: 16.0),
+                          ],
+                        ),
+
                       Text(
                         'Order ID:',
                         style: regular10,

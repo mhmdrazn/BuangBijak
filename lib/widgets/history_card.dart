@@ -11,6 +11,7 @@ class HistoryCard extends StatelessWidget {
   final String date;
   final String orderId;
   final bool isRevised;
+  final String? rejectedReason;
 
   const HistoryCard({
     super.key,
@@ -21,6 +22,7 @@ class HistoryCard extends StatelessWidget {
     required this.date,
     required this.orderId,
     required this.isRevised,
+    this.rejectedReason,
   });
 
   @override
@@ -70,7 +72,7 @@ class HistoryCard extends StatelessWidget {
                     ),
                     padding:
                         const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                    child: Text(status, style: bold12.copyWith(color: status == 'Cancel' ? white : black)),
+                    child: Text(status, style: bold12.copyWith(color: status == 'Cancel' || status == 'cancel' ? white : black)),
                   )
                 ],
               ),
@@ -95,6 +97,7 @@ class HistoryCard extends StatelessWidget {
                         address: address,
                         orderId: orderId,
                         isRevised: isRevised,
+                        rejectedReason: rejectedReason,
                       ),
                     ),
                   );
