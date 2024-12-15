@@ -16,6 +16,7 @@ class DashboardDetail extends StatelessWidget {
     required this.address,
     required this.orderId,
     required this.rejectedReason,
+    required this.fullName,
   });
 
   final String status;
@@ -25,6 +26,7 @@ class DashboardDetail extends StatelessWidget {
   final String address;
   final String orderId;
   final String? rejectedReason;
+  final String fullName;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +98,22 @@ class DashboardDetail extends StatelessWidget {
                         const SizedBox(height: 8.0),
                         Text(
                           wasteType,
+                          style: regular14,
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Nama Pengguna',
+                          style: bold16,
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          fullName,
                           style: regular14,
                           textAlign: TextAlign.left,
                         ),

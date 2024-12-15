@@ -19,7 +19,7 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/login': (context) => const LoginSignup(),
   '/landing-pickup': (context) => LandingPickup(),
   '/history-pickup': (context) => HistoryPickup(),
-  '/dashboard': (context) => const Dashboard(),
+  '/dashboard': (context) => Dashboard(),
   '/not-found': (context) => const NotFoundPage(),
 };
 
@@ -55,6 +55,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
             time: args['time'] ?? '',
             orderId: args['order_id'] ?? '',
             rejectedReason: args['rejectedReason'] ?? '',
+            fullName: args['fullName'] ?? '',
           ),
         );
       }

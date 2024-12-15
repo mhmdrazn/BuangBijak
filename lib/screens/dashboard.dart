@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import "package:flutter/material.dart";
 import '../screens/dashboard_detail.dart';
 import '../widgets/dashboard_card.dart';
@@ -12,6 +14,23 @@ final Logger logger = Logger();
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
+
+  Future<String> fetchUserFullName(String userId) async {
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+
+      if (userDoc.exists) {
+        return (userDoc.data() as Map<String, dynamic>)['fullName'] ?? '';
+      }
+      return 'User not found';
+    } catch (e) {
+      logger.e('Error fetching user data', error: e);
+      return 'Error fetching user';
+    }
+  }
 
   Future<List<Map<String, dynamic>>> fetchPickupData() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -114,7 +133,10 @@ class Dashboard extends StatelessWidget {
                                   address: data['lokasi_pickup'],
                                   status: data['status'],
                                   buttonText: 'Lihat Detail',
-                                  buttonAction: () {
+                                  buttonAction: () async {
+                                    String fullName = await fetchUserFullName(
+                                        data['user_id']);
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -128,6 +150,8 @@ class Dashboard extends StatelessWidget {
                                           orderId: data['order_id'],
                                           rejectedReason:
                                               data['rejectedReason'],
+                                          fullName:
+                                              fullName, // Data fullName dari koleksi users
                                         ),
                                       ),
                                     );
