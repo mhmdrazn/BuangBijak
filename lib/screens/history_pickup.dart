@@ -56,7 +56,7 @@ class HistoryPickup extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20.0, 6, 20.0, 6),
+        padding: const EdgeInsets.fromLTRB(20.0, 16, 20.0, 6),
         children: [
           Container(
               decoration: BoxDecoration(

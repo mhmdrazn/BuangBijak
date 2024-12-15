@@ -56,7 +56,7 @@ class LandingPickup extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20.0, 6, 20.0, 6),
+        padding: const EdgeInsets.fromLTRB(20.0, 16, 20.0, 6),
         children: [
           Container(
             decoration: BoxDecoration(
@@ -66,7 +66,7 @@ class LandingPickup extends StatelessWidget {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.15),
                   spreadRadius: 0,
-                  blurRadius: 20,
+                  blurRadius: 10,
                   offset: const Offset(0, 0),
                 ),
               ],
