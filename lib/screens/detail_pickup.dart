@@ -106,16 +106,27 @@ class _DetailPickupState extends State<DetailPickup> {
                         '${widget.date}, ${widget.time}',
                         style: bold16,
                       ),
-                      const SizedBox(height: 20.0),
+                      const SizedBox(height: 6.0),
                       Text(
                         widget.wasteType,
                         style: regular14,
                       ),
                       const SizedBox(height: 20.0),
-                      Text(
-                        widget.address,
-                        style: regular14,
-                      ),
+                      Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Lokasi Pickup',
+                          style: bold16,
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          widget.address,
+                          style: regular14,
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
                       const SizedBox(height: 20.0),
                       PickupStatus(
                         status: widget.status,
