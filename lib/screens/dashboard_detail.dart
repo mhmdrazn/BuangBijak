@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, duplicate_ignore
+
 import "package:flutter/material.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../theme.dart';
@@ -128,12 +130,13 @@ class DashboardDetail extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset('assets/images/maps.png', height: 200, fit: BoxFit.cover)),
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset('assets/images/maps.png',
+                                  height: 200, fit: BoxFit.cover)),
                         ),
                       ],
                     ),
-                    
+
                     if (status == 'Pending' || status == 'pending')
                       Column(
                         children: [
@@ -204,16 +207,19 @@ class DashboardDetail extends StatelessWidget {
               ),
               actions: [
                 TextButton(
-                  onPressed: isLoading ? null : () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          Navigator.pop(context);
+                        },
                   child: Text("Batal", style: regular14.copyWith(color: black)),
                 ),
                 TextButton(
                   onPressed: isLoading
                       ? null
                       : () async {
-                          final String rejectReason = reasonController.text.trim();
+                          final String rejectReason =
+                              reasonController.text.trim();
                           if (rejectReason.isNotEmpty) {
                             setState(() {
                               isLoading = true;
@@ -226,14 +232,17 @@ class DashboardDetail extends StatelessWidget {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text("Alasan penolakan tidak boleh kosong.", style: regular14.copyWith(color: black)),
+                                content: Text(
+                                    "Alasan penolakan tidak boleh kosong.",
+                                    style: regular14.copyWith(color: black)),
                               ),
                             );
                           }
                         },
                   child: isLoading
                       ? CircularProgressIndicator(color: red)
-                      : Text("Konfirmasi", style: regular14.copyWith(color: red)),
+                      : Text("Konfirmasi",
+                          style: regular14.copyWith(color: red)),
                 ),
               ],
             );
@@ -242,7 +251,6 @@ class DashboardDetail extends StatelessWidget {
       },
     );
   }
-
 
   void _rejectPickup(BuildContext context, String rejectReason) async {
     try {
@@ -272,13 +280,13 @@ class DashboardDetail extends StatelessWidget {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Pickup berhasil ditolak.", style: regular14.copyWith(color: white)),
+          content: Text("Pickup berhasil ditolak.",
+              style: regular14.copyWith(color: white)),
           backgroundColor: red,
         ),
       );
 
       Navigator.pop(context);
-
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -290,7 +298,6 @@ class DashboardDetail extends StatelessWidget {
   }
 
   void _showAcceptDialog(BuildContext context) {
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -319,8 +326,9 @@ class DashboardDetail extends StatelessWidget {
               onPressed: () {
                 _acceptPickup(context);
               },
-              child: Text("Konfirmasi", style: regular14.copyWith(color: black)),
-            ),  
+              child:
+                  Text("Konfirmasi", style: regular14.copyWith(color: black)),
+            ),
           ],
         );
       },
@@ -353,13 +361,13 @@ class DashboardDetail extends StatelessWidget {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Pickup berhasil diselesaikan.", style: regular14.copyWith(color: black)),
+          content: Text("Pickup berhasil diselesaikan.",
+              style: regular14.copyWith(color: black)),
           backgroundColor: green,
         ),
       );
 
       Navigator.pop(context);
-
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
