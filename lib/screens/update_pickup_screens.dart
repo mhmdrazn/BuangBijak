@@ -36,7 +36,11 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
         selectedWasteType == null ||
         locationController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Mohon lengkapi semua field')),
+        SnackBar(
+          content: Text('Mohon lengkapi semua field',
+              style: regular14.copyWith(color: white)),
+          backgroundColor: red,
+        ),
       );
       return;
     }
@@ -49,7 +53,11 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Pengguna belum login')),
+          SnackBar(
+            content: Text('Pengguna belum login',
+                style: regular14.copyWith(color: white)),
+            backgroundColor: red,
+          ),
         );
         return;
       }
@@ -65,7 +73,11 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
 
       if (querySnapshot.docs.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Data tidak ditemukan')),
+          SnackBar(
+            content: Text('Data tidak ditemukan',
+                style: regular14.copyWith(color: white)),
+            backgroundColor: red,
+          ),
         );
         return;
       }
@@ -84,7 +96,11 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Data berhasil diperbarui')),
+        SnackBar(
+          content: Text('Data berhasil diperbarui',
+              style: regular14.copyWith(color: black)),
+          backgroundColor: green,
+        ),
       );
       Navigator.pushReplacement(
         context,
@@ -92,7 +108,11 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal memperbarui data: $e')),
+        SnackBar(
+          content: Text('Gagal memperbarui data: $e',
+              style: regular14.copyWith(color: black)),
+          backgroundColor: green,
+        ),
       );
     } finally {
       setState(() {
@@ -106,7 +126,11 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Pengguna belum login')),
+          SnackBar(
+            content: Text('Pengguna belum login',
+                style: regular14.copyWith(color: white)),
+            backgroundColor: red,
+          ),
         );
         return;
       }
@@ -122,7 +146,11 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
 
       if (querySnapshot.docs.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Data tidak ditemukan')),
+          SnackBar(
+            content: Text('Data tidak ditemukan',
+                style: regular14.copyWith(color: white)),
+            backgroundColor: red,
+          ),
         );
         return;
       }
@@ -138,7 +166,11 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal memuat data: $e')),
+        SnackBar(
+          content: Text('Gagal memuat data: $e',
+              style: regular14.copyWith(color: white)),
+          backgroundColor: red,
+        ),
       );
     }
   }
@@ -324,7 +356,8 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
       ),
     );
   }
-  Future<void> _showConfirmDialog(BuildContext context) async{
+
+  Future<void> _showConfirmDialog(BuildContext context) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -354,8 +387,9 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
                 Navigator.pop(context);
                 updatePickupData(widget.orderId);
               },
-              child: Text("Konfirmasi", style: regular14.copyWith(color: black)),
-            ),  
+              child:
+                  Text("Konfirmasi", style: regular14.copyWith(color: black)),
+            ),
           ],
         );
       },

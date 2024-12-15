@@ -380,7 +380,13 @@ class _DetailPickupState extends State<DetailPickup> {
                                                           .showSnackBar(
                                                         SnackBar(
                                                           content: Text(
-                                                              'Order ID ${widget.orderId} telah berhasil dihapus'),
+                                                            'Order ID ${widget.orderId} telah berhasil dihapus',
+                                                            style: regular14
+                                                                .copyWith(
+                                                                    color:
+                                                                        white),
+                                                          ),
+                                                          backgroundColor: red,
                                                           duration:
                                                               const Duration(
                                                                   seconds: 3),

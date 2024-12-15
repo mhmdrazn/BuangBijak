@@ -30,7 +30,11 @@ class _PickupPageState extends State<PickupPage> {
         selectedTimeSlot == null ||
         selectedWasteType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Harap isi semua field')),
+        SnackBar(
+          content: Text('Harap isi semua field',
+              style: regular14.copyWith(color: white)),
+          backgroundColor: red,
+        ),
       );
       return;
     }
@@ -43,7 +47,11 @@ class _PickupPageState extends State<PickupPage> {
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Pengguna belum login')),
+          SnackBar(
+            content: Text('Pengguna belum login',
+                style: regular14.copyWith(color: white)),
+            backgroundColor: red,
+          ),
         );
         return;
       }
@@ -109,7 +117,10 @@ class _PickupPageState extends State<PickupPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Pickup berhasil diajukan dengan Order ID $orderId')),
+          content: Text('Pickup berhasil diajukan dengan Order ID $orderId',
+              style: regular14.copyWith(color: white)),
+          backgroundColor: green,
+        ),
       );
 
       Navigator.of(context).pushAndRemoveUntil(
@@ -130,7 +141,11 @@ class _PickupPageState extends State<PickupPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Terjadi kesalahan saat submit pickup')),
+        SnackBar(
+          content: Text('Terjadi kesalahan saat submit pickup',
+              style: regular14.copyWith(color: white)),
+          backgroundColor: red,
+        ),
       );
 
       Navigator.pop(context);
@@ -295,7 +310,8 @@ class _PickupPageState extends State<PickupPage> {
                 child: BottomButton(
                   text: _isLoading ? '' : 'Ajukan Pickup',
                   color: Color(0xFFCCE400),
-                  onPressed: _isLoading ? null : () => _showConfirmDialog(context),
+                  onPressed:
+                      _isLoading ? null : () => _showConfirmDialog(context),
                   child: _isLoading
                       ? CircularProgressIndicator(
                           color: Colors.white,
@@ -309,7 +325,8 @@ class _PickupPageState extends State<PickupPage> {
       ),
     );
   }
-  Future<void> _showConfirmDialog(BuildContext context) async{
+
+  Future<void> _showConfirmDialog(BuildContext context) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -340,7 +357,7 @@ class _PickupPageState extends State<PickupPage> {
                 submitPickupRequest();
               },
               child: Text("Konfirmasi", style: bold14.copyWith(color: black)),
-            ),  
+            ),
           ],
         );
       },

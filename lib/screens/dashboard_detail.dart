@@ -247,13 +247,12 @@ class DashboardDetail extends StatelessWidget {
                             });
                             Navigator.pop(context);
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    "Alasan penolakan tidak boleh kosong.",
-                                    style: regular14.copyWith(color: black)),
-                              ),
-                            );
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'Alasan penolakan tidak boleh kosong',
+                                  style: regular14.copyWith(color: white)),
+                              backgroundColor: red,
+                            ));
                           }
                         },
                   child: isLoading
@@ -278,9 +277,11 @@ class DashboardDetail extends StatelessWidget {
 
       if (querySnapshot.docs.isEmpty) {
         // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Data tidak ditemukan')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Data tidak ditemukan',
+              style: regular14.copyWith(color: white)),
+          backgroundColor: red,
+        ));
         return;
       }
 
@@ -307,7 +308,10 @@ class DashboardDetail extends StatelessWidget {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Gagal menolak pickup: ${e.toString()}"),
+          content: Text(
+            "Gagal menolak pickup: ${e.toString()}",
+            style: regular14.copyWith(color: white),
+          ),
           backgroundColor: red,
         ),
       );
@@ -360,9 +364,11 @@ class DashboardDetail extends StatelessWidget {
           .get();
 
       if (querySnapshot.docs.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Data tidak ditemukan')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Data tidak ditemukan',
+              style: regular14.copyWith(color: white)),
+          backgroundColor: red,
+        ));
         return;
       }
 
@@ -388,7 +394,8 @@ class DashboardDetail extends StatelessWidget {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Gagal menerima pickup: ${e.toString()}"),
+          content: Text("Gagal menerima pickup: ${e.toString()}",
+              style: regular14.copyWith(color: white)),
           backgroundColor: red,
         ),
       );
