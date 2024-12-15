@@ -267,8 +267,18 @@ class UserSettingsState extends State<UserSettings> {
                                         title: Text('Konfirmasi Keluar',
                                             style: bold16.copyWith(
                                                 fontWeight: FontWeight.bold)),
-                                        content: const Text(
-                                            'Apakah kamu yakin ingin keluar?'),
+                                        backgroundColor: white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16),
+                                        ),
+                                        content: SizedBox(
+                                          width: MediaQuery.of(context).size.width * 0.8,
+                                          child: Text(
+                                            "Apakah kamu ingin keluar?",
+                                            style: regular12,
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
                                         actions: [
                                           TextButton(
                                             onPressed: () {

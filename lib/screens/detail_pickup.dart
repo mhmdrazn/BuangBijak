@@ -162,6 +162,7 @@ class _DetailPickupState extends State<DetailPickup> {
                               'Alasan Penolakan',
                               style: bold16,
                             ),
+                            const SizedBox(height: 4.0),
                             Text(
                               widget.rejectedReason!,
                               style: regular14,

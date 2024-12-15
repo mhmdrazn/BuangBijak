@@ -114,34 +114,19 @@ class HistoryPickup extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: green,
               borderRadius: BorderRadius.circular(16.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
-                  spreadRadius: 0,
-                  blurRadius: 20,
-                  offset: const Offset(0, 0),
-                ),
-              ],
             ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        'assets/images/truck-banner.png',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      ),
-                    ],
+            child: 
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/images/truck-banner.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ),
           const SizedBox(height: 24),
           Row(

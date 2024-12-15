@@ -178,54 +178,71 @@ class DashboardDetail extends StatelessWidget {
 
   void _showRejectReasonDialog(BuildContext context) {
     final TextEditingController reasonController = TextEditingController();
+    bool isLoading = false;
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Alasan Penolakan", style: bold16),
-          backgroundColor: white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          content: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: TextField(
-                controller: reasonController,
-                decoration: InputDecoration(
-                  hintText: "Masukkan alasan penolakan",
-                  hintStyle: regular14.copyWith(color: grey1),
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text("Alasan Penolakan", style: bold16),
+              backgroundColor: white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: TextField(
+                  controller: reasonController,
+                  decoration: InputDecoration(
+                    hintText: "Masukkan alasan penolakan",
+                    hintStyle: regular14.copyWith(color: grey1),
+                  ),
+                  enabled: !isLoading,
                 ),
               ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Batal", style: bold14.copyWith(color: black)),
-            ),
-            TextButton(
-              onPressed: () {
-                final String rejectReason = reasonController.text.trim();
-                if (rejectReason.isNotEmpty) {
-                  // Update Firestore
-                  _rejectPickup(context, rejectReason);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Alasan penolakan tidak boleh kosong.", style: regular14.copyWith(color: black)),
-                    ),
-                  );
-                }
-              },
-              child: Text("Konfirmasi", style: bold14.copyWith(color: black)),
-            ),
-          ],
+              actions: [
+                TextButton(
+                  onPressed: isLoading ? null : () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Batal", style: regular14.copyWith(color: black)),
+                ),
+                TextButton(
+                  onPressed: isLoading
+                      ? null
+                      : () async {
+                          final String rejectReason = reasonController.text.trim();
+                          if (rejectReason.isNotEmpty) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            _rejectPickup(context, rejectReason);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            Navigator.pop(context);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Alasan penolakan tidak boleh kosong.", style: regular14.copyWith(color: black)),
+                              ),
+                            );
+                          }
+                        },
+                  child: isLoading
+                      ? CircularProgressIndicator(color: red)
+                      : Text("Konfirmasi", style: regular14.copyWith(color: red)),
+                ),
+              ],
+            );
+          },
         );
       },
     );
   }
+
 
   void _rejectPickup(BuildContext context, String rejectReason) async {
     try {
@@ -296,13 +313,13 @@ class DashboardDetail extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Batal", style: bold14.copyWith(color: black)),
+              child: Text("Batal", style: regular14.copyWith(color: grey2)),
             ),
             TextButton(
               onPressed: () {
                 _acceptPickup(context);
               },
-              child: Text("Konfirmasi", style: bold14.copyWith(color: black)),
+              child: Text("Konfirmasi", style: regular14.copyWith(color: black)),
             ),  
           ],
         );

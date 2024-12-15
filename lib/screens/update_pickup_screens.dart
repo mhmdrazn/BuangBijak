@@ -347,14 +347,14 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Batal", style: bold14.copyWith(color: black)),
+              child: Text("Batal", style: regular14.copyWith(color: black)),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 updatePickupData(widget.orderId);
               },
-              child: Text("Konfirmasi", style: bold14.copyWith(color: black)),
+              child: Text("Konfirmasi", style: regular14.copyWith(color: black)),
             ),  
           ],
         );
