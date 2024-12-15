@@ -97,17 +97,11 @@ class UserSettingsState extends State<UserSettings> {
             },
           ),
           title: Padding(
-            padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Akun Saya',
-                  style: bold20.copyWith(color: Colors.black),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(width: 32)
-              ],
+            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            child: Text(
+              'Akun Saya',
+              style: bold20.copyWith(color: black),
+              textAlign: TextAlign.center,
             ),
           ),
         ),
@@ -119,7 +113,8 @@ class UserSettingsState extends State<UserSettings> {
                 maxWidth: 600, // Limit the maximum width to 600px
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(
+                    bottom: 16.0, left: 16.0, right: 16.0),
                 child: Column(
                   children: [
                     // User Info Card
@@ -269,10 +264,14 @@ class UserSettingsState extends State<UserSettings> {
                                                 fontWeight: FontWeight.bold)),
                                         backgroundColor: white,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(16),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
                                         ),
                                         content: SizedBox(
-                                          width: MediaQuery.of(context).size.width * 0.8,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.8,
                                           child: Text(
                                             "Apakah kamu ingin keluar?",
                                             style: regular12,

@@ -118,7 +118,7 @@ class _PickupPageState extends State<PickupPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Pickup berhasil diajukan dengan Order ID $orderId',
-              style: regular14.copyWith(color: white)),
+              style: regular14.copyWith(color: black)),
           backgroundColor: green,
         ),
       );
