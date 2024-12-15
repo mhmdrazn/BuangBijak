@@ -98,7 +98,7 @@ class HistoryPickup extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           FutureBuilder<List<Map<String, dynamic>>>(
-            future: _getUserPickups('success'),
+            future: _getUserPickups('Success'),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -130,6 +130,7 @@ class HistoryPickup extends StatelessWidget {
                         address: pickup['lokasi_pickup'],
                         status: pickup['status'],
                         orderId: pickup['order_id'],
+                        isRevised: pickup['isRevised'],
                       ),
                       const SizedBox(height: 8),
                     ],

@@ -103,7 +103,7 @@ class _PickupPageState extends State<PickupPage> {
         'order_id': orderId,
         'user_id': userId,
         'isRevised': false,
-        'status': 'pending',
+        'status': 'Pending',
         'rejectedReason': '',
       });
 

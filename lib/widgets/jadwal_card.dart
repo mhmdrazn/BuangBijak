@@ -10,6 +10,7 @@ class JadwalCard extends StatelessWidget {
   final String address;
   final String status;
   final String orderId;
+  final bool isRevised;
 
   const JadwalCard({
     super.key,
@@ -19,6 +20,7 @@ class JadwalCard extends StatelessWidget {
     required this.address,
     required this.status,
     required this.orderId,
+    required this.isRevised,
   });
 
   @override
@@ -50,9 +52,9 @@ class JadwalCard extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: status == 'success'
+                    color: status == 'Success'
                         ? green
-                        : status == 'pending'
+                        : status == 'Pending'
                             ? grey3
                             : red,
                     borderRadius: BorderRadius.circular(99),
@@ -94,6 +96,7 @@ class JadwalCard extends StatelessWidget {
                       wasteType: wasteType,
                       address: address,
                       orderId: orderId,
+                      isRevised: isRevised,
                     ),
                   ),
                 );

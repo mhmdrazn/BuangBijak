@@ -3,21 +3,23 @@ import '../theme.dart';
 
 class PickupStatus extends StatelessWidget {
   final String status;
+  final bool isRevised;
 
   const PickupStatus({
     super.key,
     required this.status,
+    required this.isRevised,
   });
 
   @override
   Widget build(BuildContext context) {
     Color getStatusColor() {
       switch (status) {
-        case 'cancel':
+        case 'Cancel' || 'cancel':
           return red;
-        case 'pending':
+        case 'Pending' || 'pending':
           return grey3;
-        case 'success':
+        case 'Success' || 'success':
           return green;
         default:
           return grey3;
@@ -25,11 +27,11 @@ class PickupStatus extends StatelessWidget {
     }
 
     Color getTextColor() {
-      return status == 'cancel' ? Colors.white : black;
+      return status == 'Cancel' || status == 'cancel' ? Colors.white : black;
     }
 
     Border? getStatusBorder() {
-      return status == 'pending' ? Border.all(color: grey3, width: 2) : null;
+      return status == 'Pending' || status == 'pending'? Border.all(color: grey3, width: 2) : null;
     }
 
     return Column(
@@ -40,20 +42,42 @@ class PickupStatus extends StatelessWidget {
           style: bold16,
         ),
         const SizedBox(height: 8.0),
-        Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 32.0,
-          ),
-          decoration: BoxDecoration(
-            color: getStatusColor(),
-            border: getStatusBorder(),
-            borderRadius: BorderRadius.circular(99.0),
-          ),
-          child: Text(
-            status,
-            style: bold14.copyWith(color: getTextColor()),
-          ),
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 24,
+              ),
+              decoration: BoxDecoration(
+                color: getStatusColor(),
+                border: getStatusBorder(),
+                borderRadius: BorderRadius.circular(99.0),
+              ),
+              child: Text(
+                status,
+                style: bold14.copyWith(color: getTextColor()),
+              ),
+            ),
+            if (isRevised) // Menampilkan hanya jika isRevised true
+              const SizedBox(width: 4.0),
+            if (isRevised)
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 24,
+                ),
+                decoration: BoxDecoration(
+                  color: getStatusColor(),
+                  border: getStatusBorder(),
+                  borderRadius: BorderRadius.circular(99.0),
+                ),
+                child: Text(
+                  'Direvisi',
+                  style: bold14.copyWith(color: getTextColor()),
+                ),
+              ),
+          ],
         ),
       ],
     );

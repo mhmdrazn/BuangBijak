@@ -8,6 +8,7 @@ import '../theme.dart';
 import '../widgets/button.dart';
 import '../widgets/pickup_status.dart';
 import 'package:logger/logger.dart';
+import 'update_pickup_screens.dart';
 
 final log = Logger();
 bool isLoading = false;
@@ -21,6 +22,7 @@ class DetailPickup extends StatefulWidget {
     required this.wasteType,
     required this.address,
     required this.orderId,
+    required this.isRevised,
   });
 
   final String status;
@@ -29,6 +31,7 @@ class DetailPickup extends StatefulWidget {
   final String wasteType;
   final String address;
   final String orderId;
+  final bool isRevised;
 
   @override
   _DetailPickupState createState() => _DetailPickupState();
@@ -41,9 +44,9 @@ class _DetailPickupState extends State<DetailPickup> {
   Widget build(BuildContext context) {
     String message;
 
-    if (widget.status == 'success') {
+    if (widget.status == 'Success') {
       message = 'Sampahmu telah dipickup!';
-    } else if (widget.status == 'cancel') {
+    } else if (widget.status == 'Cancel') {
       message = 'Pickup telah dibatalkan';
     } else {
       message = 'Kolektor sedang dalam perjalanan!';
@@ -114,7 +117,10 @@ class _DetailPickupState extends State<DetailPickup> {
                         style: regular14,
                       ),
                       const SizedBox(height: 20.0),
-                      PickupStatus(status: widget.status),
+                      PickupStatus(
+                        status: widget.status,
+                        isRevised: widget.isRevised,
+                      ),
                       const SizedBox(height: 20.0),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,35 +149,80 @@ class _DetailPickupState extends State<DetailPickup> {
                         style: regular10,
                       ),
                       const SizedBox(height: 20.0),
-                      if (widget.status != 'success' &&
-                          widget.status != 'cancel')
+                      if (widget.status != 'Success' &&
+                          widget.status != 'Cancel')
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              child: Button(
-                                text: 'Reschedule',
-                                color: white,
-                                borderColor: grey3,
-                                textColor: black,
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailPickup(
-                                        status: 'pending',
-                                        time: widget.time,
-                                        date: widget.date,
-                                        wasteType: widget.wasteType,
-                                        address: widget.address,
-                                        orderId: widget.orderId,
-                                      ),
-                                    ),
-                                  );
-                                },
+                            if (!widget
+                                .isRevised) // Menghapus button Reschedule jika isRevised true
+                              Expanded(
+                                child: Button(
+                                  text: 'Reschedule',
+                                  color: white,
+                                  borderColor: grey3,
+                                  textColor: black,
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              'Konfirmasi Revisi Pickup',
+                                              style: bold16.copyWith(
+                                                  fontWeight: FontWeight.bold)),
+                                          content: RichText(
+                                            text: TextSpan(
+                                              style: regular14.copyWith(
+                                                  color: Colors.black),
+                                              children: [
+                                                TextSpan(
+                                                    text:
+                                                        'Mengubah jadwal pickup '),
+                                                TextSpan(
+                                                  text: 'hanya bisa 1x',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                TextSpan(
+                                                    text:
+                                                        ' saja. Pastikan data benar-benar ingin direvisi.'),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(false),
+                                              child: Text('Batal',
+                                                  style: regular14.copyWith(
+                                                      color: Colors.black45)),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UpdatePickupPage(
+                                                            orderId:
+                                                                widget.orderId),
+                                                  ),
+                                                );
+                                              },
+                                              child: Text('Revisi'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 16.0),
+                            if (!widget.isRevised) const SizedBox(width: 16.0),
                             Expanded(
                               child: Button(
                                 text: 'Batalkan Pickup',

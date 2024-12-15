@@ -13,6 +13,7 @@ class CustomDropdown extends StatelessWidget {
     required this.items,
     this.selectedValue,
     required this.onChanged,
+    String? value,
   });
 
   @override
@@ -24,7 +25,8 @@ class CustomDropdown extends StatelessWidget {
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
           value: selectedValue,
-          hint: Text("Pilih $title", style: regular14.copyWith(color: grey2)), // Placeholder text
+          hint: Text("Pilih $title",
+              style: regular14.copyWith(color: grey2)), // Placeholder text
           isExpanded: true,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -51,7 +53,9 @@ class CustomDropdown extends StatelessWidget {
           items: items.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value, style: regular14.copyWith(color: grey2)), // Style for dropdown items
+              child: Text(value,
+                  style: regular14.copyWith(
+                      color: grey2)), // Style for dropdown items
             );
           }).toList(),
         )

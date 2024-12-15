@@ -124,7 +124,7 @@ class UserScreen extends StatelessWidget {
 
                   // Jadwal Pickup Dinamis
                   FutureBuilder<List<Map<String, dynamic>>>(
-                    future: _getUserPickups(status1: 'pending'),
+                    future: _getUserPickups(status1: 'Pending'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
@@ -159,6 +159,7 @@ class UserScreen extends StatelessWidget {
                                 address: pickup['lokasi_pickup'],
                                 status: pickup['status'],
                                 orderId: pickup['order_id'],
+                                isRevised: pickup['isRevised'],
                               ),
                               const SizedBox(height: 8),
                             ],
@@ -188,7 +189,7 @@ class UserScreen extends StatelessWidget {
                   // History Pickup Dinamis
                   FutureBuilder<List<Map<String, dynamic>>>(
                     future:
-                        _getUserPickups(status1: 'success', status2: 'cancel'),
+                        _getUserPickups(status1: 'Success', status2: 'Cancel'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
@@ -221,6 +222,7 @@ class UserScreen extends StatelessWidget {
                                 address: pickup['lokasi_pickup'],
                                 status: pickup['status'],
                                 orderId: pickup['order_id'],
+                                isRevised: pickup['isRevised'],
                               ),
                               const SizedBox(height: 8),
                             ],
