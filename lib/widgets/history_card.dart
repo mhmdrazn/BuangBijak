@@ -83,7 +83,8 @@ class HistoryCard extends StatelessWidget {
               const SizedBox(height: 20),
               Button(
                 text: 'Selengkapnya',
-                color: green,
+                color: white,
+                borderColor: grey3,
                 textColor: black,
                 onPressed: () {
                   Navigator.push(

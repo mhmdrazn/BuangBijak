@@ -169,7 +169,7 @@ class UserScreen extends StatelessWidget {
                     },
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 12),
 
                   const ImageBanner(),
 
@@ -244,7 +244,7 @@ class UserScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
@@ -256,9 +256,13 @@ class UserScreen extends StatelessWidget {
                 child: BottomNavigationBar(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  items: const [
+                  selectedItemColor: grey1,
+                  unselectedItemColor: grey2,
+                  selectedLabelStyle: regular12,
+                  unselectedLabelStyle: regular12,
+                  items: [
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.home), label: 'Beranda'),
+                        icon: Icon(Icons.home_rounded), label: 'Beranda'),
                     // BottomNavigationBarItem(
                     //     icon: Icon(Icons.inbox), label: 'Pickup'),
                     BottomNavigationBarItem(
