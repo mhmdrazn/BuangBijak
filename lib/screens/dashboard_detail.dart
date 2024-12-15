@@ -129,12 +129,18 @@ class DashboardDetail extends StatelessWidget {
                           message,
                           style: bold16,
                         ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          'Alasan: $rejectedReason',
-                          style: regular14,
-                          textAlign: TextAlign.left,
-                        ),
+                        if (rejectedReason != null &&
+                            rejectedReason!.isNotEmpty)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 4.0),
+                              Text(
+                                'Alasan: ${rejectedReason!}',
+                                style: regular14,
+                              ),
+                            ],
+                          ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: ClipRRect(

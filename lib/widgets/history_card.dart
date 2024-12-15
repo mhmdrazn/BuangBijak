@@ -22,7 +22,7 @@ class HistoryCard extends StatelessWidget {
     required this.date,
     required this.orderId,
     required this.isRevised,
-    this.rejectedReason,
+    required this.rejectedReason,
   });
 
   @override

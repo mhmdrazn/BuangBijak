@@ -142,12 +142,18 @@ class _DetailPickupState extends State<DetailPickup> {
                             message,
                             style: bold16,
                           ),
-                          const SizedBox(height: 4.0),
-                          Text(
-                            'Alasan: $widget.rejectedReason',
-                            style: regular14,
-                            textAlign: TextAlign.left,
-                          ),
+                          if (widget.rejectedReason != null &&
+                              widget.rejectedReason!.isNotEmpty)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 4.0),
+                                Text(
+                                  'Alasan: ${widget.rejectedReason!}',
+                                  style: regular14,
+                                ),
+                              ],
+                            ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
                             child: ClipRRect(
@@ -158,24 +164,6 @@ class _DetailPickupState extends State<DetailPickup> {
                           ),
                         ],
                       ),
-                      if (widget.rejectedReason != null &&
-                          widget.rejectedReason!.isNotEmpty)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10.0),
-                            Text(
-                              'Alasan Penolakan',
-                              style: bold16,
-                            ),
-                            const SizedBox(height: 4.0),
-                            Text(
-                              widget.rejectedReason!,
-                              style: regular14,
-                            ),
-                            const SizedBox(height: 16.0),
-                          ],
-                        ),
                       Text(
                         'Order ID:',
                         style: regular10,
