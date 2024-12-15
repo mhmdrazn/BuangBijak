@@ -354,7 +354,6 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-
 // Registration Screen
 // ignore: must_be_immutable
 class RegistrationScreen extends StatelessWidget {
@@ -465,48 +464,46 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  StatefulBuilder(
-                    builder: (context, setState) {
-                      return TextField(
-                        controller: passwordController,
-                        obscureText: _isObscured,
-                        decoration: InputDecoration(
-                          labelText: 'Kata Sandi',
-                          labelStyle: regular14,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: grey3, width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: grey3, width: 2),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: grey3, width: 2),
-                          ),
-                          filled: true,
-                          fillColor: white,
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(12))),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isObscured
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: grey3,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isObscured = !_isObscured;
-                              });
-                            },
-                          ),
+                  StatefulBuilder(builder: (context, setState) {
+                    return TextField(
+                      controller: passwordController,
+                      obscureText: _isObscured,
+                      decoration: InputDecoration(
+                        labelText: 'Kata Sandi',
+                        labelStyle: regular14,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: grey3, width: 2),
                         ),
-                      );
-                    }
-                  ),
-                  
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: grey3, width: 2),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: grey3, width: 2),
+                        ),
+                        filled: true,
+                        fillColor: white,
+                        border: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12))),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isObscured
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: grey3,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isObscured = !_isObscured;
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                  }),
                   const SizedBox(height: 16),
                   TextField(
                     controller: addressController,
@@ -551,6 +548,7 @@ class RegistrationScreen extends StatelessWidget {
                             'email': emailController.text.trim(),
                             'address': addressController.text.trim(),
                             'createdAt': FieldValue.serverTimestamp(),
+                            'isAdmin': false,
                           });
 
                           if (!context.mounted) return;
@@ -594,6 +592,6 @@ class RegistrationScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   void setState(Null Function() param0) {}
 }
