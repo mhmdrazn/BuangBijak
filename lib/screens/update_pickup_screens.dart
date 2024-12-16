@@ -339,9 +339,9 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
                       child: BottomButton(
                         text:
                             _isLoading ? 'loading...' : 'Revisi Ajukan Pickup',
-                        color: Color(0xFFCCE400),
+                        color: green,
                         onPressed: () async {
-                          _showConfirmDialog;
+                          _showConfirmDialog(context);
                         },
                         child: _isLoading
                             ? CircularProgressIndicator(

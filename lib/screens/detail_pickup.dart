@@ -191,6 +191,11 @@ class _DetailPickupState extends State<DetailPickup> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(16),
+                                          ),
+                                          backgroundColor: white,
+                                          contentPadding: EdgeInsets.all(24),
                                           title: Text(
                                               'Konfirmasi Revisi Pickup',
                                               style: bold16.copyWith(
@@ -237,7 +242,7 @@ class _DetailPickupState extends State<DetailPickup> {
                                                   ),
                                                 );
                                               },
-                                              child: Text('Revisi'),
+                                              child: Text('Revisi',  style: regular14.copyWith(color: Colors.black)),
                                             ),
                                           ],
                                         );
@@ -256,6 +261,11 @@ class _DetailPickupState extends State<DetailPickup> {
                                   await showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      backgroundColor: white,
+                                      contentPadding: EdgeInsets.all(24),
                                       title: Text('Konfirmasi Penghapusan',
                                           style: bold16.copyWith(
                                               fontWeight: FontWeight.bold)),
@@ -295,7 +305,7 @@ class _DetailPickupState extends State<DetailPickup> {
                                               Navigator.of(context).pop(false),
                                           child: Text('Batal',
                                               style: regular14.copyWith(
-                                                  color: Colors.black45)),
+                                                  color: black)),
                                         ),
                                         TextButton(
                                           onPressed: isLoading
@@ -395,14 +405,14 @@ class _DetailPickupState extends State<DetailPickup> {
                                               ? Row(
                                                   children: [
                                                     CircularProgressIndicator(
-                                                      color: Colors.red,
+                                                      color: red,
                                                       strokeWidth: 2,
                                                     ),
                                                     const SizedBox(width: 10),
-                                                    Text('Yakin'),
+                                                    Text('Yakin', style: bold14.copyWith(color: red)),
                                                   ],
                                                 )
-                                              : Text('Yakin'),
+                                              : Text('Yakin', style: bold14.copyWith(color: red)),
                                         ),
                                       ],
                                     ),
