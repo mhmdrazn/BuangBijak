@@ -22,7 +22,7 @@ class Dashboard extends StatefulWidget {
 
 // ignore: must_be_immutable
 class _DashboardState extends State<Dashboard> {
-  final List<String> categories = ['All', 'Pending', 'Success', 'Cancel'];
+  final List<String> categories = ['Pending', 'Success', 'Cancel'];
 
   List<String> selectedCategory = [];
 
@@ -183,7 +183,7 @@ class _DashboardState extends State<Dashboard> {
                         List<Map<String, dynamic>> dashboardData = snapshot.data ?? [];
 
                         List<Map<String, dynamic>> filteredData = dashboardData.where((data) {
-                          if (selectedCategory.isEmpty || selectedCategory.contains('All')) {
+                          if (selectedCategory.isEmpty) {
                             return true; 
                           }
                           return selectedCategory.contains(data['status']);

@@ -67,7 +67,7 @@ class SplashScreen extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  Image.asset('assets/images/logonama.png', height: 60),
+                  Image.asset('assets/images/logonama.png', height: 40),
                   const SizedBox(height: 20),
                   Text(
                     'Bijak Kelola Barang dan Sampah',
@@ -327,7 +327,7 @@ class LoginScreen extends StatelessWidget {
                           }
                         },
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 8),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
