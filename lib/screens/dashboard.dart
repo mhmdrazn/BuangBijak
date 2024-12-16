@@ -12,8 +12,19 @@ import 'package:buang_bijak/utils/date_helper.dart';
 
 final Logger logger = Logger();
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _DashboardState createState() => _DashboardState();
+}
+
+// ignore: must_be_immutable
+class _DashboardState extends State<Dashboard> {
+  final List<String> categories = ['All', 'Pending', 'Success', 'Cancel'];
+
+  List<String> selectedCategory = [];
 
   Future<String> fetchUserFullName(String userId) async {
     try {
@@ -96,8 +107,61 @@ class Dashboard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  
+                  // Chips 
+                  SliverToBoxAdapter(
+                    child: Container(
+                      margin: const EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: categories.map((category) {
+                          return Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: double.infinity,
+                                  maxHeight: 36,
+                                ),
+                                child: FilterChip(
+                                  label: Center(
+                                    child: Text(
+                                      category, 
+                                      style: bold12.copyWith(
+                                        color: selectedCategory.contains(category) ? black : grey2,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  backgroundColor: selectedCategory.contains(category) ? green : white,
+                                  selectedColor: green,
+                                  selected: selectedCategory.contains(category),
+                                  side: BorderSide(
+                                    color: selectedCategory.contains(category) ? green : grey3, 
+                                    width: 1,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  showCheckmark: false,
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  onSelected: (selected) {
+                                    setState((){
+                                      if (selected){
+                                        selectedCategory.add(category);
+                                      } else{
+                                        selectedCategory.remove(category);
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ));
+                        }).toList(),
+                      ),
+                    ),
+                  ),
 
-                  // Pickup Data List
                   SliverToBoxAdapter(
                     child: FutureBuilder<List<Map<String, dynamic>>>(
                       future: fetchPickupData(),
@@ -116,12 +180,19 @@ class Dashboard extends StatelessWidget {
                               child: Text('Tidak ada data pickup.'));
                         }
 
-                        List<Map<String, dynamic>> dashboardData =
-                            snapshot.data ?? [];
+                        List<Map<String, dynamic>> dashboardData = snapshot.data ?? [];
+
+                        List<Map<String, dynamic>> filteredData = dashboardData.where((data) {
+                          if (selectedCategory.isEmpty || selectedCategory.contains('All')) {
+                            return true; 
+                          }
+                          return selectedCategory.contains(data['status']);
+                        }).toList();
+
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Column(
-                            children: dashboardData.map((data) {
+                            children: filteredData.map((data) {
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
