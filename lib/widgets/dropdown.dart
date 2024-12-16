@@ -25,8 +25,10 @@ class CustomDropdown extends StatelessWidget {
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
           value: selectedValue,
-          hint: Text("Pilih $title",
-              style: regular14.copyWith(color: grey2)), // Placeholder text
+          hint: Text(
+            selectedValue ?? "Pilih $title", // Show selected value or fallback to default hint
+            style: regular14.copyWith(color: grey2),
+          ),
           isExpanded: true,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -41,8 +43,7 @@ class CustomDropdown extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: grey3, width: 2),
             ),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: grey3, width: 2),
@@ -53,12 +54,13 @@ class CustomDropdown extends StatelessWidget {
           items: items.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value,
-                  style: regular14.copyWith(
-                      color: grey2)), // Style for dropdown items
+              child: Text(
+                value,
+                style: regular14.copyWith(color: grey2),
+              ), // Style for dropdown items
             );
           }).toList(),
-        )
+        ),
       ],
     );
   }

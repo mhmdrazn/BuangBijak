@@ -234,15 +234,15 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide:
-                                            BorderSide(color: grey3, width: 2),
+                                        borderSide: BorderSide(color: grey3, width: 2),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(12),
-                                        borderSide:
-                                            BorderSide(color: grey3, width: 2),
+                                        borderSide: BorderSide(color: grey3, width: 2),
                                       ),
-                                      hintText: 'Masukkan alamat disini..',
+                                      hintText: locationController.text.isEmpty
+                                          ? 'Masukkan alamat disini..' // Default hint text
+                                          : locationController.text, // Use fetched value as hint
                                       filled: true,
                                       fillColor: white,
                                       hintStyle: regular14,
@@ -262,8 +262,12 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
                                   Text('Tanggal Pickup', style: bold16),
                                   const SizedBox(height: 8),
                                   DatePickerWidget(
-                                    decoration:
-                                        InputDecoration(hintStyle: regular14),
+                                    decoration: InputDecoration(
+                                      hintText: selectedDate == null
+                                          ? 'Pilih tanggal...' // Default hint text
+                                          : '${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}', // Fetched date as hint
+                                      hintStyle: regular14,
+                                    ),
                                     initialDate: selectedDate,
                                     onDateSelected: (DateTime date) {
                                       setState(() {
@@ -277,8 +281,7 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
 
                             // Waktu Pickup Dropdown
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 12),
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -288,9 +291,9 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
                                       'Pagi (07.00 - 08.00)',
                                       'Siang (12.00 - 13.00)',
                                       'Sore (16.00 - 17.00)',
-                                      'Malam (19.00 - 20.00)'
+                                      'Malam (19.00 - 20.00)',
                                     ],
-                                    value: selectedTimeSlot,
+                                    selectedValue: selectedTimeSlot, // Use the selected value here
                                     onChanged: (String? newValue) {
                                       setState(() {
                                         selectedTimeSlot = newValue;
@@ -316,7 +319,7 @@ class _UpdatePickupPageState extends State<UpdatePickupPage> {
                                       'Sampah Plastik',
                                       'Sampah Logam'
                                     ],
-                                    value: selectedWasteType,
+                                    selectedValue: selectedWasteType,
                                     onChanged: (String? newValue) {
                                       setState(() {
                                         selectedWasteType = newValue;
