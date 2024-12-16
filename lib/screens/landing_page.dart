@@ -67,7 +67,7 @@ class SplashScreen extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  Image.asset('assets/images/logonama.png', height: 40),
+                  Image.asset('assets/images/logonama.png', height: 45),
                   const SizedBox(height: 20),
                   Text(
                     'Bijak Kelola Barang dan Sampah',
