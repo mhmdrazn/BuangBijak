@@ -178,6 +178,8 @@ class DashboardDetail extends StatelessWidget {
                       style: regular10,
                     ),
 
+                    const SizedBox(height: 16.0),
+
                     if (status == 'Pending' || status == 'pending')
                       Column(
                         children: [
@@ -248,11 +250,8 @@ class DashboardDetail extends StatelessWidget {
               ),
               actions: [
                 TextButton(
-                  onPressed: isLoading
-                      ? null
-                      : () {
-                          Navigator.pop(context);
-                        },
+                  onPressed: 
+                    isLoading ? null : () { Navigator.pop(context);},
                   child: Text("Batal", style: regular14.copyWith(color: black)),
                 ),
                 TextButton(
@@ -265,11 +264,7 @@ class DashboardDetail extends StatelessWidget {
                             setState(() {
                               isLoading = true;
                             });
-                            _rejectPickup(context, rejectReason);
-                            setState(() {
-                              isLoading = false;
-                            });
-                            Navigator.pop(context);
+                            await _rejectPickup(context, rejectReason);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
@@ -280,7 +275,7 @@ class DashboardDetail extends StatelessWidget {
                           }
                         },
                   child: isLoading
-                      ? CircularProgressIndicator(color: red)
+                      ? CircularProgressIndicator(color: white)
                       : Text("Konfirmasi",
                           style: regular14.copyWith(color: red)),
                 ),
@@ -292,7 +287,7 @@ class DashboardDetail extends StatelessWidget {
     );
   }
 
-  void _rejectPickup(BuildContext context, String rejectReason) async {
+  Future<void> _rejectPickup(BuildContext context, String rejectReason) async {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('ajukan_pickup')
@@ -300,7 +295,6 @@ class DashboardDetail extends StatelessWidget {
           .get();
 
       if (querySnapshot.docs.isEmpty) {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Data tidak ditemukan',
               style: regular14.copyWith(color: white)),
@@ -330,6 +324,9 @@ class DashboardDetail extends StatelessWidget {
 
       Navigator.pop(context);
     } catch (e) {
+
+      Navigator.pop(context);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -343,38 +340,50 @@ class DashboardDetail extends StatelessWidget {
   }
 
   void _showAcceptDialog(BuildContext context) {
+    bool isLoading = false;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Selesaikan Pickup", style: bold16),
-          backgroundColor: white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          content: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Text(
-              "Apakah Anda yakin ingin menyelesaikan proses pickup? Pastikan semua barang telah diterima dan dicek dengan benar.",
-              style: regular12,
-              textAlign: TextAlign.start,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Batal", style: regular14.copyWith(color: grey2)),
-            ),
-            TextButton(
-              onPressed: () {
-                _acceptPickup(context);
-              },
-              child:
-                  Text("Konfirmasi", style: regular14.copyWith(color: black)),
-            ),
-          ],
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text("Selesaikan Pickup", style: bold16),
+              backgroundColor: white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Text(
+                  "Apakah Anda yakin ingin menyelesaikan proses pickup? Pastikan semua barang telah diterima dan dicek dengan benar.",
+                  style: regular12,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: isLoading ? null : () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Batal", style: regular14.copyWith(color: grey2)),
+                ),
+                TextButton(
+                  onPressed: isLoading 
+                      ? null 
+                      : () {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          _acceptPickup(context);
+                        },
+                  child: isLoading
+                      ? CircularProgressIndicator(color: black)
+                      : Text("Konfirmasi", style: regular14.copyWith(color: black)),
+                ),
+              ],
+            );
+          },
         );
       },
     );
