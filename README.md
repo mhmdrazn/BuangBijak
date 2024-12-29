@@ -1,6 +1,11 @@
 # BuangBijak
-
-A new Flutter project.
+BuangBijak is a mobile application designed to connect users with waste management services. This innovative solution addresses Indonesia's critical waste management challenges, such as illegal waste disposal, limited waste disposal infrastructure, and the large quantity of reusable items being discarded unnecessarily. BuangBijak is committed to tackling Indonesia's escalating waste issues by providing a practical and efficient platform.
+<br/>
+### Contributors
+[Dzaky Purnomo Rifai](https://github.com/dzaky_pr)
+<br/>[Muhammad Razan Parisya Putra](https://github.com/mhmdrazn)
+<br/>[Felicia Evelina Soetjipto](https://github.com/feliciaeve)
+<br/>[Kentaro Mas’ud Mizoguchi](https://github.com/kuritzu)
 
 ## Getting Started
 
@@ -14,5 +19,3 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-
-# fp-tekber-kel-3
