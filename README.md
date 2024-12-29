@@ -5,7 +5,7 @@ BuangBijak is a mobile application designed to connect users with waste manageme
 [Dzaky Purnomo Rifai](https://github.com/dzaky_pr)
 <br/>[Muhammad Razan Parisya Putra](https://github.com/mhmdrazn)
 <br/>[Felicia Evelina Soetjipto](https://github.com/feliciaeve)
-<br/>[Kentaro Mas’ud Mizoguchi](https://github.com/kuritzu)
+<br/>[Kentaro Mas’ud Mizoguchi](https://github.com/kritzerenkrieg)
 
 ## Getting Started
 
